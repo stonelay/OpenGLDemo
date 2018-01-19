@@ -1,0 +1,16 @@
+#source 'https://git.coding.net/hging/Specs.git'
+#
+#platform :ios
+#
+#target "OpenGLDemo" do
+
+platform :ios, '8.0'
+
+#use_frameworks!个别需要用到它，比如reactiveCocoa
+
+target 'OpenGLDemo' do
+
+    pod 'GPUImage'
+
+    
+end
