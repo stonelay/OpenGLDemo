@@ -56,6 +56,10 @@
 		48CB62452017132B00B665CC /* GLESMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 48CB62432017132B00B665CC /* GLESMath.c */; };
 		48CB624820171B2800B665CC /* shaderTexure07f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB624620171B2800B665CC /* shaderTexure07f.glsl */; };
 		48CB624920171B2800B665CC /* shaderTexure07v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB624720171B2800B665CC /* shaderTexure07v.glsl */; };
+		48CB624C2017368C00B665CC /* OpenGLDemo08Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB624B2017368C00B665CC /* OpenGLDemo08Controller.m */; };
+		48CB624F2017369B00B665CC /* GLRender08View.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB624E2017369B00B665CC /* GLRender08View.m */; };
+		48CB6252201736DF00B665CC /* shaderTexure08f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB6250201736DE00B665CC /* shaderTexure08f.glsl */; };
+		48CB6253201736DF00B665CC /* shaderTexure08v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB6251201736DF00B665CC /* shaderTexure08v.glsl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -150,6 +154,12 @@
 		48CB62442017132B00B665CC /* GLESMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESMath.h; sourceTree = "<group>"; };
 		48CB624620171B2800B665CC /* shaderTexure07f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure07f.glsl; sourceTree = "<group>"; };
 		48CB624720171B2800B665CC /* shaderTexure07v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure07v.glsl; sourceTree = "<group>"; };
+		48CB624A2017368C00B665CC /* OpenGLDemo08Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo08Controller.h; sourceTree = "<group>"; };
+		48CB624B2017368C00B665CC /* OpenGLDemo08Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo08Controller.m; sourceTree = "<group>"; };
+		48CB624D2017369B00B665CC /* GLRender08View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender08View.h; sourceTree = "<group>"; };
+		48CB624E2017369B00B665CC /* GLRender08View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender08View.m; sourceTree = "<group>"; };
+		48CB6250201736DE00B665CC /* shaderTexure08f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure08f.glsl; sourceTree = "<group>"; };
+		48CB6251201736DF00B665CC /* shaderTexure08v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure08v.glsl; sourceTree = "<group>"; };
 		4D495144F95F8B2BDC5E3AD8 /* libPods-OpenGLDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OpenGLDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DDE22C0D5BE36736853B338 /* Pods-OpenGLDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenGLDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenGLDemo/Pods-OpenGLDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		D65D04C2F0362461D87889FF /* Pods-OpenGLDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenGLDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-OpenGLDemo/Pods-OpenGLDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -374,6 +384,8 @@
 		48CB62192015C58000B665CC /* shader */ = {
 			isa = PBXGroup;
 			children = (
+				48CB6250201736DE00B665CC /* shaderTexure08f.glsl */,
+				48CB6251201736DF00B665CC /* shaderTexure08v.glsl */,
 				48CB624620171B2800B665CC /* shaderTexure07f.glsl */,
 				48CB624720171B2800B665CC /* shaderTexure07v.glsl */,
 				48CB62382016D86900B665CC /* shaderTexure06f.glsl */,
@@ -397,6 +409,8 @@
 				48CB62362016D7DF00B665CC /* GLRender06View.m */,
 				48CB623C2016DD3D00B665CC /* GLRender07View.h */,
 				48CB623D2016DD3D00B665CC /* GLRender07View.m */,
+				48CB624D2017369B00B665CC /* GLRender08View.h */,
+				48CB624E2017369B00B665CC /* GLRender08View.m */,
 				48CB621E2015C61300B665CC /* OpenGLDemo04Controller.h */,
 				48CB621F2015C61300B665CC /* OpenGLDemo04Controller.m */,
 				48CB622B2015D4AE00B665CC /* OpenGLDemo05Controller.h */,
@@ -405,6 +419,8 @@
 				48CB62332016D7C300B665CC /* OpenGLDemo06Controller.m */,
 				48CB623F2016DD4E00B665CC /* OpenGLDemo07Controller.h */,
 				48CB62402016DD4E00B665CC /* OpenGLDemo07Controller.m */,
+				48CB624A2017368C00B665CC /* OpenGLDemo08Controller.h */,
+				48CB624B2017368C00B665CC /* OpenGLDemo08Controller.m */,
 			);
 			path = Texure;
 			sourceTree = "<group>";
@@ -493,11 +509,13 @@
 				48CB62312015D9C800B665CC /* shaderTexure05v.glsl in Resources */,
 				48CB62302015D9C800B665CC /* shaderTexure05f.glsl in Resources */,
 				48CB61FE2010710700B665CC /* shaderDrawf.glsl in Resources */,
+				48CB6253201736DF00B665CC /* shaderTexure08v.glsl in Resources */,
 				48CB624820171B2800B665CC /* shaderTexure07f.glsl in Resources */,
 				48CB62252015C91B00B665CC /* shaderTexure04f.glsl in Resources */,
 				48CB62272015C92F00B665CC /* shaderTexure04v.glsl in Resources */,
 				48CB61A120104DD600B665CC /* Assets.xcassets in Resources */,
 				48CB623A2016D86900B665CC /* shaderTexure06f.glsl in Resources */,
+				48CB6252201736DF00B665CC /* shaderTexure08f.glsl in Resources */,
 				48CB624920171B2800B665CC /* shaderTexure07v.glsl in Resources */,
 				48CB619F20104DD600B665CC /* Main.storyboard in Resources */,
 				48CB61FF2010710700B665CC /* shaderDrawv.glsl in Resources */,
@@ -588,9 +606,11 @@
 				48CB62342016D7C400B665CC /* OpenGLDemo06Controller.m in Sources */,
 				48CB62102015BB6100B665CC /* OpenGLDemo02Controller.m in Sources */,
 				48CB62202015C61300B665CC /* OpenGLDemo04Controller.m in Sources */,
+				48CB624C2017368C00B665CC /* OpenGLDemo08Controller.m in Sources */,
 				48CB61B820104FF700B665CC /* ZLViewController.m in Sources */,
 				48CB619920104DD600B665CC /* AppDelegate.m in Sources */,
 				48CB61FB20106D6300B665CC /* RenderView.m in Sources */,
+				48CB624F2017369B00B665CC /* GLRender08View.m in Sources */,
 				48CB62172015BF7700B665CC /* GLRender03View.m in Sources */,
 				48CB61E12010516400B665CC /* NSMutableSet+Safe.m in Sources */,
 				48CB62372016D7DF00B665CC /* GLRender06View.m in Sources */,
