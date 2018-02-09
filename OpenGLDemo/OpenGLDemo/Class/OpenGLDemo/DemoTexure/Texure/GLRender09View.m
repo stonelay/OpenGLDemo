@@ -6,78 +6,61 @@
 //  Copyright © 2018年 Zhanglei. All rights reserved.
 //
 
-#import "GLRender08View.h"
+#import "GLRender09View.h"
 #import "GLESMath.h"
 
-int a;
+#import "ZLGLProgram.h"
 
-@interface GLRender08View() {
+
+
+@interface GLRender09View() {
     GLuint VAO[2];
+    
+    CGPoint begin;
+    
+    CGFloat exRotate;
+    CGFloat eyRotate;
+    
+    CGFloat xRotate;
+    CGFloat yRotate;
+    
+    GLint attributes[NUM_ATTRIBUTES];
+    GLint uniforms[NUM_UNIFORMS];
 }
 
-@property (nonatomic , assign) GLuint myColorRenderBuffer;
-@property (nonatomic , assign) GLuint myDepthRenderBuffer;
-@property (nonatomic , assign) GLuint myColorFrameBuffer;
 
-@property (nonatomic, strong) UISlider *xSlider;
-@property (nonatomic, strong) UISlider *ySlider;
+@property (nonatomic, strong) ZLGLProgram *program;
 
 @end
 
-@implementation GLRender08View
+@implementation GLRender09View
 
 - (instancetype)init {
     if (self = [super init]) {
+        [self setupContext];
         [self setupGLProgram];  // shader
-        
-        [self addComponent];
-        
     }
     return self;
 }
 
-- (void)addComponent {
-    [self addSubview:self.xSlider];
-    [self addSubview:self.ySlider];
-}
-
-- (UISlider *)xSlider {
-    if (!_xSlider) {
-        _xSlider = [[UISlider alloc] initWithFrame:CGRectMake(SCREENWIDTH/4, 100, SCREENWIDTH/2, 100 * SCALE)];
-        
-        _xSlider.minimumValue = 0;// 设置最小值
-        _xSlider.maximumValue = 360;// 设置最大值
-        _xSlider.value = 0;// 设置初始值
-        _xSlider.continuous = YES;// 设置可连续变化
-        [_xSlider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+- (void)setupContext {
+    // 指定 OpenGL 渲染 API 的版本，在这里我们使用 OpenGL ES 2.0
+    EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES2;
+    EAGLContext* context = [[EAGLContext alloc] initWithAPI:api];
+    if (!context) {
+        NSLog(@"Failed to initialize OpenGLES 2.0 context");
+        return;
     }
-    return _xSlider;
-}
-
-- (UISlider *)ySlider {
-    if (!_ySlider) {
-        _ySlider = [[UISlider alloc] init];
-        _ySlider.transform = CGAffineTransformMakeRotation(1.57079633);
-        _ySlider.frame = CGRectMake(30, SCREENHEIGHT/4, 100 * SCALE ,SCREENHEIGHT/2);
-        _ySlider.minimumValue = 0;// 设置最小值
-        _ySlider.maximumValue = 360;// 设置最大值
-        _ySlider.value = 0;// 设置初始值
-        _ySlider.continuous = YES;// 设置可连续变化
-        [_ySlider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    if (![EAGLContext setCurrentContext:context]) {
+        NSLog(@"Failed to set OpenGLES 2.0 context");
+        return;
     }
-    return _ySlider;
-}
-
-- (void)sliderValueChanged:(id)sender {
-    [self render];
+    self.context = context;
 }
 
 - (void)layoutSubviews {
-    
-    [self destoryRenderAndFrameBuffer];
-    
-    [self setupFrameBuffer];
-    
+    [super layoutSubviews];
     [self render];
 }
 
@@ -85,7 +68,23 @@ int a;
 
 - (void)setupGLProgram {
     //加载shader
-    self.myProgram = [self setupProgaramVFile:@"shaderTexure08v" fFile:@"shaderTexure08f"];
+    self.program = [[ZLGLProgram alloc] init];
+    self.program.vShaderFile = @"shaderTexure08v";
+    self.program.fShaderFile = @"shaderTexure08f";
+    
+    [self.program addAttribute:@"position"];
+    [self.program addAttribute:@"texureCoor"];
+    [self.program addUniform:@"projectionMatrix"];
+    [self.program addUniform:@"modelViewMatrix"];
+    [self.program addUniform:@"colorMap0"];
+    
+    [self.program compileAndLink];
+    
+    attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
+    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"texureCoor"];
+    uniforms[UNIFORM_PROJECTION_MATRIX] = [self.program uniformID:@"projectionMatrix"];
+    uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"modelViewMatrix"];
+    uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
 }
 
 #pragma mark - data
@@ -129,7 +128,7 @@ int a;
     for (int i = 0; i < sizeof(mIndices)/sizeof(mIndices[0]); i++) {
         for (int j = 0; j < sizeof(mIndices[i])/sizeof(GLfloat); j++) {
             for (int k = 0; k < 3; k++) {
-                    bAttrArr[i][j][k] = vAttrArr[mIndices[i][j]][k] * mLength;
+                bAttrArr[i][j][k] = vAttrArr[mIndices[i][j]][k] * mLength;
             }
             for (int m = 0; m < sizeof(tAttrArr[i])/sizeof(GLfloat); m++) {
                 bAttrArr[i][j][3 + m] = tAttrArr[tIndices[j]][m];
@@ -153,10 +152,11 @@ int a;
         }
     }
     
-
+    
     glGenVertexArraysOES(2, VAO);
     for (int i = 0; i < 2; i ++) {
         glBindVertexArrayOES(VAO[i]);
+        
         
         GLuint buf;
         glGenBuffers(1, &buf);
@@ -166,18 +166,20 @@ int a;
         } else {
             glBufferData(GL_ARRAY_BUFFER, sizeof(cAttrArr), cAttrArr, GL_STATIC_DRAW);
         }
-
-        GLuint position0 = glGetAttribLocation(self.myProgram, "position");
-        glVertexAttribPointer(position0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
-        glEnableVertexAttribArray(position0);
         
-        GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
-        glVertexAttribPointer(texureCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
-        glEnableVertexAttribArray(texureCoor);
+//        GLuint position0 = glGetAttribLocation(self.myProgram, "position");
+//        [self.program addAttribute:@"position"];
+//        glBindAttribLocation(self.myProgram, 0, "position");
+        glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
+        glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
+        
+//        GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
+        glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
+        glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     }
     
-    GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
-    GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
+//    GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
+//    GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
     
     float width = self.frame.size.width;
     float height = self.frame.size.height;
@@ -191,7 +193,7 @@ int a;
     ksPerspective(&_projectionMatrix, 30.0, aspect, 5.0f, 100.0); //透视变换，视角30°
     
     //设置glsl里面的投影矩阵
-    glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
+    glUniformMatrix4fv(uniforms[UNIFORM_PROJECTION_MATRIX], 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
     
     // 需要计算 正反面
     glEnable(GL_CULL_FACE);
@@ -208,19 +210,19 @@ int a;
     
     //旋转
     // 2. 绕x,y轴 旋转
-    ksRotate(&_rotationMatrix, self.ySlider.value, 1.0, 0.0, 0.0); //绕X轴
-    ksRotate(&_rotationMatrix, self.xSlider.value, 0.0, 1.0, 0.0); //绕Y轴
+    ksRotate(&_rotationMatrix, exRotate - xRotate, 1.0, 0.0, 0.0); //绕X轴
+    ksRotate(&_rotationMatrix, eyRotate - yRotate, 0.0, 1.0, 0.0); //绕Y轴
     
     // 矩阵相乘， 先平移，再旋转
     ksMatrixMultiply(&_modelViewMatrix, &_rotationMatrix, &_modelViewMatrix);
     
     // Load the model-view matrix
-    glUniformMatrix4fv(modelViewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
+    glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
     GLuint texture = [self setupTexture:@"for_test01"];
     
-    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
-    glUniform1i(buffer0, 0);
+//    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
+    glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
 }
 
 #pragma mark - render
@@ -228,14 +230,16 @@ int a;
 - (void)render {
     
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    glBindRenderbuffer(GL_RENDERBUFFER, _myColorRenderBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, 1);
     glClearColor(0, 1.0, 0, 1.0);
-
+    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     CGFloat scale = [[UIScreen mainScreen] scale]; //获取视图放大倍数，可以把scale设置为1试试
-    glUseProgram(self.myProgram);
+//    glUseProgram(self.myProgram);
+    [self.program useProgrm];
+//    [self setupFramebuffer];
+    LogGRect(self.frame);
     glViewport(self.frame.origin.x * scale, self.frame.origin.y * scale, self.frame.size.width * scale, self.frame.size.height * scale); //设置视口大小
     
     [self setupData];       // data
@@ -254,41 +258,11 @@ int a;
             glDrawElements(GL_TRIANGLE_FAN, sizeof(mIndices[i]) / sizeof(mIndices[i][0]), GL_UNSIGNED_INT, mIndices[i]);
         }
     }
-    [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
+//    [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
+    [self presentFramebuffer];
 }
 
-#pragma mark - buffer
-
-- (void)setupFrameBuffer {
-    
-    glGenFramebuffers(1, &_myColorFrameBuffer); // 创建帧缓冲区
-    glGenRenderbuffers(1, &_myColorRenderBuffer);   // 创建绘制缓冲区
-    glBindFramebuffer(GL_FRAMEBUFFER, _myColorFrameBuffer); // 绑定帧缓冲区到渲染管线
-    glBindRenderbuffer(GL_RENDERBUFFER, _myColorRenderBuffer);  // 绑定绘制缓冲区到渲染管线
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _myColorRenderBuffer); // 绑定绘制缓冲区到帧缓冲区
-    
-    GLint width;
-    GLint height;
-    [self.myContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:self.myEagLayer];   // 为绘制缓冲区分配存储区，此处将CAEAGLLayer的绘制存储区作为绘制缓冲区的存储区
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);    // 获取绘制缓冲区的像素宽度
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);  // 获取绘制缓冲区的像素高度
-    
-    glGenRenderbuffers(1, &_myDepthRenderBuffer);    // 创建深度缓冲区
-    glBindRenderbuffer(GL_RENDERBUFFER, _myDepthRenderBuffer);   // 绑定深度缓冲区到渲染管线
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);    // 为深度缓冲区分配存储区
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _myDepthRenderBuffer);
-}
-
-- (void)destoryRenderAndFrameBuffer {
-    glDeleteFramebuffers(1, &_myColorFrameBuffer);
-    self.myColorFrameBuffer = 0;
-    glDeleteRenderbuffers(1, &_myColorRenderBuffer);
-    self.myColorRenderBuffer = 0;
-    glDeleteRenderbuffers(1, &_myDepthRenderBuffer);
-    self.myDepthRenderBuffer = 0;
-}
-
-
+#pragma mark - texture
 - (GLuint)setupTexture:(NSString *)fileName {
     // 1获取图片的CGImageRef
     CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
@@ -329,4 +303,48 @@ int a;
     
     return buffer1;
 }
+
+#pragma mark - touch
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    NSSet *allTouches = [event allTouches];
+    if (allTouches.count == 1) {
+        UITouch *touch = [allTouches anyObject];
+        begin = [touch locationInView:self];
+    }
+    //    else if(allTouches.count == 2){
+    //        UITouch *touch1 = [[allTouches allObjects] objectAtIndex:0];
+    //        UITouch *touch2 = [[allTouches allObjects] objectAtIndex:1];
+    //
+    //        CGPoint point1 = [touch1 locationInView:self.view];
+    //        CGPoint point2 = [touch2 locationInView:self.view];
+    //
+    //        float x = point1.x - point2.x;
+    //        float y = point1.y - point2.y;
+    //
+    //        _lastPinchDistance = sqrtf(x*x+y*y);
+    //    }
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    NSSet *allTouches = [event allTouches];
+    //    if (allTouches.count == 1) {
+    
+    UITouch *touch = [allTouches anyObject];
+    CGPoint current = [touch locationInView:self];
+    //        NSArray* arr = [[touches anyObject] locations];
+    //        [self.view convertPoint:currentPostion fromView:self.view];
+    xRotate = begin.x - current.x;
+    yRotate = begin.y - current.y;
+    NSLog(@"%f", xRotate);
+    NSLog(@"%f", yRotate);
+    [self render];
+    //    }
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    exRotate -= xRotate;
+    eyRotate -= yRotate;
+}
+
 @end
+

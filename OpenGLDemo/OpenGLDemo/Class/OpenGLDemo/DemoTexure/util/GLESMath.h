@@ -61,6 +61,7 @@ extern "C" {
 
 unsigned int ksNextPot(unsigned int n);
     
+// matrix copy
 void ksCopyMatrix4(KSMatrix4 * target, const KSMatrix4 * src);
 
 void ksMatrix4ToMatrix3(KSMatrix3 * target, const KSMatrix4 * src);
@@ -70,6 +71,8 @@ void ksMatrix4ToMatrix3(KSMatrix3 * target, const KSMatrix4 * src);
 /// result Specifies the input matrix.  Scaled matrix is returned in result.
 /// sx, sy, sz Scale factors along the x, y and z axes respectively
 //
+    
+// 矩阵 缩放
 void ksScale(KSMatrix4 *result, GLfloat sx, GLfloat sy, GLfloat sz);
 
 //
@@ -77,6 +80,8 @@ void ksScale(KSMatrix4 *result, GLfloat sx, GLfloat sy, GLfloat sz);
 /// result Specifies the input matrix.  Translated matrix is returned in result.
 /// tx, ty, tz Scale factors along the x, y and z axes respectively
 //
+    
+// 矩阵 平移
 void ksTranslate(KSMatrix4 *result, GLfloat tx, GLfloat ty, GLfloat tz);
 
 //
@@ -85,6 +90,8 @@ void ksTranslate(KSMatrix4 *result, GLfloat tx, GLfloat ty, GLfloat tz);
 /// angle Specifies the angle of rotation, in degrees.
 /// x, y, z Specify the x, y and z coordinates of a vector, respectively
 //
+    
+// 矩阵 旋转
 void ksRotate(KSMatrix4 *result, GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
 
 //
@@ -92,12 +99,16 @@ void ksRotate(KSMatrix4 *result, GLfloat angle, GLfloat x, GLfloat y, GLfloat z)
 /// result Returns multiplied matrix
 /// srcA, srcB Input matrices to be multiplied
 //
+    
+// 矩阵 相乘
 void ksMatrixMultiply(KSMatrix4 *result, const KSMatrix4 *srcA, const KSMatrix4 *srcB);
 
 //
 //// return an identity matrix 
 //// result returns identity matrix
 //
+
+// 单位 矩阵
 void ksMatrixLoadIdentity(KSMatrix4 *result);
 
 //
@@ -108,6 +119,8 @@ void ksMatrixLoadIdentity(KSMatrix4 *result);
 /// nearZ Near plane distance
 /// farZ Far plane distance
 //
+    
+// 投影 矩阵
 void ksPerspective(KSMatrix4 *result, float fovy, float aspect, float nearZ, float farZ);
 
 //
@@ -117,6 +130,8 @@ void ksPerspective(KSMatrix4 *result, float fovy, float aspect, float nearZ, flo
 /// bottom, top Coordinates for the bottom and top horizontal clipping planes
 /// nearZ, farZ Distances to the near and far depth clipping planes.  These values are negative if plane is behind the viewer
 //
+    
+// 世界窗口
 void ksOrtho(KSMatrix4 *result, float left, float right, float bottom, float top, float nearZ, float farZ);
 
 //
@@ -126,6 +141,8 @@ void ksOrtho(KSMatrix4 *result, float left, float right, float bottom, float top
 /// bottom, top Coordinates for the bottom and top horizontal clipping planes
 /// nearZ, farZ Distances to the near and far depth clipping planes.  Both distances must be positive.
 //
+    
+// 平行 矩阵
 void ksFrustum(KSMatrix4 *result, float left, float right, float bottom, float top, float nearZ, float farZ);
 
 #ifdef __cplusplus
