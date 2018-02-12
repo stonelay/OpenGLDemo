@@ -14,6 +14,8 @@
 		480E6EAB202AFD9B00D39CC8 /* ZLShaderUniform.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EAA202AFD9B00D39CC8 /* ZLShaderUniform.m */; };
 		480E6EAE202AFE4B00D39CC8 /* ZLShaderAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EAD202AFE4B00D39CC8 /* ZLShaderAttribute.m */; };
 		480E6EB1202D377900D39CC8 /* ZLGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EB0202D377900D39CC8 /* ZLGLView.m */; };
+		480E6EBB203196A900D39CC8 /* GLRender10View.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EBA203196A900D39CC8 /* GLRender10View.m */; };
+		480E6EBE203196C800D39CC8 /* OpenGLDemo10Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EBD203196C800D39CC8 /* OpenGLDemo10Controller.m */; };
 		48CB619920104DD600B665CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB619820104DD600B665CC /* AppDelegate.m */; };
 		48CB619F20104DD600B665CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48CB619D20104DD600B665CC /* Main.storyboard */; };
 		48CB61A120104DD600B665CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48CB61A020104DD600B665CC /* Assets.xcassets */; };
@@ -81,6 +83,10 @@
 		480E6EAD202AFE4B00D39CC8 /* ZLShaderAttribute.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLShaderAttribute.m; sourceTree = "<group>"; };
 		480E6EAF202D377900D39CC8 /* ZLGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLGLView.h; sourceTree = "<group>"; };
 		480E6EB0202D377900D39CC8 /* ZLGLView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLGLView.m; sourceTree = "<group>"; };
+		480E6EB9203196A900D39CC8 /* GLRender10View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender10View.h; sourceTree = "<group>"; };
+		480E6EBA203196A900D39CC8 /* GLRender10View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender10View.m; sourceTree = "<group>"; };
+		480E6EBC203196C800D39CC8 /* OpenGLDemo10Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo10Controller.h; sourceTree = "<group>"; };
+		480E6EBD203196C800D39CC8 /* OpenGLDemo10Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo10Controller.m; sourceTree = "<group>"; };
 		48CB619420104DD600B665CC /* OpenGLDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenGLDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48CB619720104DD600B665CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		48CB619820104DD600B665CC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -216,6 +222,17 @@
 				480E6EB0202D377900D39CC8 /* ZLGLView.m */,
 			);
 			path = OpenGLUtility;
+			sourceTree = "<group>";
+		};
+		480E6EB82031967A00D39CC8 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				480E6EB9203196A900D39CC8 /* GLRender10View.h */,
+				480E6EBA203196A900D39CC8 /* GLRender10View.m */,
+				480E6EBC203196C800D39CC8 /* OpenGLDemo10Controller.h */,
+				480E6EBD203196C800D39CC8 /* OpenGLDemo10Controller.m */,
+			);
+			path = Camera;
 			sourceTree = "<group>";
 		};
 		48CB618B20104DD600B665CC = {
@@ -410,6 +427,7 @@
 				48CB62422017130F00B665CC /* util */,
 				48CB62192015C58000B665CC /* shader */,
 				48CB621A2015C5ED00B665CC /* Texure */,
+				480E6EB82031967A00D39CC8 /* Camera */,
 			);
 			path = DemoTexure;
 			sourceTree = "<group>";
@@ -625,6 +643,7 @@
 				48CB62142015BF6500B665CC /* OpenGLDemo03Controller.m in Sources */,
 				48CB61EB2010516400B665CC /* UIButton+ZLEX.m in Sources */,
 				48CB61E32010516400B665CC /* NSArray+Safe.m in Sources */,
+				480E6EBB203196A900D39CC8 /* GLRender10View.m in Sources */,
 				48CB61B720104FF700B665CC /* ViewController.m in Sources */,
 				48CB620B2015BAF200B665CC /* GLRender02View.m in Sources */,
 				48CB61F820106A5400B665CC /* GLRender01View.m in Sources */,
@@ -658,6 +677,7 @@
 				48CB62172015BF7700B665CC /* GLRender03View.m in Sources */,
 				48CB61E12010516400B665CC /* NSMutableSet+Safe.m in Sources */,
 				48CB62372016D7DF00B665CC /* GLRender06View.m in Sources */,
+				480E6EBE203196C800D39CC8 /* OpenGLDemo10Controller.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

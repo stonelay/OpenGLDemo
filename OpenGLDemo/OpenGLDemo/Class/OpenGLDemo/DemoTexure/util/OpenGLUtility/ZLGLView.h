@@ -34,10 +34,6 @@ enum {
 @property (nonatomic, strong) EAGLContext *context;
 
 - (void)setupFramebuffer;
-- (BOOL)presentFramebuffer;
-
-
-- (void)createFramebuffer;
-- (void)deleteFramebuffer;
+- (BOOL)presentRenderbuffer;
 
 @end

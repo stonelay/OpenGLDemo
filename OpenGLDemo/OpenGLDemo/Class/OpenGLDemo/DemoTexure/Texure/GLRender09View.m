@@ -61,6 +61,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    [self setupFramebuffer];
     [self render];
 }
 
@@ -228,20 +229,10 @@
 #pragma mark - render
 
 - (void)render {
-    
-    glEnable(GL_DEPTH_TEST);
-    glBindRenderbuffer(GL_RENDERBUFFER, 1);
     glClearColor(0, 1.0, 0, 1.0);
-    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    CGFloat scale = [[UIScreen mainScreen] scale]; //获取视图放大倍数，可以把scale设置为1试试
-//    glUseProgram(self.myProgram);
     [self.program useProgrm];
-//    [self setupFramebuffer];
-    LogGRect(self.frame);
-    glViewport(self.frame.origin.x * scale, self.frame.origin.y * scale, self.frame.size.width * scale, self.frame.size.height * scale); //设置视口大小
-    
     [self setupData];       // data
     
     GLuint mIndices[6][4] = {
@@ -258,8 +249,8 @@
             glDrawElements(GL_TRIANGLE_FAN, sizeof(mIndices[i]) / sizeof(mIndices[i][0]), GL_UNSIGNED_INT, mIndices[i]);
         }
     }
-//    [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
-    [self presentFramebuffer];
+    
+    [self presentRenderbuffer];
 }
 
 #pragma mark - texture

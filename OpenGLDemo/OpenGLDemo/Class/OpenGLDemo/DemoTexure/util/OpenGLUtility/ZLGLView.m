@@ -12,7 +12,6 @@
 
 @interface ZLGLView()
 
-
 @property (nonatomic, assign) GLuint defaultFramebuffer;
 @property (nonatomic, assign) GLuint colorRenderbuffer;
 @property (nonatomic, assign) GLuint depthRenderbuffer;
@@ -28,8 +27,8 @@
     return [CAEAGLLayer class];
 }
 
-- (instancetype)init {
-    if (self = [super init]) {
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
         [self setupLayer];
     }
     return self;
@@ -68,7 +67,7 @@
     }
 }
 
-- (BOOL)presentFramebuffer {
+- (BOOL)presentRenderbuffer {
     if (!_context) {
         return NO;
     }
@@ -131,9 +130,8 @@
 
 #pragma mark - system
 - (void)layoutSubviews {
-////    [super layoutSubviews];
     [self deleteFramebuffer];
-    [self setupFramebuffer];
+//    [self setupFramebuffer];
 }
 
 - (void)dealloc {
