@@ -10,13 +10,20 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ZLGLProgram.h"
 
-static BOOL a = YES;
+#import "MAsync.h"
+
 @interface GLRender10View()<AVCaptureVideoDataOutputSampleBufferDelegate> {
     GLint attributes[NUM_ATTRIBUTES];
     GLint uniforms[NUM_UNIFORMS];
     
     CVOpenGLESTextureCacheRef _videoTextureCache;
+    
     CVOpenGLESTextureRef _videoTexture;
+    CVPixelBufferRef renderTarget;
+    
+    GLuint _texture;
+    
+    dispatch_semaphore_t semaphore;
 }
 
 @property (nonatomic, strong) ZLGLProgram *program;
@@ -27,6 +34,7 @@ static BOOL a = YES;
 
 @implementation GLRender10View
 
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setupContext];    // gl context
@@ -34,6 +42,7 @@ static BOOL a = YES;
 //        [self setupData];       // data
         [self setupCache];
         [self captureDemo];
+        semaphore = dispatch_semaphore_create(1);
     }
     return self;
 }
@@ -52,6 +61,8 @@ static BOOL a = YES;
         NSLog(@"Error at CVOpenGLESTextureCacheCreate %d", err);
         return;
     }
+    
+    
 }
 
 
@@ -116,9 +127,11 @@ static BOOL a = YES;
     glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     
-    if (a) {
-    GLuint texture = [self setupTexture:@"for_test02"];
-    }
+//    if (a) {
+//    GLuint texture = [self setupTexture:@"for_test02"];
+//    }
+    
+   
     
     
     
@@ -140,6 +153,22 @@ static BOOL a = YES;
 //
 //
 //    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, CVOpenGLESTextureGetName(_videoTexture), 0);
+    
+    
+//    glActiveTexture(GL_TEXTURE0);
+//
+//    GLuint buffer1;
+//    glGenTextures(1, &buffer1);
+//    glBindTexture(GL_TEXTURE_2D, buffer1);
+//
+    glBindTexture(CVOpenGLESTextureGetTarget(_videoTexture), CVOpenGLESTextureGetName(_videoTexture));
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    
+//    float fw = width, fh = height;
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
     
     glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
     
@@ -242,40 +271,76 @@ static BOOL a = YES;
 
 
 - (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-    
-    CVReturn err;
-    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    
-    size_t width = CVPixelBufferGetWidth(pixelBuffer);
-    size_t height = CVPixelBufferGetHeight(pixelBuffer);
-    
-    if (!_videoTextureCache)
-    {
-        NSLog(@"No video texture cache");
-        return;
-    }
+    CFRetain(sampleBuffer);
     NSLog(@".....ppp");
-    if ([EAGLContext currentContext] != self.context) {
-        [EAGLContext setCurrentContext:self.context];
-    }
     
-    glActiveTexture(GL_TEXTURE0);
+    NSLog(@"1");
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    runAsync(^{
+    NSLog(@".....ppp...");
+        
+        
+        NSLog(@"2");
+        
+        CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+        
+        size_t width = CVPixelBufferGetWidth(pixelBuffer);
+        size_t height = CVPixelBufferGetHeight(pixelBuffer);
+        if (!_videoTextureCache)
+        {
+            NSLog(@"No video texture cache");
+            return;
+        }
+        
+        if ([EAGLContext currentContext] != self.context) {
+            [EAGLContext setCurrentContext:self.context];
+        }
+        CVReturn err;
+        err = CVOpenGLESTextureCacheCreateTextureFromImage (kCFAllocatorDefault,
+                                                            _videoTextureCache,
+                                                            pixelBuffer,
+                                                            NULL, // texture attributes
+                                                            GL_TEXTURE_2D,
+                                                            GL_RGBA, // opengl format
+                                                            (int)width,
+                                                            (int)height,
+                                                            GL_BGRA, // native iOS format
+                                                            GL_UNSIGNED_BYTE,
+                                                            0,
+                                                            &_videoTexture);
+        if (err) {
+            NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
+        }
+        
+        //        glBindTexture(CVOpenGLESTextureGetTarget(_videoTexture), CVOpenGLESTextureGetName(_videoTexture));
+        //        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        //        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        
+//        [self render];
+//        sleep(1);
+        
+        CFRelease(sampleBuffer);
+        dispatch_semaphore_signal(semaphore);
+        NSLog(@"3");
+    });
     
-    err = CVOpenGLESTextureCacheCreateTextureFromImage (kCFAllocatorDefault,
-                                                        _videoTextureCache,
-                                                        pixelBuffer,
-                                                        NULL, // texture attributes
-                                                        GL_TEXTURE_2D,
-                                                        GL_RGBA, // opengl format
-                                                        (int)width,
-                                                        (int)height,
-                                                        GL_BGRA, // native iOS format
-                                                        GL_UNSIGNED_BYTE,
-                                                        0,
-                                                        &_videoTexture);
-    if (err) {
-        NSAssert(NO, @"Error at CVOpenGLESTextureCacheCreateTextureFromImage %d", err);
-    }
+    
+//    glActiveTexture(GL_TEXTURE0);
+    
+
+    
+//    glActiveTexture(GL_TEXTURE1);
+//    glGenTextures(1, &_texture);
+//    glBindTexture(GL_TEXTURE_2D, _texture);
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//
+//    glBindTexture(GL_TEXTURE_2D, _texture);
+//
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)width, (int)height, 0, GL_BGRA, GL_UNSIGNED_BYTE, 0);
+//    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture, 0);
     
 //
 //    glBindTexture(CVOpenGLESTextureGetTarget(_videoTexture), CVOpenGLESTextureGetName(_videoTexture));
@@ -284,9 +349,21 @@ static BOOL a = YES;
 //
 //    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, CVOpenGLESTextureGetName(_videoTexture), 0);
     
-    a = NO;
-    [self setupTexture:@"for_test01"];
-    [self render];
+//    a = NO;
+//    [self setupTexture:@"for_test01"];
+//    [self render];
+//        glActiveTexture(GL_TEXTURE0);
+    //
+    //    GLuint buffer1;
+    //    glGenTextures(1, &buffer1);
+    //    glBindTexture(GL_TEXTURE_2D, buffer1);
+    //
+//    glBindTexture(CVOpenGLESTextureGetTarget(_videoTexture), CVOpenGLESTextureGetName(_videoTexture));
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    [self presentRenderbuffer];
 //    if ([EAGLContext currentContext] == _context) {
 //        [_context presentRenderbuffer:GL_RENDERBUFFER];
 //    }
@@ -294,7 +371,7 @@ static BOOL a = YES;
 }
 
 - (void)captureOutput:(AVCaptureOutput *)output didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-    NSLog(@"dropped...");
+//    NSLog(@"dropped...");
 }
 
 

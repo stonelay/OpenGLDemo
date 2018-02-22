@@ -61,11 +61,13 @@ static GLfloat attrArr[] = {
 - (void)setupGLProgram {
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
+    
     self.program.vShaderFile = @"shaderDrawv";
     self.program.fShaderFile = @"shaderDrawf";
     [self.program addAttribute:@"position"];
     [self.program compileAndLink];
     attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
+    [self.program useProgrm];
 }
 
 #pragma mark - data
@@ -90,7 +92,7 @@ static GLfloat attrArr[] = {
     glClearColor(0, 1.0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    [self.program useProgrm];
+//    [self.program useProgrm];
     
     glDrawArrays(GL_TRIANGLES, 0, 3);
     [self presentRenderbuffer];
