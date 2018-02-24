@@ -11,6 +11,7 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 
+#import "ZLGLProgram.h"
 
 // Attribute index.
 enum {
@@ -25,12 +26,14 @@ enum {
     UNIFORM_PROJECTION_MATRIX,
     UNIFORM_MODEL_MATRIX,
     UNIFORM_COLOR_MAP_0,
+    UNIFORM_COLOR_MAP_1,
     NUM_UNIFORMS
 };
 
 
 @interface ZLGLView : UIView
 
+@property (nonatomic, strong) ZLGLProgram *program;
 @property (nonatomic, strong) EAGLContext *context;
 
 - (void)setupFramebuffer;

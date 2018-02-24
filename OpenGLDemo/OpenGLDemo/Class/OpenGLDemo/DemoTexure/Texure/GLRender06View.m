@@ -8,31 +8,25 @@
 
 #import "GLRender06View.h"
 
-@interface GLRender06View()
-
-@property (nonatomic , assign) GLuint myColorRenderBuffer;
-@property (nonatomic , assign) GLuint myColorFrameBuffer;
+@interface GLRender06View(){
+    GLint attributes[NUM_ATTRIBUTES];
+    GLint uniforms[NUM_UNIFORMS];
+}
 
 @end
 
 @implementation GLRender06View
 
-- (instancetype)init {
-    if (self = [super init]) {
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
         [self setupGLProgram];  // shader
-        [self setupData];       // data
     }
     return self;
 }
 
 - (void)layoutSubviews {
-    
-    [self destoryRenderAndFrameBuffer];
-    
-    [self setupRenderBuffer];
-    
-    [self setupFrameBuffer];
-    
+    [super layoutSubviews];
+    [self setupFramebuffer];
     [self render];
 }
 
@@ -40,7 +34,22 @@
 
 - (void)setupGLProgram {
     //加载shader
-    self.myProgram = [self setupProgaramVFile:@"shaderTexure06v" fFile:@"shaderTexure06f"];
+//    self.myProgram = [self setupProgaramVFile:@"shaderTexure06v" fFile:@"shaderTexure06f"];
+    
+    self.program = [[ZLGLProgram alloc] init];
+    
+    self.program.vShaderFile = @"shaderTexure06v";
+    self.program.fShaderFile = @"shaderTexure06f";
+    [self.program addAttribute:@"position"];
+    [self.program addAttribute:@"texureCoor"];
+    [self.program addUniform:@"rotateMatrix"];
+    [self.program addUniform:@"colorMap0"];
+    [self.program compileAndLink];
+    attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
+    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"texureCoor"];
+    uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"rotateMatrix"];
+    uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
+    [self.program useProgrm];
 }
 
 #pragma mark - data
@@ -66,19 +75,19 @@
     glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
     
-    GLuint position0 = glGetAttribLocation(self.myProgram, "position");
-    glVertexAttribPointer(position0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
-    glEnableVertexAttribArray(position0);
+//    GLuint position0 = glGetAttribLocation(self.myProgram, "position");
+    glVertexAttribPointer(attrArr[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
+    glEnableVertexAttribArray(attrArr[ATTRIBUTE_VERTEX]);
     
-    GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
-    glVertexAttribPointer(texureCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
-    glEnableVertexAttribArray(texureCoor);
+//    GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
+    glVertexAttribPointer(attrArr[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
+    glEnableVertexAttribArray(attrArr[ATTRIBUTE_TEXTURE_COORD]);
     
     GLuint texture = [self setupTexture:@"for_test02"];
     
     
 //    获取shader里面的变量，这里记得要在glLinkProgram后面，后面，后面！
-    GLuint rotate = glGetUniformLocation(self.myProgram, "rotateMatrix");
+//    GLuint rotate = glGetUniformLocation(self.program.programId, "rotateMatrix");
 
     float radians = 100 * 3.14159f / 180.0f;
 
@@ -94,12 +103,8 @@
     };
 
     //设置旋转矩阵
-    glUniformMatrix4fv(rotate, 1, GL_FALSE, (GLfloat *)&zRotation[0]);
-    
-    
-    
-    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
-    glUniform1i(buffer0, 0);
+    glUniformMatrix4fv(uniforms[uniforms[UNIFORM_MODEL_MATRIX]], 1, GL_FALSE, (GLfloat *)&zRotation[0]);
+    glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
     
 }
 
@@ -107,47 +112,15 @@
 
 - (void)render {
     glClearColor(0, 1.0, 0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    
-    CGFloat scale = [[UIScreen mainScreen] scale]; //获取视图放大倍数，可以把scale设置为1试试
-    glViewport(self.frame.origin.x * scale, self.frame.origin.y * scale, self.frame.size.width * scale, self.frame.size.height * scale); //设置视口大小
-    
+    [self.program useProgrm];
+    [self setupData];
     
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
-    [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
+    [self presentRenderbuffer];
 }
-
-#pragma mark - buffer
-
-- (void)setupRenderBuffer {
-    GLuint buffer;
-    glGenRenderbuffers(1, &buffer);
-    self.myColorRenderBuffer = buffer;
-    glBindRenderbuffer(GL_RENDERBUFFER, self.myColorRenderBuffer);
-    // 为 颜色缓冲区 分配存储空间
-    [self.myContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:self.myEagLayer];
-}
-
-- (void)setupFrameBuffer {
-    GLuint buffer;
-    glGenFramebuffers(1, &buffer);
-    self.myColorFrameBuffer = buffer;
-    // 设置为当前 framebuffer
-    glBindFramebuffer(GL_FRAMEBUFFER, self.myColorFrameBuffer);
-    // 将 _colorRenderBuffer 装配到 GL_COLOR_ATTACHMENT0 这个装配点上
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                              GL_RENDERBUFFER, self.myColorRenderBuffer);
-}
-
-- (void)destoryRenderAndFrameBuffer {
-    glDeleteFramebuffers(1, &_myColorFrameBuffer);
-    self.myColorFrameBuffer = 0;
-    glDeleteRenderbuffers(1, &_myColorRenderBuffer);
-    self.myColorRenderBuffer = 0;
-}
-
 
 - (GLuint)setupTexture:(NSString *)fileName {
     // 1获取图片的CGImageRef

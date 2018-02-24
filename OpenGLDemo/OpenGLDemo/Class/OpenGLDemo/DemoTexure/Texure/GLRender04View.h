@@ -6,8 +6,8 @@
 //  Copyright © 2018年 Zhanglei. All rights reserved.
 //
 
-#import "RenderView.h"
+#import "ZLGLView.h"
 
-@interface GLRender04View : RenderView
+@interface GLRender04View : ZLGLView
 
 @end
