@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "avformat.h"
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
+        av_register_all();
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 }

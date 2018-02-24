@@ -79,6 +79,15 @@
 		48E90904203E92BD002CBCAC /* libavdevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908FD203E92BC002CBCAC /* libavdevice.a */; };
 		48E90905203E92BD002CBCAC /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908FE203E92BC002CBCAC /* libswresample.a */; };
 		48E90906203E92BD002CBCAC /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908FF203E92BC002CBCAC /* libswscale.a */; };
+		48E9090A203E94A4002CBCAC /* FFmDemo01Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E90909203E94A4002CBCAC /* FFmDemo01Controller.m */; };
+		48E9090C203E9819002CBCAC /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E9090B203E9819002CBCAC /* VideoToolbox.framework */; };
+		48E9090E203E982F002CBCAC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E9090D203E982F002CBCAC /* CoreMedia.framework */; };
+		48E90910203E9841002CBCAC /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E9090F203E9841002CBCAC /* libiconv.tbd */; };
+		48E90912203E984E002CBCAC /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E90911203E984E002CBCAC /* libbz2.tbd */; };
+		48E90914203E985A002CBCAC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E90913203E985A002CBCAC /* libz.tbd */; };
+		48E90935203FAD29002CBCAC /* SourceBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 48E90934203FAD29002CBCAC /* SourceBundle.bundle */; };
+		48E909392040048E002CBCAC /* VTBDemo01Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E909382040048E002CBCAC /* VTBDemo01Controller.m */; };
+		48E9093D204103B4002CBCAC /* LFLiveDemo01Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E9093C204103B4002CBCAC /* LFLiveDemo01Controller.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -319,6 +328,18 @@
 		48E908FD203E92BC002CBCAC /* libavdevice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libavdevice.a; sourceTree = "<group>"; };
 		48E908FE203E92BC002CBCAC /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libswresample.a; sourceTree = "<group>"; };
 		48E908FF203E92BC002CBCAC /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libswscale.a; sourceTree = "<group>"; };
+		48E90908203E94A4002CBCAC /* FFmDemo01Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FFmDemo01Controller.h; sourceTree = "<group>"; };
+		48E90909203E94A4002CBCAC /* FFmDemo01Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FFmDemo01Controller.m; sourceTree = "<group>"; };
+		48E9090B203E9819002CBCAC /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		48E9090D203E982F002CBCAC /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		48E9090F203E9841002CBCAC /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		48E90911203E984E002CBCAC /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
+		48E90913203E985A002CBCAC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		48E90934203FAD29002CBCAC /* SourceBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SourceBundle.bundle; sourceTree = SOURCE_ROOT; };
+		48E909372040048E002CBCAC /* VTBDemo01Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTBDemo01Controller.h; sourceTree = "<group>"; };
+		48E909382040048E002CBCAC /* VTBDemo01Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTBDemo01Controller.m; sourceTree = "<group>"; };
+		48E9093B204103B4002CBCAC /* LFLiveDemo01Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LFLiveDemo01Controller.h; sourceTree = "<group>"; };
+		48E9093C204103B4002CBCAC /* LFLiveDemo01Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFLiveDemo01Controller.m; sourceTree = "<group>"; };
 		4D495144F95F8B2BDC5E3AD8 /* libPods-OpenGLDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OpenGLDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DDE22C0D5BE36736853B338 /* Pods-OpenGLDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenGLDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenGLDemo/Pods-OpenGLDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		D65D04C2F0362461D87889FF /* Pods-OpenGLDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenGLDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-OpenGLDemo/Pods-OpenGLDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -329,6 +350,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48E90914203E985A002CBCAC /* libz.tbd in Frameworks */,
+				48E90912203E984E002CBCAC /* libbz2.tbd in Frameworks */,
+				48E90910203E9841002CBCAC /* libiconv.tbd in Frameworks */,
+				48E9090E203E982F002CBCAC /* CoreMedia.framework in Frameworks */,
+				48E9090C203E9819002CBCAC /* VideoToolbox.framework in Frameworks */,
 				48E90901203E92BD002CBCAC /* libavfilter.a in Frameworks */,
 				48E90900203E92BD002CBCAC /* libavutil.a in Frameworks */,
 				4052A6836A8F73C6DCA97A7B /* libPods-OpenGLDemo.a in Frameworks */,
@@ -346,6 +372,11 @@
 		0DE97D06E796A60EFBB94F1F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				48E90913203E985A002CBCAC /* libz.tbd */,
+				48E90911203E984E002CBCAC /* libbz2.tbd */,
+				48E9090F203E9841002CBCAC /* libiconv.tbd */,
+				48E9090D203E982F002CBCAC /* CoreMedia.framework */,
+				48E9090B203E9819002CBCAC /* VideoToolbox.framework */,
 				4D495144F95F8B2BDC5E3AD8 /* libPods-OpenGLDemo.a */,
 			);
 			name = Frameworks;
@@ -416,6 +447,7 @@
 		48CB61AD20104FF700B665CC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				48E90934203FAD29002CBCAC /* SourceBundle.bundle */,
 				48CB619720104DD600B665CC /* AppDelegate.h */,
 				48CB619820104DD600B665CC /* AppDelegate.m */,
 				48CB619D20104DD600B665CC /* Main.storyboard */,
@@ -431,6 +463,9 @@
 		48CB61B020104FF700B665CC /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				48E9093A204103A1002CBCAC /* LFLiveKitDemo */,
+				48E9093620400472002CBCAC /* VideoToolBoxDemo */,
+				48E90907203E9441002CBCAC /* FFmpegDemo */,
 				48CB61EF201052BB00B665CC /* OpenGLDemo */,
 				48CB61B92010516400B665CC /* Categories */,
 				48CB61B220104FF700B665CC /* FatherController */,
@@ -836,6 +871,33 @@
 			path = lib;
 			sourceTree = "<group>";
 		};
+		48E90907203E9441002CBCAC /* FFmpegDemo */ = {
+			isa = PBXGroup;
+			children = (
+				48E90908203E94A4002CBCAC /* FFmDemo01Controller.h */,
+				48E90909203E94A4002CBCAC /* FFmDemo01Controller.m */,
+			);
+			path = FFmpegDemo;
+			sourceTree = "<group>";
+		};
+		48E9093620400472002CBCAC /* VideoToolBoxDemo */ = {
+			isa = PBXGroup;
+			children = (
+				48E909372040048E002CBCAC /* VTBDemo01Controller.h */,
+				48E909382040048E002CBCAC /* VTBDemo01Controller.m */,
+			);
+			path = VideoToolBoxDemo;
+			sourceTree = "<group>";
+		};
+		48E9093A204103A1002CBCAC /* LFLiveKitDemo */ = {
+			isa = PBXGroup;
+			children = (
+				48E9093B204103B4002CBCAC /* LFLiveDemo01Controller.h */,
+				48E9093C204103B4002CBCAC /* LFLiveDemo01Controller.m */,
+			);
+			path = LFLiveKitDemo;
+			sourceTree = "<group>";
+		};
 		EF682336E56B5F4FEF7E540B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -912,6 +974,7 @@
 				48CB62302015D9C800B665CC /* shaderTexure05f.glsl in Resources */,
 				48CB61FE2010710700B665CC /* shaderDrawf.glsl in Resources */,
 				48CB6253201736DF00B665CC /* shaderTexure08v.glsl in Resources */,
+				48E90935203FAD29002CBCAC /* SourceBundle.bundle in Resources */,
 				48CB624820171B2800B665CC /* shaderTexure07f.glsl in Resources */,
 				48CB62252015C91B00B665CC /* shaderTexure04f.glsl in Resources */,
 				48CB62272015C92F00B665CC /* shaderTexure04v.glsl in Resources */,
@@ -998,6 +1061,7 @@
 				48CB61E52010516400B665CC /* NSObject+ZLEX.m in Sources */,
 				48CB623E2016DD3D00B665CC /* GLRender07View.m in Sources */,
 				48CB61DF2010516400B665CC /* NSMutableArray+Safe.m in Sources */,
+				48E909392040048E002CBCAC /* VTBDemo01Controller.m in Sources */,
 				48CB61F2201052D900B665CC /* OpenGLDemo01Controller.m in Sources */,
 				480E6E9E202AC7DC00D39CC8 /* GLRender09View.m in Sources */,
 				48CB622A2015D49A00B665CC /* GLRender05View.m in Sources */,
@@ -1010,6 +1074,7 @@
 				480E6EAE202AFE4B00D39CC8 /* ZLShaderAttribute.m in Sources */,
 				48CB61B620104FF700B665CC /* main.m in Sources */,
 				48CB61E22010516400B665CC /* NSDictionary+Safe.m in Sources */,
+				48E9090A203E94A4002CBCAC /* FFmDemo01Controller.m in Sources */,
 				480E6EC42032900300D39CC8 /* ZLContext.m in Sources */,
 				48CB62412016DD4E00B665CC /* OpenGLDemo07Controller.m in Sources */,
 				48CB62342016D7C400B665CC /* OpenGLDemo06Controller.m in Sources */,
@@ -1028,6 +1093,7 @@
 				48CB62372016D7DF00B665CC /* GLRender06View.m in Sources */,
 				480E6EC72032B4A300D39CC8 /* ZLTestRenderView.m in Sources */,
 				480E6EBE203196C800D39CC8 /* OpenGLDemo10Controller.m in Sources */,
+				48E9093D204103B4002CBCAC /* LFLiveDemo01Controller.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1165,6 +1231,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VH7JGCM338;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OpenGLDemo/Supporting Files/PrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/GPUImage\"",
+					"\"${SRCROOT}/OpenGLDemo/FFmpeg-iOS/include\"",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/OpenGLDemo/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1172,7 +1244,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/OpenGLDemo/FFmpeg-iOS/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = LayZhang.OpenGLDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = myvpntest.vpntest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1186,6 +1258,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VH7JGCM338;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OpenGLDemo/Supporting Files/PrefixHeader.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/GPUImage\"",
+					"\"${SRCROOT}/OpenGLDemo/FFmpeg-iOS/include\"",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/OpenGLDemo/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1193,7 +1271,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/OpenGLDemo/FFmpeg-iOS/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = LayZhang.OpenGLDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = myvpntest.vpntest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
