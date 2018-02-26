@@ -70,9 +70,9 @@
     glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
     
-    GLuint texureCoor = glGetAttribLocation(attributes[ATTRIBUTE_TEXTURE_COORD], "texureCoor");
+//    GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
     glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
-    glEnableVertexAttribArray(texureCoor);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     
     GLuint txure01 = [self setupTexture:@"for_test01" texure:GL_TEXTURE0];
     GLuint txure02 = [self setupTexture:@"for_test02" texure:GL_TEXTURE1];

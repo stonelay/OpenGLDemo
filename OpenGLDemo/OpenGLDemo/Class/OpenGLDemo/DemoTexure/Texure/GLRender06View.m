@@ -54,6 +54,7 @@
 
 #pragma mark - data
 - (void)setupData {
+    
     GLfloat attrArr[] = {
         0.5f, -0.5f, -1.0f,     1.0f, 0.0f, // 右下
         -0.5f, 0.5f, -1.0f,     0.0f, 1.0f, // 左上
@@ -76,12 +77,12 @@
     glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
     
 //    GLuint position0 = glGetAttribLocation(self.myProgram, "position");
-    glVertexAttribPointer(attrArr[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
-    glEnableVertexAttribArray(attrArr[ATTRIBUTE_VERTEX]);
+    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
     
 //    GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
-    glVertexAttribPointer(attrArr[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
-    glEnableVertexAttribArray(attrArr[ATTRIBUTE_TEXTURE_COORD]);
+    glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     
     GLuint texture = [self setupTexture:@"for_test02"];
     
@@ -103,9 +104,8 @@
     };
 
     //设置旋转矩阵
-    glUniformMatrix4fv(uniforms[uniforms[UNIFORM_MODEL_MATRIX]], 1, GL_FALSE, (GLfloat *)&zRotation[0]);
+    glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat *)&zRotation[0]);
     glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
-    
 }
 
 #pragma mark - render
