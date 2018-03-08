@@ -42,7 +42,7 @@
     layer.opaque = YES; // CALayer 默认是透明的，必须将它设为不透明才能让其可见
     // 设置描绘属性，在这里设置不维持渲染内容以及颜色格式为 RGBA8
     layer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-                                [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking,
+                                [NSNumber numberWithBool:YES], kEAGLDrawablePropertyRetainedBacking,
                                 kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 }
 
@@ -112,7 +112,7 @@
         glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_framebufferHeight);
 
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _colorRenderbuffer);
-
+        
         //建立深度缓冲区
         glGenRenderbuffers(1, &_depthRenderbuffer);
         glBindRenderbuffer(GL_RENDERBUFFER, _depthRenderbuffer);
