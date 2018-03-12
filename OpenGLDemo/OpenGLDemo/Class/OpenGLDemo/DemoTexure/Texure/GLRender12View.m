@@ -6,15 +6,16 @@
 //  Copyright © 2018年 Zhanglei. All rights reserved.
 //
 
-#import "GLRender09View.h"
+#import "GLRender12View.h"
 #import "GLESMath.h"
+
+#import "GLLoadTool.h"
 
 #import "ZLGLProgram.h"
 
-
-
-@interface GLRender09View() {
+@interface GLRender12View() {
     GLuint VAO[2];
+    GLuint VBO[2];
     
     CGPoint begin;
     
@@ -31,7 +32,7 @@
 
 @end
 
-@implementation GLRender09View
+@implementation GLRender12View
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -84,6 +85,13 @@
     uniforms[UNIFORM_PROJECTION_MATRIX] = [self.program uniformID:@"projectionMatrix"];
     uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"modelViewMatrix"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
+    
+    [self initVBO];
+}
+
+- (void)initVBO {
+    glGenVertexArraysOES(2, VAO);
+    glGenBuffers(2, VBO);
 }
 
 #pragma mark - data
@@ -152,33 +160,30 @@
     }
     
     
-    glGenVertexArraysOES(2, VAO);
+    
     for (int i = 0; i < 2; i ++) {
         glBindVertexArrayOES(VAO[i]);
         
         
-        GLuint buf;
-        glGenBuffers(1, &buf);
-        glBindBuffer(GL_ARRAY_BUFFER, buf);
+//        GLuint buf;
+//        glGenBuffers(1, &buf);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO[i]);
         if (i == 0) {
             glBufferData(GL_ARRAY_BUFFER, sizeof(bAttrArr), bAttrArr, GL_STATIC_DRAW);
         } else {
             glBufferData(GL_ARRAY_BUFFER, sizeof(cAttrArr), cAttrArr, GL_STATIC_DRAW);
         }
         
-//        GLuint position0 = glGetAttribLocation(self.myProgram, "position");
-//        [self.program addAttribute:@"position"];
-//        glBindAttribLocation(self.myProgram, 0, "position");
         glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
         glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
         
-//        GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
+        //        GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
         glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
         glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     }
     
-//    GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
-//    GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
+    //    GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
+    //    GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
     
     float width = self.frame.size.width;
     float height = self.frame.size.height;
@@ -218,9 +223,10 @@
     // Load the model-view matrix
     glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
-    GLuint texture = [self setupTexture:@"for_test01"];
+//    GLuint texture = [self setupTexture:@"for_test01"];
+    [GLLoadTool setupTexture:@"pic_earth" texure:GL_TEXTURE0];
     
-//    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
+    //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
     glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
 }
 
@@ -249,48 +255,6 @@
     }
     
     [self presentRenderbuffer];
-}
-
-#pragma mark - texture
-- (GLuint)setupTexture:(NSString *)fileName {
-    // 1获取图片的CGImageRef
-    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
-    if (!spriteImage) {
-        NSLog(@"Failed to load image %@", fileName);
-        exit(1);
-    }
-    
-    // 2 读取图片的大小
-    size_t width = CGImageGetWidth(spriteImage);
-    size_t height = CGImageGetHeight(spriteImage);
-    
-    GLubyte * spriteData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte)); //rgba共4个byte
-    
-    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4,
-                                                       CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
-    
-    // 3在CGContextRef上绘图
-    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
-    
-    CGContextRelease(spriteContext);
-    
-    glActiveTexture(GL_TEXTURE0);
-    
-    GLuint buffer1;
-    glGenTextures(1, &buffer1);
-    glBindTexture(GL_TEXTURE_2D, buffer1);
-    
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    
-    float fw = width, fh = height;
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-    
-    free(spriteData);
-    
-    return buffer1;
 }
 
 #pragma mark - touch
@@ -336,4 +300,5 @@
 }
 
 @end
+
 

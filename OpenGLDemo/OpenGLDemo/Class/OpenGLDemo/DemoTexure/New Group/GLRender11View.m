@@ -64,11 +64,15 @@
     self.program.fShaderFile = @"shaderTexure11f";
     [self.program addAttribute:@"position"];
     [self.program addUniform:@"colorMap0"];
-    [self.program addUniform:@"mvp"];
+    [self.program addUniform:@"model"];
+    [self.program addUniform:@"projection"];
+//    [self.program addUniform:@"mvp"];
     [self.program compileAndLink];
     attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
-    uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"mvp"];
+    uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"model"];
+    uniforms[UNIFORM_PROJECTION_MATRIX] = [self.program uniformID:@"projection"];
+//    uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"mvp"];
     
     [self.program useProgrm];
     
@@ -120,9 +124,10 @@
 - (void)render {
     GLKMatrix4 projectionMatrix = GLKMatrix4MakeOrtho(0, 750, 0, 1334, -1, 1);
     GLKMatrix4 modelViewMatrix = GLKMatrix4Identity; // this sample uses a constant identity modelView matrix
-    GLKMatrix4 MVPMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
+//    GLKMatrix4 MVPMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
-    glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, MVPMatrix.m);
+    glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, modelViewMatrix.m);
+    glUniformMatrix4fv(uniforms[UNIFORM_PROJECTION_MATRIX], 1, GL_FALSE, projectionMatrix.m);
     
     [self.program useProgrm];
     [self setupData];
@@ -189,7 +194,7 @@
     
 //    vertexBuffer[0] = start.x;
 //    vertexBuffer[1] = start.y;
-    NSLog(@"x,%f y,%f, count, %d", start.x, start.y, vertexCount);
+    NSLog(@"x,%f y,%f, count, %lu", start.x, start.y, (unsigned long)vertexCount);
     // Load data to the Vertex Buffer Object
     glBindBuffer(GL_ARRAY_BUFFER, aBuffer);
     glBufferData(GL_ARRAY_BUFFER, vertexCount * 2 * sizeof(GLfloat), vertexBuffer, GL_DYNAMIC_DRAW);
