@@ -17,6 +17,7 @@
     GLint uniforms[NUM_UNIFORMS];
     
     GLuint aBuffer;
+    GLuint textureBuffer;
     
     BOOL isInited;
     
@@ -56,7 +57,8 @@
 
 - (void)setupGLProgram {
     glGenBuffers(1, &aBuffer);
-    [GLLoadTool setupTexture:@"aaa" texure:GL_TEXTURE0];
+    glGenTextures(1, &textureBuffer);
+    [GLLoadTool setupTexture:@"aaa" buffer:textureBuffer texure:GL_TEXTURE0];
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
     

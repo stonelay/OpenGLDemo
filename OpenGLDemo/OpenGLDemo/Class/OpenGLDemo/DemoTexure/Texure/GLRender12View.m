@@ -13,9 +13,13 @@
 
 #import "ZLGLProgram.h"
 
+
 @interface GLRender12View() {
-    GLuint VAO[2];
-    GLuint VBO[2];
+//    GLuint VAO[2];
+//    GLuint VBO[2];
+
+    GLuint vbo;
+    GLuint textureBuffer;
     
     CGPoint begin;
     
@@ -69,8 +73,8 @@
 - (void)setupGLProgram {
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
-    self.program.vShaderFile = @"shaderTexure08v";
-    self.program.fShaderFile = @"shaderTexure08f";
+    self.program.vShaderFile = @"shaderTexure12v";
+    self.program.fShaderFile = @"shaderTexure12f";
     
     [self.program addAttribute:@"position"];
     [self.program addAttribute:@"texureCoor"];
@@ -90,104 +94,71 @@
 }
 
 - (void)initVBO {
-    glGenVertexArraysOES(2, VAO);
-    glGenBuffers(2, VBO);
+//    glGenVertexArraysOES(2, VAO);
+    glGenBuffers(1, &vbo);
+    glGenTextures(1, &textureBuffer);
 }
 
 #pragma mark - data
 - (void)setupData {
     
-    CGFloat mLength = 0.3f;
-    CGFloat nLength = 0.2f;
+    float radius = 1.0f;     //球的半径
+    int statck = 20;         //statck：切片----把球体横向切成几部分
+    int slice = 50;//纵向切几部分
+    float statckStep = (float) (M_PI / statck);//单位角度值
     
-    GLfloat vAttrArr[][3] = {
-        {-1,  -1, -1},
-        {-1,  -1,  1},
-        {-1,   1, -1},
-        {-1,   1,  1},
-        
-        { 1,  -1, -1},
-        { 1,  -1,  1},
-        { 1,   1, -1},
-        { 1,   1,  1},
-    };
+    float sliceStep = (float) (M_PI * 2 / slice);//水平圆递增的角度
     
-    GLfloat tAttrArr[][2] = {
-        {0.0, 0.0},
-        {0.0, 1.0},
-        {1.0, 1.0},
-        {1.0, 0.0},
-    };
-    
-    GLuint mIndices[][4] = {
-        {0, 1, 3, 2},
-        {4, 6, 7, 5},
-        {2, 3, 7, 6},
-        {0, 4, 5, 1},
-        {0, 2, 6, 4},
-        {1, 5, 7, 3},
-    };
-    GLuint tIndices[] = {
-        0,1,2,3
-    };
-    
-    GLfloat bAttrArr[6][4][5];
-    for (int i = 0; i < sizeof(mIndices)/sizeof(mIndices[0]); i++) {
-        for (int j = 0; j < sizeof(mIndices[i])/sizeof(GLfloat); j++) {
-            for (int k = 0; k < 3; k++) {
-                bAttrArr[i][j][k] = vAttrArr[mIndices[i][j]][k] * mLength;
-            }
-            for (int m = 0; m < sizeof(tAttrArr[i])/sizeof(GLfloat); m++) {
-                bAttrArr[i][j][3 + m] = tAttrArr[tIndices[j]][m];
-            }
+    GLfloat pointArray[statck+1][slice+1][5];
+    for (int i = 0; i <= statck; i++) {
+        float alpha0 = (float) (i * statckStep);
+
+        float y = (float) (radius * cos(alpha0));
+        float r = (float) (radius * sin(alpha0));
+//        NSLog(@"%f", y);
+        for (int j = 0; j <= slice; j++) {
+            float alpha1 = (float) (- M_PI + (j * sliceStep));
+            
+            float x = r * cos(alpha1);
+            float z = r * sin(alpha1);
+            
+            pointArray[i][j][0] = x;
+            pointArray[i][j][1] = y;
+            pointArray[i][j][2] = z;
+            
+            pointArray[i][j][3] = 1.0 / slice * j;
+            pointArray[i][j][4] = 1.0 / statck * i;
+//            NSLog(@"===%f, %f", pointArray[i][j][3], pointArray[i][j][4]);
         }
     }
     
-    GLfloat cAttrArr[6][4][5];
-    for (int i = 0; i < sizeof(mIndices)/sizeof(mIndices[0]); i++) {
-        for (int j = 0; j < sizeof(mIndices[i])/sizeof(GLfloat); j++) {
-            for (int k = 0; k < 3; k++) {
-                if (k == 0) {
-                    cAttrArr[i][j][k] = vAttrArr[mIndices[i][j]][k] * nLength + 0.8;
-                } else {
-                    cAttrArr[i][j][k] = vAttrArr[mIndices[i][j]][k] * nLength;
-                }
-            }
-            for (int m = 0; m < sizeof(tAttrArr[i])/sizeof(GLfloat); m++) {
-                cAttrArr[i][j][3 + m] = tAttrArr[tIndices[j]][m];
-            }
+    GLfloat drawArray[statck+1][slice+1][2][5];
+    for (int i = 0; i < statck; i++) {
+        for (int j = 0; j <= slice; j++) {
+            drawArray[i][j][0][0] = pointArray[i][j][0];
+            drawArray[i][j][0][1] = pointArray[i][j][1];
+            drawArray[i][j][0][2] = pointArray[i][j][2];
+            drawArray[i][j][0][3] = pointArray[i][j][3];
+            drawArray[i][j][0][4] = pointArray[i][j][4];
+            
+            drawArray[i][j][1][0] = pointArray[i+1][j][0];
+            drawArray[i][j][1][1] = pointArray[i+1][j][1];
+            drawArray[i][j][1][2] = pointArray[i+1][j][2];
+            drawArray[i][j][1][3] = pointArray[i+1][j][3];
+            drawArray[i][j][1][4] = pointArray[i+1][j][4];
         }
     }
     
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(drawArray), drawArray, GL_STATIC_DRAW);
+    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
     
-    
-    for (int i = 0; i < 2; i ++) {
-        glBindVertexArrayOES(VAO[i]);
-        
-        
-//        GLuint buf;
-//        glGenBuffers(1, &buf);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO[i]);
-        if (i == 0) {
-            glBufferData(GL_ARRAY_BUFFER, sizeof(bAttrArr), bAttrArr, GL_STATIC_DRAW);
-        } else {
-            glBufferData(GL_ARRAY_BUFFER, sizeof(cAttrArr), cAttrArr, GL_STATIC_DRAW);
-        }
-        
-        glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
-        glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
-        
-        //        GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
-        glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
-        glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
-    }
-    
-    //    GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
-    //    GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
+    glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     
     float width = self.frame.size.width;
     float height = self.frame.size.height;
-    
     
     KSMatrix4 _projectionMatrix;
     ksMatrixLoadIdentity(&_projectionMatrix);
@@ -202,7 +173,6 @@
     // 需要计算 正反面
     glEnable(GL_CULL_FACE);
     
-    
     KSMatrix4 _modelViewMatrix;
     ksMatrixLoadIdentity(&_modelViewMatrix);
     
@@ -214,8 +184,8 @@
     
     //旋转
     // 2. 绕x,y轴 旋转
-    ksRotate(&_rotationMatrix, exRotate - xRotate, 1.0, 0.0, 0.0); //绕X轴
-    ksRotate(&_rotationMatrix, eyRotate - yRotate, 0.0, 1.0, 0.0); //绕Y轴
+    ksRotate(&_rotationMatrix, exRotate - xRotate, 0.0, 1.0, 0.0); //绕X轴
+    ksRotate(&_rotationMatrix, eyRotate - yRotate, 1.0, 0.0, 0.0); //绕Y轴
     
     // 矩阵相乘， 先平移，再旋转
     ksMatrixMultiply(&_modelViewMatrix, &_rotationMatrix, &_modelViewMatrix);
@@ -224,10 +194,13 @@
     glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
 //    GLuint texture = [self setupTexture:@"for_test01"];
-    [GLLoadTool setupTexture:@"pic_earth" texure:GL_TEXTURE0];
+//    [GLLoadTool setupTexture:@"pic_earth" texure:GL_TEXTURE0];
+    [GLLoadTool setupTexture:@"pic_earth" buffer:textureBuffer texure:GL_TEXTURE0];
     
     //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
     glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
+    
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, ((statck+1) * 2 - 2) * (slice+1));
 }
 
 #pragma mark - render
@@ -237,22 +210,9 @@
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     [self.program useProgrm];
+    
     [self setupData];       // data
     
-    GLuint mIndices[6][4] = {
-        {0,  1, 2, 3},
-        {4,  5, 6, 7},
-        {8,  9,10,11},
-        {12,13,14,15},
-        {16,17,18,19},
-        {20,21,22,23},
-    };
-    for (int i = 0; i < 2; i++) {
-        glBindVertexArrayOES(VAO[i]);
-        for (int i = 0; i < 6; i++) {
-            glDrawElements(GL_TRIANGLE_FAN, sizeof(mIndices[i]) / sizeof(mIndices[i][0]), GL_UNSIGNED_INT, mIndices[i]);
-        }
-    }
     
     [self presentRenderbuffer];
 }
@@ -264,34 +224,18 @@
         UITouch *touch = [allTouches anyObject];
         begin = [touch locationInView:self];
     }
-    //    else if(allTouches.count == 2){
-    //        UITouch *touch1 = [[allTouches allObjects] objectAtIndex:0];
-    //        UITouch *touch2 = [[allTouches allObjects] objectAtIndex:1];
-    //
-    //        CGPoint point1 = [touch1 locationInView:self.view];
-    //        CGPoint point2 = [touch2 locationInView:self.view];
-    //
-    //        float x = point1.x - point2.x;
-    //        float y = point1.y - point2.y;
-    //
-    //        _lastPinchDistance = sqrtf(x*x+y*y);
-    //    }
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     NSSet *allTouches = [event allTouches];
-    //    if (allTouches.count == 1) {
     
     UITouch *touch = [allTouches anyObject];
     CGPoint current = [touch locationInView:self];
-    //        NSArray* arr = [[touches anyObject] locations];
-    //        [self.view convertPoint:currentPostion fromView:self.view];
+    
     xRotate = begin.x - current.x;
     yRotate = begin.y - current.y;
-    NSLog(@"%f", xRotate);
-    NSLog(@"%f", yRotate);
+    
     [self render];
-    //    }
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

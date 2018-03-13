@@ -10,6 +10,6 @@
 
 @interface GLLoadTool : NSObject
 
-+ (GLuint)setupTexture:(NSString *)fileName texure:(GLenum)texure;
++ (void)setupTexture:(NSString *)fileName  buffer:(GLuint)buffer texure:(GLenum)texure;
 
 @end

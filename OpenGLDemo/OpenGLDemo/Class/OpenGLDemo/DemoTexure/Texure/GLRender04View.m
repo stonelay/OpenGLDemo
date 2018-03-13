@@ -7,10 +7,13 @@
 //
 
 #import "GLRender04View.h"
+#import "GLLoadTool.h"
 
 @interface GLRender04View() {
     GLint attributes[NUM_ATTRIBUTES];
     GLint uniforms[NUM_UNIFORMS];
+    
+    GLuint textBuffer;
 }
 
 @end
@@ -46,6 +49,8 @@
     attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"texureCoor"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
     [self.program useProgrm];
+    
+    glGenTextures(1, &textBuffer);
 }
 
 #pragma mark - data
@@ -74,13 +79,15 @@
 //    GLuint position0 = glGetAttribLocation(self.myProgram, "position");
     glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
+//    glVertexPointer(3, GL_FLOAT, 0,(void *)NULL);
     
 //    GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
     glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     
-    GLuint texture = [self setupTexture:@"for_test02"];
-    
+//    GLuint texture = [self setupTexture:@"for_test02"];
+//    [GLLoadTool setupTexture:@"for_test02" texure:GL_TEXTURE0];
+    [GLLoadTool setupTexture:@"for_test02" buffer:textBuffer texure:GL_TEXTURE0];
     
 
 //    GLuint buffer0 = glGetUniformLocation(self.program.programId, "colorMap0");
@@ -104,44 +111,4 @@
 }
 
 
-- (GLuint)setupTexture:(NSString *)fileName {
-    // 1获取图片的CGImageRef
-    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
-    if (!spriteImage) {
-        NSLog(@"Failed to load image %@", fileName);
-        exit(1);
-    }
-    
-    // 2 读取图片的大小
-    size_t width = CGImageGetWidth(spriteImage);
-    size_t height = CGImageGetHeight(spriteImage);
-    
-    GLubyte * spriteData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte)); //rgba共4个byte
-    
-    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4,
-                                                       CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
-    
-    // 3在CGContextRef上绘图
-    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
-    
-    CGContextRelease(spriteContext);
-    
-    glActiveTexture(GL_TEXTURE0);
-
-    GLuint buffer1;
-    glGenTextures(1, &buffer1);
-    glBindTexture(GL_TEXTURE_2D, buffer1);
-    
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    
-    float fw = width, fh = height;
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-    
-    free(spriteData);
-    
-    return buffer1;
-}
 @end

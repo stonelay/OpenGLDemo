@@ -13,7 +13,7 @@
 
 @implementation GLLoadTool
 
-+ (GLuint)setupTexture:(NSString *)fileName texure:(GLenum)texure {
++ (void)setupTexture:(NSString *)fileName  buffer:(GLuint)buffer texure:(GLenum)texure {
     // 1获取图片的CGImageRef
     CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
     if (!spriteImage) {
@@ -37,9 +37,7 @@
     
     glActiveTexture(texure);
     
-    GLuint buffer1;
-    glGenTextures(1, &buffer1);
-    glBindTexture(GL_TEXTURE_2D, buffer1);
+    glBindTexture(GL_TEXTURE_2D, buffer);
     
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
@@ -50,8 +48,6 @@
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
     
     free(spriteData);
-    
-    return buffer1;
 }
 
 @end
