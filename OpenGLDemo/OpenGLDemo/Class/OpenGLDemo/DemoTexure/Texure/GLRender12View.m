@@ -31,6 +31,8 @@
     
     GLint attributes[NUM_ATTRIBUTES];
     GLint uniforms[NUM_UNIFORMS];
+    
+    BOOL isPoint;
 }
 
 
@@ -42,8 +44,18 @@
     if (self = [super init]) {
         [self setupContext];
         [self setupGLProgram];  // shader
+        [self initComponent];
+        
     }
     return self;
+}
+
+- (void)initComponent {
+    UIButton *button = [[UIButton alloc] init];
+    [button setFrame:CGRectMake(10, 64 + 10, 80, 30)];
+    [button setTitle:@"change" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(chenge:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:button];
 }
 
 - (void)setupContext {
@@ -128,7 +140,6 @@
             
             pointArray[i][j][3] = 1.0 / slice * j;
             pointArray[i][j][4] = 1.0 / statck * i;
-//            NSLog(@"===%f, %f", pointArray[i][j][3], pointArray[i][j][4]);
         }
     }
     
@@ -193,14 +204,16 @@
     // Load the model-view matrix
     glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
-//    GLuint texture = [self setupTexture:@"for_test01"];
-//    [GLLoadTool setupTexture:@"pic_earth" texure:GL_TEXTURE0];
     [GLLoadTool setupTexture:@"pic_earth" buffer:textureBuffer texure:GL_TEXTURE0];
     
     //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
     glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
     
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, ((statck+1) * 2 - 2) * (slice+1));
+    if (isPoint) {
+        glDrawArrays(GL_POINTS, 0,  ((statck+1) * 2 - 2) * (slice+1));
+    } else {
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, ((statck+1) * 2 - 2) * (slice+1));
+    }
 }
 
 #pragma mark - render
@@ -241,6 +254,11 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     exRotate -= xRotate;
     eyRotate -= yRotate;
+}
+
+- (void)chenge:(id)sender {
+    isPoint = !isPoint;
+    [self render];
 }
 
 @end

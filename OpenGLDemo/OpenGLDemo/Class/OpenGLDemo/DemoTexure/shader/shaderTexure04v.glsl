@@ -9,4 +9,5 @@ void main(void) {
     //    fragmentColor = inputColor;
     vTexureCoor = texureCoor;
     gl_Position = position;
+    gl_PointSize = 4.0;
 }

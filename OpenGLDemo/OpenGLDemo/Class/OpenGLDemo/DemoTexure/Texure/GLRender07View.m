@@ -227,7 +227,7 @@
     };
     glDrawElements(GL_TRIANGLE_FAN, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, indices);
     glDrawElements(GL_TRIANGLE_FAN, sizeof(backIndices) / sizeof(backIndices[0]), GL_UNSIGNED_INT, backIndices);
-    
+
     [self.myContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 

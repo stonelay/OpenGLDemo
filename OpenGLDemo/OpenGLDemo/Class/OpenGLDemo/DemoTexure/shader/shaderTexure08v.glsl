@@ -28,4 +28,5 @@ void main(void) {
     vTexureCoor = texureCoor;
     //    gl_Position = position;
     gl_Position = projectionMatrix * modelViewMatrix * position;
+    gl_PointSize = 90.0;
 }
