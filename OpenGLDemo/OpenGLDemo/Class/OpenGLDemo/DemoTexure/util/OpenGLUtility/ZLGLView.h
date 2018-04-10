@@ -39,4 +39,6 @@ enum {
 - (void)setupFramebuffer;
 - (BOOL)presentRenderbuffer;
 
+- (void)loadTexture:(GLenum)texture fileName:(NSString *)fileName;
+
 @end

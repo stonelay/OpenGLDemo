@@ -42,7 +42,6 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        [self setupContext];
         [self setupGLProgram];  // shader
         [self initComponent];
         
@@ -56,22 +55,6 @@
     [button setTitle:@"change" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(chenge:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button];
-}
-
-- (void)setupContext {
-    // 指定 OpenGL 渲染 API 的版本，在这里我们使用 OpenGL ES 2.0
-    EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES2;
-    EAGLContext* context = [[EAGLContext alloc] initWithAPI:api];
-    if (!context) {
-        NSLog(@"Failed to initialize OpenGLES 2.0 context");
-        return;
-    }
-    
-    if (![EAGLContext setCurrentContext:context]) {
-        NSLog(@"Failed to set OpenGLES 2.0 context");
-        return;
-    }
-    self.context = context;
 }
 
 - (void)layoutSubviews {

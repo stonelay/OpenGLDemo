@@ -69,15 +69,16 @@ static GLfloat attrArr[] = {
 
 - (void)render {
     
-    glClearColor(0, 1.0, 0, 1.0);
+    glClearColor(0, 0.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+    [self setupFramebuffer];
     [self setupData];       // data
     
     [self.program useProgrm];
     
     glDrawArrays(GL_TRIANGLES, 0, 3);
     [self presentRenderbuffer];
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 

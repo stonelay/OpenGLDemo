@@ -58,7 +58,7 @@
 - (void)setupGLProgram {
     glGenBuffers(1, &aBuffer);
     glGenTextures(1, &textureBuffer);
-    [GLLoadTool setupTexture:@"aaa" buffer:textureBuffer texure:GL_TEXTURE0];
+    [GLLoadTool setupTexture:@"pic_earth" buffer:textureBuffer texure:GL_TEXTURE0];
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
     
@@ -196,7 +196,7 @@
     
 //    vertexBuffer[0] = start.x;
 //    vertexBuffer[1] = start.y;
-    NSLog(@"x,%f y,%f, count, %lu", start.x, start.y, (unsigned long)vertexCount);
+//    NSLog(@"x,%f y,%f, count, %lu", start.x, start.y, (unsigned long)vertexCount);
     // Load data to the Vertex Buffer Object
     glBindBuffer(GL_ARRAY_BUFFER, aBuffer);
     glBufferData(GL_ARRAY_BUFFER, vertexCount * 2 * sizeof(GLfloat), vertexBuffer, GL_DYNAMIC_DRAW);

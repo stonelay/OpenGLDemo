@@ -1,6 +1,6 @@
 precision mediump float;
 
-varying vec2 vTexureCoor;
+//varying vec2 vTexureCoor;
 
 uniform sampler2D colorMap0;
 

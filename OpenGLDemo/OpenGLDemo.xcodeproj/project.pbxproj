@@ -24,6 +24,8 @@
 		482F4C712057CAF200889C7C /* OpenGLDemo13Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C702057CAF200889C7C /* OpenGLDemo13Controller.m */; };
 		482F4C742057DA4B00889C7C /* shaderTexureLinef.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 482F4C722057DA4A00889C7C /* shaderTexureLinef.glsl */; };
 		482F4C752057DA4B00889C7C /* shaderTexureLinev.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 482F4C732057DA4B00889C7C /* shaderTexureLinev.glsl */; };
+		482F4C78205A83C600889C7C /* GLRender14View.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C77205A83C600889C7C /* GLRender14View.m */; };
+		482F4C7B205A83DD00889C7C /* OpenGLDemo14Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C7A205A83DD00889C7C /* OpenGLDemo14Controller.m */; };
 		4831161F2057A0EB00E26EF3 /* shaderTexure12f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4831161D2057A0EB00E26EF3 /* shaderTexure12f.glsl */; };
 		483116202057A0EB00E26EF3 /* shaderTexure12v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4831161E2057A0EB00E26EF3 /* shaderTexure12v.glsl */; };
 		487CBC3320511C69009ECE7C /* GLRender11View.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC3220511C69009ECE7C /* GLRender11View.m */; };
@@ -134,6 +136,10 @@
 		482F4C702057CAF200889C7C /* OpenGLDemo13Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo13Controller.m; sourceTree = "<group>"; };
 		482F4C722057DA4A00889C7C /* shaderTexureLinef.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexureLinef.glsl; sourceTree = "<group>"; };
 		482F4C732057DA4B00889C7C /* shaderTexureLinev.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexureLinev.glsl; sourceTree = "<group>"; };
+		482F4C76205A83C600889C7C /* GLRender14View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender14View.h; sourceTree = "<group>"; };
+		482F4C77205A83C600889C7C /* GLRender14View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender14View.m; sourceTree = "<group>"; };
+		482F4C79205A83DD00889C7C /* OpenGLDemo14Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo14Controller.h; sourceTree = "<group>"; };
+		482F4C7A205A83DD00889C7C /* OpenGLDemo14Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo14Controller.m; sourceTree = "<group>"; };
 		4831161D2057A0EB00E26EF3 /* shaderTexure12f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure12f.glsl; sourceTree = "<group>"; };
 		4831161E2057A0EB00E26EF3 /* shaderTexure12v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure12v.glsl; sourceTree = "<group>"; };
 		487CBC3120511C69009ECE7C /* GLRender11View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender11View.h; sourceTree = "<group>"; };
@@ -715,6 +721,8 @@
 				487CBC452051470E009ECE7C /* GLRender12View.m */,
 				482F4C6C2057CADB00889C7C /* GLRender13View.h */,
 				482F4C6D2057CADB00889C7C /* GLRender13View.m */,
+				482F4C76205A83C600889C7C /* GLRender14View.h */,
+				482F4C77205A83C600889C7C /* GLRender14View.m */,
 				48CB621E2015C61300B665CC /* OpenGLDemo04Controller.h */,
 				48CB621F2015C61300B665CC /* OpenGLDemo04Controller.m */,
 				48CB622B2015D4AE00B665CC /* OpenGLDemo05Controller.h */,
@@ -731,6 +739,8 @@
 				487CBC42205146F0009ECE7C /* OpenGLDemo12Controller.m */,
 				482F4C6F2057CAF200889C7C /* OpenGLDemo13Controller.h */,
 				482F4C702057CAF200889C7C /* OpenGLDemo13Controller.m */,
+				482F4C79205A83DD00889C7C /* OpenGLDemo14Controller.h */,
+				482F4C7A205A83DD00889C7C /* OpenGLDemo14Controller.m */,
 			);
 			path = Texure;
 			sourceTree = "<group>";
@@ -1120,6 +1130,7 @@
 			files = (
 				48CB61EA2010516400B665CC /* UIView+QuickNew.m in Sources */,
 				48CB61DE2010516400B665CC /* NSObject+Safe.m in Sources */,
+				482F4C7B205A83DD00889C7C /* OpenGLDemo14Controller.m in Sources */,
 				48CB62452017132B00B665CC /* GLESMath.c in Sources */,
 				48CB61E62010516400B665CC /* ScreenAuotoSizeScale.m in Sources */,
 				48CB61E72010516400B665CC /* NSString+ZLEX.m in Sources */,
@@ -1132,6 +1143,7 @@
 				487CBC3720511D56009ECE7C /* GLLoadTool.m in Sources */,
 				480E6ECE2032C33F00D39CC8 /* MAsync.m in Sources */,
 				487CBC43205146F0009ECE7C /* OpenGLDemo12Controller.m in Sources */,
+				482F4C78205A83C600889C7C /* GLRender14View.m in Sources */,
 				48CB61E32010516400B665CC /* NSArray+Safe.m in Sources */,
 				480E6EBB203196A900D39CC8 /* GLRender10View.m in Sources */,
 				48CB61B720104FF700B665CC /* ViewController.m in Sources */,

@@ -49,7 +49,6 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        [self setupContext];
         [self setupGLProgram];  // shader
         [self initComponent];
         
@@ -65,24 +64,9 @@
     [self addSubview:button];
 }
 
-- (void)setupContext {
-    // 指定 OpenGL 渲染 API 的版本，在这里我们使用 OpenGL ES 2.0
-    EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES2;
-    EAGLContext* context = [[EAGLContext alloc] initWithAPI:api];
-    if (!context) {
-        NSLog(@"Failed to initialize OpenGLES 2.0 context");
-        return;
-    }
-    
-    if (![EAGLContext setCurrentContext:context]) {
-        NSLog(@"Failed to set OpenGLES 2.0 context");
-        return;
-    }
-    self.context = context;
-}
-
 - (void)layoutSubviews {
     [super layoutSubviews];
+    NSLog(@"%f %f", self.width, self.height);
     [self setupFramebuffer];
     [self render];
 }
@@ -124,7 +108,7 @@
     self.picPorgram.fShaderFile = @"shaderTexureLinef";
     
     [self.picPorgram addAttribute:@"position"];
-    [self.picPorgram addAttribute:@"texureCoor"];
+//    [self.picPorgram addAttribute:@"texureCoor"];
     [self.picPorgram addUniform:@"projectionMatrix"];
     [self.picPorgram addUniform:@"modelViewMatrix"];
     [self.picPorgram addUniform:@"colorMap0"];
@@ -132,7 +116,7 @@
     [self.picPorgram compileAndLink];
     
     p_attributes[ATTRIBUTE_VERTEX] = [self.picPorgram attributeID:@"position"];
-    p_attributes[ATTRIBUTE_TEXTURE_COORD] = [self.picPorgram attributeID:@"texureCoor"];
+//    p_attributes[ATTRIBUTE_TEXTURE_COORD] = [self.picPorgram attributeID:@"texureCoor"];
     p_uniforms[UNIFORM_PROJECTION_MATRIX] = [self.picPorgram uniformID:@"projectionMatrix"];
     p_uniforms[UNIFORM_MODEL_MATRIX] = [self.picPorgram uniformID:@"modelViewMatrix"];
     p_uniforms[UNIFORM_COLOR_MAP_0] = [self.picPorgram uniformID:@"colorMap0"];
@@ -361,7 +345,8 @@
     // Load the model-view matrix
     glUniformMatrix4fv(e_uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
-    [GLLoadTool setupTexture:@"pic_earth" buffer:earthBuffer texure:GL_TEXTURE0];
+//    [GLLoadTool setupTexture:@"pic_earth" buffer:earthBuffer texure:GL_TEXTURE0];
+    [self loadTexture:GL_TEXTURE0 fileName:@"pic_earth"];
     
     //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
     glUniform1i(e_uniforms[UNIFORM_COLOR_MAP_0], 0);
