@@ -28,8 +28,8 @@
     return [CAEAGLLayer class];
 }
 
-- (instancetype)init {
-    if (self = [super init]) {
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
         [self setupLayer];
         [self setupContext];
     }
