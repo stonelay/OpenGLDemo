@@ -131,7 +131,7 @@
         //建立深度缓冲区
         glGenRenderbuffers(1, &_depthRenderbuffer);
         glBindRenderbuffer(GL_RENDERBUFFER, _depthRenderbuffer);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, 750, 1334);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, _framebufferWidth, _framebufferHeight);
 
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthRenderbuffer);
         glEnable(GL_DEPTH_TEST);

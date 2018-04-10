@@ -13,5 +13,5 @@ target 'OpenGLDemo' do
 #    pod 'GPUImage'
 
     pod 'LFLiveKit'
-    
+
 end
