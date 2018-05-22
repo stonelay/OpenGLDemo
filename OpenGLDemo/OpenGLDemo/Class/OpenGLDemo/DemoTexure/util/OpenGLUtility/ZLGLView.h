@@ -27,8 +27,15 @@ enum {
     UNIFORM_MODEL_MATRIX,
     UNIFORM_COLOR_MAP_0,
     UNIFORM_COLOR_MAP_1,
+    
+    UNIFORM_COLOR_Y,
+    UNIFORM_COLOR_U,
+    UNIFORM_COLOR_V,
+    
     NUM_UNIFORMS
 };
+
+
 
 
 @interface ZLGLView : UIView
