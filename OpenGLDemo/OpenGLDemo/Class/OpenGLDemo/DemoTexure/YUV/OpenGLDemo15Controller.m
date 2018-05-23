@@ -23,13 +23,18 @@
     [self createNavBarWithTitle:@"Demo15" withLeft:[UIImage imageNamed:@"icon_back"]];
     GLRender15View *view = (GLRender15View *)self.view;
     
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"lena_256x256_yuv420p" ofType:@"yuv"];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"176x144_yuv420p" ofType:@"yuv"];
     
     NSData *reader = [NSData dataWithContentsOfFile:filePath];
     NSLog(@"the reader length is %i", reader.length);
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [view displayYUV420pData:[reader bytes] width:256 height:256];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [view displayYUV420pData:[reader bytes] width:256 height:256];
+    [view displayYUV420pData:[reader bytes] width:176 height:144];
+//    });
+    
+    [view bk_whenTapped:^{
+        [view displayYUV420pData:[reader bytes] width:176 height:144];
+    }];
     
 }
 @end
