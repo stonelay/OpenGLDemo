@@ -15,6 +15,7 @@
 
 // Attribute index.
 enum {
+    ATTRIBUTE_POSITION,
     ATTRIBUTE_VERTEX,
     ATTRIBUTE_TEXTURE_COORD,
     ATTRIBUTE_COLOR,

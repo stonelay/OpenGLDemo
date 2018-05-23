@@ -10,6 +10,6 @@
 
 @interface GLRender15View : ZLGLView
 
-- (void)displayYUV420pData:(void *)data width:(NSInteger)w height:(NSInteger)h;
+- (void)displayYUV420pData:(void *)data width:(GLsizei)w height:(GLsizei)h;
 
 @end

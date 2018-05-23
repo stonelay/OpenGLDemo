@@ -12,7 +12,7 @@
 @interface GLRender15View() {
     
     GLint uniforms[NUM_UNIFORMS];
-    
+    GLint attributes[NUM_ATTRIBUTES];
 }
 
 @end
@@ -42,12 +42,18 @@
     
     self.program.vShaderFile = @"shaderTexure15v";
     self.program.fShaderFile = @"shaderTexure15f";
-    //    [self.program addAttribute:@"position"];
+    [self.program addAttribute:@"position"];
+    [self.program addAttribute:@"TexCoordIn"];
+    [self.program addUniform:@"SamplerY"];
+    [self.program addUniform:@"SamplerU"];
+    [self.program addUniform:@"SamplerV"];
     [self.program compileAndLink];
     //    attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
-    uniforms[UNIFORM_COLOR_Y] = [self.program uniformID:@"colorY"];
-    uniforms[UNIFORM_COLOR_U] = [self.program uniformID:@"colorU"];
-    uniforms[UNIFORM_COLOR_V] = [self.program uniformID:@"colorV"];
+    uniforms[UNIFORM_COLOR_Y] = [self.program uniformID:@"SamplerY"];
+    uniforms[UNIFORM_COLOR_U] = [self.program uniformID:@"SamplerU"];
+    uniforms[UNIFORM_COLOR_V] = [self.program uniformID:@"SamplerV"];
+    attributes[ATTRIBUTE_POSITION] = [self.program attributeID:@"position"];
+    attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"TexCoordIn"];
     [self.program useProgrm];
     
     //    [GLLoadTool setupTexture:@"pic_earth" buffer:earthBuffer texure:GL_TEXTURE0];
@@ -76,25 +82,72 @@
 
 #pragma mark - data
 - (void)setupData {
-    GLfloat attrArr[] = {
-        0.5f,  -0.5f, -1.0f,
-        0.5f,  0.5f,  -1.0f,
-        -0.5f, -0.5f, -1.0f,
-        -0.5f, 0.5f, -1.0f,
+//    GLfloat attrArr[] = {
+//        0.5f,  -0.5f, -1.0f,
+//        0.5f,  0.5f,  -1.0f,
+//        -0.5f, -0.5f, -1.0f,
+//        -0.5f, 0.5f, -1.0f,
+//    };
+//
+//    GLuint attrBuffer;
+//    glGenBuffers(1, &attrBuffer);
+//    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
+    
+//    GLuint position0 = glGetAttribLocation(self.myProgram, "position");
+//    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, NULL);
+//    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
+    
+//    glUniform1i(uniforms[UNIFORM_COLOR_Y], 0);
+//    glUniform1i(uniforms[UNIFORM_COLOR_U], 1);
+//    glUniform1i(uniforms[UNIFORM_COLOR_V], 2);
+    
+    static const GLfloat squareVertices[] = {
+        -1.0f, -1.0f,
+        1.0f, -1.0f,
+        -1.0f,  1.0f,
+        1.0f,  1.0f,
     };
     
-    GLuint attrBuffer;
-    glGenBuffers(1, &attrBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
     
-    //    GLuint position0 = glGetAttribLocation(self.myProgram, "position");
-    //    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, NULL);
-    //    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
+    static const GLfloat coordVertices[] = {
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        0.0f,  0.0f,
+        1.0f,  0.0f,
+    };
     
-    glUniform1i(uniforms[UNIFORM_COLOR_Y], 0);
-    glUniform1i(uniforms[UNIFORM_COLOR_U], 1);
-    glUniform1i(uniforms[UNIFORM_COLOR_V], 2);
+    
+    // Update attribute values
+//    glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, 0, 0, squareVertices);
+//    glEnableVertexAttribArray(ATTRIB_VERTEX);
+//
+//
+//    glVertexAttribPointer(ATTRIB_TEXTURE, 2, GL_FLOAT, 0, 0, coordVertices);
+//    glEnableVertexAttribArray(ATTRIB_TEXTURE);
+    
+    
+    glVertexAttribPointer(attributes[ATTRIBUTE_POSITION], 2, GL_FLOAT, 0, 0, squareVertices);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_POSITION]);
+    //    glVertexPointer(3, GL_FLOAT, 0,(void *)NULL);
+    
+    //    GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
+    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 2, GL_FLOAT, 0, 0, coordVertices);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
+    
+    //    GLuint texture = [self setupTexture:@"for_test02"];
+    //    [GLLoadTool setupTexture:@"for_test02" texure:GL_TEXTURE0];
+//    [GLLoadTool setupTexture:@"for_test02" buffer:textBuffer texure:GL_TEXTURE0];
+    
+    
+    //    GLuint buffer0 = glGetUniformLocation(self.program.programId, "colorMap0");
+    //    glUniform1i(buffer0, 0);
+//    glUniform1i(uniforms[UNIFORM_COLOR_Y], 0);
+//    glUniform1i(uniforms[UNIFORM_COLOR_U], 0);
+//    glUniform1i(uniforms[UNIFORM_COLOR_V], 0);
+    
+    // Draw
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 #pragma mark - render
@@ -113,7 +166,7 @@
 
 
 #pragma mark - 接口
-- (void)displayYUV420pData:(void *)data width:(NSInteger)w height:(NSInteger)h {
+- (void)displayYUV420pData:(void *)data width:(GLsizei)w height:(GLsizei)h {
     
     [self setVideoSize:w height:h];
     
@@ -135,7 +188,7 @@
     [self render];
 }
 
-- (void)setVideoSize:(GLuint)width height:(GLuint)height
+- (void)setVideoSize:(GLsizei)width height:(GLsizei)height
 {
     
     void *blackData = malloc(width * height * 1.5);
