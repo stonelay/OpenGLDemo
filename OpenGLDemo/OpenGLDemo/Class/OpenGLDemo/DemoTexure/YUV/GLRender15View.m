@@ -85,10 +85,15 @@
 #pragma mark - data
 - (void)setupData {
     static const GLfloat squareVertices[] = {
-        -1.0f, -1.0f,
-        1.0f, -1.0f,
-        -1.0f,  1.0f,
-        1.0f,  1.0f,
+//        -1.0f, -1.0f,
+//        1.0f, -1.0f,
+//        -1.0f,  1.0f,
+//        1.0f,  1.0f,
+        
+        -1.0f, 0.5,
+        -0.5, -1.0f,
+        0.5,  1.0f,
+        1.0f,  -0.5,
     };
     
     static const GLfloat coordVertices[] = {

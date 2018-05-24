@@ -40,6 +40,8 @@
 		487CBC3E205120D0009ECE7C /* shaderTexure11v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 487CBC3C205120D0009ECE7C /* shaderTexure11v.glsl */; };
 		487CBC43205146F0009ECE7C /* OpenGLDemo12Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC42205146F0009ECE7C /* OpenGLDemo12Controller.m */; };
 		487CBC462051470E009ECE7C /* GLRender12View.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC452051470E009ECE7C /* GLRender12View.m */; };
+		489A845820B6ABE2005BF4A8 /* OpenGLDemo16Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A845720B6ABE2005BF4A8 /* OpenGLDemo16Controller.m */; };
+		489A845B20B6AC08005BF4A8 /* GLRender16View.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A845A20B6AC08005BF4A8 /* GLRender16View.m */; };
 		48CB619920104DD600B665CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB619820104DD600B665CC /* AppDelegate.m */; };
 		48CB619F20104DD600B665CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48CB619D20104DD600B665CC /* Main.storyboard */; };
 		48CB61A120104DD600B665CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48CB61A020104DD600B665CC /* Assets.xcassets */; };
@@ -166,6 +168,10 @@
 		487CBC42205146F0009ECE7C /* OpenGLDemo12Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo12Controller.m; sourceTree = "<group>"; };
 		487CBC442051470E009ECE7C /* GLRender12View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender12View.h; sourceTree = "<group>"; };
 		487CBC452051470E009ECE7C /* GLRender12View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender12View.m; sourceTree = "<group>"; };
+		489A845620B6ABE2005BF4A8 /* OpenGLDemo16Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo16Controller.h; sourceTree = "<group>"; };
+		489A845720B6ABE2005BF4A8 /* OpenGLDemo16Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo16Controller.m; sourceTree = "<group>"; };
+		489A845920B6AC08005BF4A8 /* GLRender16View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender16View.h; sourceTree = "<group>"; };
+		489A845A20B6AC08005BF4A8 /* GLRender16View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender16View.m; sourceTree = "<group>"; };
 		48CB619420104DD600B665CC /* OpenGLDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenGLDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48CB619720104DD600B665CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		48CB619820104DD600B665CC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -473,8 +479,12 @@
 				4858C79E20B5575A00C3193A /* 176x144_yuv420p.yuv */,
 				4858C78E20B3F35600C3193A /* GLRender15View.h */,
 				4858C78F20B3F35600C3193A /* GLRender15View.m */,
+				489A845920B6AC08005BF4A8 /* GLRender16View.h */,
+				489A845A20B6AC08005BF4A8 /* GLRender16View.m */,
 				4858C79120B3F38100C3193A /* OpenGLDemo15Controller.h */,
 				4858C79220B3F38100C3193A /* OpenGLDemo15Controller.m */,
+				489A845620B6ABE2005BF4A8 /* OpenGLDemo16Controller.h */,
+				489A845720B6ABE2005BF4A8 /* OpenGLDemo16Controller.m */,
 			);
 			path = YUV;
 			sourceTree = "<group>";
@@ -1198,6 +1208,7 @@
 				48CB61B620104FF700B665CC /* main.m in Sources */,
 				48CB61E22010516400B665CC /* NSDictionary+Safe.m in Sources */,
 				48E9090A203E94A4002CBCAC /* FFmDemo01Controller.m in Sources */,
+				489A845820B6ABE2005BF4A8 /* OpenGLDemo16Controller.m in Sources */,
 				4858C79320B3F38100C3193A /* OpenGLDemo15Controller.m in Sources */,
 				480E6EC42032900300D39CC8 /* ZLContext.m in Sources */,
 				48CB62412016DD4E00B665CC /* OpenGLDemo07Controller.m in Sources */,
@@ -1221,6 +1232,7 @@
 				480E6EC72032B4A300D39CC8 /* ZLTestRenderView.m in Sources */,
 				480E6EBE203196C800D39CC8 /* OpenGLDemo10Controller.m in Sources */,
 				48E9093D204103B4002CBCAC /* LFLiveDemo01Controller.m in Sources */,
+				489A845B20B6AC08005BF4A8 /* GLRender16View.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1371,7 +1383,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/OpenGLDemo/FFmpeg-iOS/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = myvpntest.vpntest;
+				PRODUCT_BUNDLE_IDENTIFIER = LayZhang.OpenGLDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1398,7 +1410,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/OpenGLDemo/FFmpeg-iOS/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = myvpntest.vpntest;
+				PRODUCT_BUNDLE_IDENTIFIER = LayZhang.OpenGLDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

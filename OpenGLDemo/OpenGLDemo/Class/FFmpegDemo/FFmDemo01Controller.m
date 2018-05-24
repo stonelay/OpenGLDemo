@@ -11,7 +11,9 @@
 #import "imgutils.h"
 #import "swscale.h"
 
-//
+#import "GLRender15View.h"
+
+// ffmpeg 解封装 解编码
 
 @interface FFmDemo01Controller ()
 
@@ -21,8 +23,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view = [[GLRender15View alloc] init];
     [self createNavBarWithTitle:@"ffmdemo01" withLeft:[UIImage imageNamed:@"icon_back"]];
-    [self decode];
+//    [self decode];
+    
+    
+//    GLRender15View *view = (GLRender15View *)self.view;
+
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self decode];
+    });
+//    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"176x144_yuv420p" ofType:@"yuv"];
+    
+//    NSData *reader = [NSData dataWithContentsOfFile:filePath];
+//    NSLog(@"the reader length is %i", reader.length);
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //        [view displayYUV420pData:[reader bytes] width:256 height:256];
+//    [view displayYUV420pData:[reader bytes] width:176 height:144];
+//    //    });
+//
+//    [view bk_whenTapped:^{
+//        [view displayYUV420pData:[reader bytes] width:176 height:144];
+//    }];
 }
 
 - (void)decode {
@@ -61,12 +84,14 @@
     printf("Output Path:%s\n",output_str_full);
     
     // 1. regist all
+    /** 在使用FFMPEG解码媒体文件之前，我们首先需要注册FFMPEG的各种组件，通过
+     这个函数，可以注册所有支持的容器和对应的codec。**/
     av_register_all();
-    avformat_network_init();
+    avformat_network_init(); //？
     
     // 2.统领全局的基本结构体。主要用于处理封装格式（FLV/MKV/RMVB等）
+    /** 打开一个媒体文件，并获得媒体文件封装格式的上下文。之后我们就可以通过遍历定义在libavformat/avformat.h里保存着媒体文件中封装的流数量的nb_streams在媒体文件中分离出音视频流。 **/
     pFormatCtx = avformat_alloc_context();
-    
     if(avformat_open_input(&pFormatCtx,input_str_full,NULL,NULL)!=0){
         printf("Couldn't open input stream.\n");
         return ;
@@ -75,7 +100,12 @@
         printf("Couldn't find stream information.\n");
         return;
     }
+    
+    /** 分离出音视频流之后，就可以对音视频流分别进行解码了。
+     我们可以遍历AVStream找到codec_type为AVMEDIA_TYPE_VIDEO的的AVStream即为视频流的索引值。
+     这里先以视频解码为例。**/
     videoindex=-1;
+    NSLog(@"=== %d", pFormatCtx->nb_streams);
     for(i=0; i<pFormatCtx->nb_streams; i++) {
         if(pFormatCtx->streams[i]->codec->codec_type==AVMEDIA_TYPE_VIDEO){
             videoindex=i;
@@ -87,25 +117,36 @@
         printf("Couldn't find a video stream.\n");
         return;
     }
+    
+    /** 然后我们就可以通过AVStream来找到对应的AVCodecContext即编解码器的上下文 **/
     pCodecCtx=pFormatCtx->streams[videoindex]->codec;
+    
+    /** 之后就可以通过这个上下文，来找到对应的解码器。 **/
     pCodec=avcodec_find_decoder(pCodecCtx->codec_id);
     if(pCodec==NULL){
         printf("Couldn't find Codec.\n");
         return;
     }
+    
+    /** 再打开解码器 **/
     if(avcodec_open2(pCodecCtx, pCodec,NULL)<0){
         printf("Couldn't open codec.\n");
         return;
     }
     
+    // frame 分配内存
     pFrame=av_frame_alloc();
     pFrameYUV=av_frame_alloc();
     
+    NSLog(@"===--- %d %d", pCodecCtx->width, pCodecCtx->height);
+    // 缓冲区 分配内存
     out_buffer=(unsigned char *)av_malloc(av_image_get_buffer_size(AV_PIX_FMT_YUV420P,  pCodecCtx->width, pCodecCtx->height,1));
+    // 初始化
     av_image_fill_arrays(pFrameYUV->data, pFrameYUV->linesize,out_buffer,
                          AV_PIX_FMT_YUV420P,pCodecCtx->width, pCodecCtx->height,1);
     packet=(AVPacket *)av_malloc(sizeof(AVPacket));
     
+    // 用于缩放
     img_convert_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt,
                                      pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_YUV420P, SWS_BICUBIC, NULL, NULL, NULL);
     
@@ -152,6 +193,8 @@
                 }
                 printf("Frame Index: %5d. Type:%s\n",frame_cnt,pictype_str);
                 frame_cnt++;
+                
+                [(GLRender15View *)self.view displayYUV420pData:pFrameYUV->data[0] width:544 height:960];
             }
         }
         av_free_packet(packet);
