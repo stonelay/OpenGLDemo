@@ -14,8 +14,6 @@
 #import "ZLShaderUniform.h"
 #import "ZLShaderAttribute.h"
 
-
-
 @interface ZLGLProgram()
 
 @property (nonatomic, strong) NSString *vShaderLog;

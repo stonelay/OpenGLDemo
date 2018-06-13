@@ -11,6 +11,8 @@
 
 #import "ZLGLProgram.h"
 
+#import "GLLoadTool.h"
+
 
 
 @interface GLRender09View() {
@@ -26,6 +28,8 @@
     
     GLint attributes[NUM_ATTRIBUTES];
     GLint uniforms[NUM_UNIFORMS];
+    
+    GLuint texureBuffer;
 }
 
 
@@ -67,6 +71,8 @@
     uniforms[UNIFORM_PROJECTION_MATRIX] = [self.program uniformID:@"projectionMatrix"];
     uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"modelViewMatrix"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
+    
+    glGenTextures(1, &texureBuffer);
 }
 
 #pragma mark - data
@@ -201,7 +207,8 @@
     // Load the model-view matrix
     glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
-    GLuint texture = [self setupTexture:@"for_test01"];
+//    GLuint texture = [self setupTexture:@"for_test01"];
+    [GLLoadTool setupTexture:@"for_test01" buffer:texureBuffer texure:GL_TEXTURE0];
     
 //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
     glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
@@ -232,48 +239,6 @@
     }
     
     [self presentRenderbuffer];
-}
-
-#pragma mark - texture
-- (GLuint)setupTexture:(NSString *)fileName {
-    // 1获取图片的CGImageRef
-    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
-    if (!spriteImage) {
-        NSLog(@"Failed to load image %@", fileName);
-        exit(1);
-    }
-    
-    // 2 读取图片的大小
-    size_t width = CGImageGetWidth(spriteImage);
-    size_t height = CGImageGetHeight(spriteImage);
-    
-    GLubyte * spriteData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte)); //rgba共4个byte
-    
-    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4,
-                                                       CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
-    
-    // 3在CGContextRef上绘图
-    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
-    
-    CGContextRelease(spriteContext);
-    
-    glActiveTexture(GL_TEXTURE0);
-    
-    GLuint buffer1;
-    glGenTextures(1, &buffer1);
-    glBindTexture(GL_TEXTURE_2D, buffer1);
-    
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    
-    float fw = width, fh = height;
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-    
-    free(spriteData);
-    
-    return buffer1;
 }
 
 #pragma mark - touch

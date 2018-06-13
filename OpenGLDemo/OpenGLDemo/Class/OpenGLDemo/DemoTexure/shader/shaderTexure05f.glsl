@@ -13,6 +13,8 @@ void main(void) {
         gl_FragColor = texture2D(colorMap1, vTexureCoor);
     }
     
+//    gl_FragColor = texture2D(colorMap1, vTexureCoor) + texture2D(colorMap0, vTexureCoor);
+    
 //
 //    vec4 color1 = texture2D(colorMap0, vTexureCoor);
 //    vec4 color2 = texture2D(colorMap1, vTexureCoor);

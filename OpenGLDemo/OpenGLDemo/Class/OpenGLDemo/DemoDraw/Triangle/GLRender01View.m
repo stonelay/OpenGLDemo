@@ -44,6 +44,8 @@ static GLfloat attrArr[] = {
     
     self.program.vShaderFile = @"shaderDrawv";
     self.program.fShaderFile = @"shaderDrawf";
+    
+    // attribute
     [self.program addAttribute:@"position"];
     [self.program compileAndLink];
     attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
@@ -53,14 +55,17 @@ static GLfloat attrArr[] = {
 #pragma mark - data
 - (void)setupData {
     
-//    GLuint attrBuffer;
-//    glGenBuffers(1, &attrBuffer);
-//    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
+    /* 使用 VBO, 顶点数据在服务端 传偏移量 提高效率
+    GLuint attrBuffer;
+    glGenBuffers(1, &attrBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
     
 //    GLuint position0 = glGetAttribLocation(self.programId, "position");
-//    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, NULL);
-
+    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, NULL);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
+*/
+    // 不使用 VBO, 定点数据在 客户端
     glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, 0, attrArr);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
 }
@@ -68,17 +73,17 @@ static GLfloat attrArr[] = {
 #pragma mark - render
 
 - (void)render {
-    
     glClearColor(0, 0.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    [self setupFramebuffer];
+    
+//    [self setupFramebuffer];
     [self setupData];       // data
     
     [self.program useProgrm];
     
     glDrawArrays(GL_TRIANGLES, 0, 3);
     [self presentRenderbuffer];
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+//    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 

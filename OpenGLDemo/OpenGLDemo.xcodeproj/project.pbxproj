@@ -42,6 +42,8 @@
 		487CBC462051470E009ECE7C /* GLRender12View.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC452051470E009ECE7C /* GLRender12View.m */; };
 		489A845820B6ABE2005BF4A8 /* OpenGLDemo16Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A845720B6ABE2005BF4A8 /* OpenGLDemo16Controller.m */; };
 		489A845B20B6AC08005BF4A8 /* GLRender16View.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A845A20B6AC08005BF4A8 /* GLRender16View.m */; };
+		489A846920B813F9005BF4A8 /* AVPlayerDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A846820B813F9005BF4A8 /* AVPlayerDemoController.m */; };
+		489A846B20B81B15005BF4A8 /* move.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 489A846A20B81B14005BF4A8 /* move.mp4 */; };
 		48CB619920104DD600B665CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB619820104DD600B665CC /* AppDelegate.m */; };
 		48CB619F20104DD600B665CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48CB619D20104DD600B665CC /* Main.storyboard */; };
 		48CB61A120104DD600B665CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48CB61A020104DD600B665CC /* Assets.xcassets */; };
@@ -172,6 +174,9 @@
 		489A845720B6ABE2005BF4A8 /* OpenGLDemo16Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo16Controller.m; sourceTree = "<group>"; };
 		489A845920B6AC08005BF4A8 /* GLRender16View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender16View.h; sourceTree = "<group>"; };
 		489A845A20B6AC08005BF4A8 /* GLRender16View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender16View.m; sourceTree = "<group>"; };
+		489A846720B813F9005BF4A8 /* AVPlayerDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVPlayerDemoController.h; sourceTree = "<group>"; };
+		489A846820B813F9005BF4A8 /* AVPlayerDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVPlayerDemoController.m; sourceTree = "<group>"; };
+		489A846A20B81B14005BF4A8 /* move.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = move.mp4; sourceTree = "<group>"; };
 		48CB619420104DD600B665CC /* OpenGLDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenGLDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48CB619720104DD600B665CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		48CB619820104DD600B665CC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -510,6 +515,16 @@
 			path = TextureUtil;
 			sourceTree = "<group>";
 		};
+		489A846620B813DA005BF4A8 /* AVPlayerDemo */ = {
+			isa = PBXGroup;
+			children = (
+				489A846A20B81B14005BF4A8 /* move.mp4 */,
+				489A846720B813F9005BF4A8 /* AVPlayerDemoController.h */,
+				489A846820B813F9005BF4A8 /* AVPlayerDemoController.m */,
+			);
+			path = AVPlayerDemo;
+			sourceTree = "<group>";
+		};
 		48CB618B20104DD600B665CC = {
 			isa = PBXGroup;
 			children = (
@@ -557,6 +572,7 @@
 		48CB61B020104FF700B665CC /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				489A846620B813DA005BF4A8 /* AVPlayerDemo */,
 				48E9093A204103A1002CBCAC /* LFLiveKitDemo */,
 				48E9093620400472002CBCAC /* VideoToolBoxDemo */,
 				48E90907203E9441002CBCAC /* FFmpegDemo */,
@@ -1108,6 +1124,7 @@
 				48CB624920171B2800B665CC /* shaderTexure07v.glsl in Resources */,
 				482F4C752057DA4B00889C7C /* shaderTexureLinev.glsl in Resources */,
 				48CB619F20104DD600B665CC /* Main.storyboard in Resources */,
+				489A846B20B81B15005BF4A8 /* move.mp4 in Resources */,
 				487CBC3E205120D0009ECE7C /* shaderTexure11v.glsl in Resources */,
 				48CB61FF2010710700B665CC /* shaderDrawv.glsl in Resources */,
 			);
@@ -1204,6 +1221,7 @@
 				48CB622D2015D4AE00B665CC /* OpenGLDemo05Controller.m in Sources */,
 				48CB62232015C63500B665CC /* GLRender04View.m in Sources */,
 				48CB61E02010516400B665CC /* NSMutableDictionary+Safe.m in Sources */,
+				489A846920B813F9005BF4A8 /* AVPlayerDemoController.m in Sources */,
 				480E6EAE202AFE4B00D39CC8 /* ZLShaderAttribute.m in Sources */,
 				48CB61B620104FF700B665CC /* main.m in Sources */,
 				48CB61E22010516400B665CC /* NSDictionary+Safe.m in Sources */,

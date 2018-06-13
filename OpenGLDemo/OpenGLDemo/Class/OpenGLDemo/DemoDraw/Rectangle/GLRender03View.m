@@ -9,8 +9,16 @@
 #import "GLRender03View.h"
 #import <OpenGLES/ES2/glext.h>
 
+
+static GLfloat attrArr[] = {
+    0.5f,  -0.5f, -1.0f,
+    0.5f,  0.5f,  -1.0f,
+    -0.5f, -0.5f, -1.0f,
+    -0.5f, 0.5f, -1.0f,
+};
+
 @interface GLRender03View() {
-    GLint attributes[ATTRIBUTE_VERTEX];
+    GLint attributes[NUM_ATTRIBUTES];
 }
 
 @end
@@ -35,11 +43,12 @@
 
 - (void)setupGLProgram {
     //加载shader
-    
     self.program = [[ZLGLProgram alloc] init];
     
     self.program.vShaderFile = @"shaderDrawv";
     self.program.fShaderFile = @"shaderDrawf";
+    
+    // attribute
     [self.program addAttribute:@"position"];
     [self.program compileAndLink];
     attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
@@ -48,13 +57,8 @@
 
 #pragma mark - data
 - (void)setupData {
-    GLfloat attrArr[] = {
-        0.5f,  -0.5f, -1.0f,
-        0.5f,  0.5f,  -1.0f,
-        -0.5f, -0.5f, -1.0f,
-        -0.5f, 0.5f, -1.0f,
-    };
     
+    /* 使用 VBO, 顶点数据在服务端 传偏移量 提高效率
     GLuint attrBuffer;
     glGenBuffers(1, &attrBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
@@ -62,6 +66,11 @@
     
 //    GLuint position0 = glGetAttribLocation(self.myProgram, "position");
     glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, NULL);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
+     */
+    
+    // 不使用 VBO, 定点数据在 客户端
+    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, 0, attrArr);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
 }
 

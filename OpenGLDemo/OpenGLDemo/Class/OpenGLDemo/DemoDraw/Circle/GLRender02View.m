@@ -13,9 +13,9 @@
 #define VERTEXCOUNT  50
 @interface GLRender02View() {
     GLint attributes[NUM_ATTRIBUTES];
+    
+    GLfloat attrArr[VERTEXCOUNT * 3];
 }
-
-
 
 @end
 
@@ -43,6 +43,8 @@
     
     self.program.vShaderFile = @"shaderDrawv";
     self.program.fShaderFile = @"shaderDrawf";
+    
+    // attribute
     [self.program addAttribute:@"position"];
     [self.program compileAndLink];
     attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
@@ -52,8 +54,6 @@
 #pragma mark - data
 - (void)setupData {
     int count = VERTEXCOUNT;
-
-    GLfloat attrArr[VERTEXCOUNT * 3];
     
     float a = 0.8; // 水平方向的半径
     float b = a * SCREENWIDTH / SCREENHEIGHT;
@@ -67,16 +67,21 @@
         attrArr[i * 3 + 1] = y;
         attrArr[i * 3 + 2] = z;
         
-        printf("%f , %f\n", x, y);
+//        printf("%f , %f\n", x, y);
     }
     
-    GLuint attrBuffer;
-    glGenBuffers(1, &attrBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
+    // 使用 VBO, 顶点数据在服务端 传偏移量 提高效率
+//    GLuint attrBuffer;
+//    glGenBuffers(1, &attrBuffer);
+//    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
+//
+////    GLuint position0 = glGetAttribLocation(self.myProgram, "position");
+//    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, NULL);
+//    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
     
-//    GLuint position0 = glGetAttribLocation(self.myProgram, "position");
-    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, NULL);
+    // 不使用 VBO, 定点数据在 客户端
+    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, 0, attrArr);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
 }
 
