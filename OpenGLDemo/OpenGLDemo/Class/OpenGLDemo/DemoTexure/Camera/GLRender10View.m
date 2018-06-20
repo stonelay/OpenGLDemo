@@ -26,7 +26,7 @@
     dispatch_semaphore_t semaphore;
 }
 
-@property (nonatomic, strong) ZLGLProgram *program;
+//@property (nonatomic, strong) ZLGLProgram *program;
 
 @property (nonatomic, strong) AVCaptureSession *session;
 

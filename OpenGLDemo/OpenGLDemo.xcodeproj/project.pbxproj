@@ -1385,8 +1385,9 @@
 			baseConfigurationReference = 5DDE22C0D5BE36736853B338 /* Pods-OpenGLDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VH7JGCM338;
+				DEVELOPMENT_TEAM = AK4N3GQYUV;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OpenGLDemo/Supporting Files/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1403,6 +1404,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = LayZhang.OpenGLDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1412,8 +1414,9 @@
 			baseConfigurationReference = D65D04C2F0362461D87889FF /* Pods-OpenGLDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VH7JGCM338;
+				DEVELOPMENT_TEAM = AK4N3GQYUV;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OpenGLDemo/Supporting Files/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1430,6 +1433,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = LayZhang.OpenGLDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
