@@ -133,14 +133,15 @@ static GLfloat corArr[] = {
     glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     
-    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, positionArr);
-    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
-    
-    glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, corArr);
-    glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
-    
-    
     // 不实用 VBO 使用 客户端的数据
+//    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, positionArr);
+//    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
+//
+//    glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, corArr);
+//    glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
+    
+    
+    
     //    glBindTexture(CVOpenGLESTextureGetTarget(_videoTexture), CVOpenGLESTextureGetName(_videoTexture));
     //    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     //    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
@@ -288,10 +289,6 @@ static GLfloat corArr[] = {
 
 - (void)captureOutput:(AVCaptureOutput *)output didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
     NSLog(@"dropped...");
-}
-
-- (void)dealloc {
-    CFRelease(_videoTextureCache);
 }
 
 
