@@ -15,4 +15,5 @@
 
 + (instancetype)shareContext;
 + (void)useContext;
+
 @end

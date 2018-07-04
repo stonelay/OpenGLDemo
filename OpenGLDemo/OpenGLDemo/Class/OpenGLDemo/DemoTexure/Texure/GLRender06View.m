@@ -7,7 +7,6 @@
 //
 
 #import "GLRender06View.h"
-#import "GLLoadTool.h"
 
 @interface GLRender06View(){
     GLint attributes[NUM_ATTRIBUTES];

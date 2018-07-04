@@ -9,7 +9,6 @@
 #import "GLRender12View.h"
 #import "GLESMath.h"
 
-#import "GLLoadTool.h"
 
 #import "ZLGLProgram.h"
 

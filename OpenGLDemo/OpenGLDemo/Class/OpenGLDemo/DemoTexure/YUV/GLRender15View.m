@@ -7,7 +7,6 @@
 //
 
 #import "GLRender15View.h"
-#import "GLLoadTool.h"
 
 @interface GLRender15View() {
     

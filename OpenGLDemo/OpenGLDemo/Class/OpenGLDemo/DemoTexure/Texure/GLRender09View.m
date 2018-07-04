@@ -11,8 +11,6 @@
 
 #import "ZLGLProgram.h"
 
-#import "GLLoadTool.h"
-
 static CGFloat mLength = 0.3f;
 static CGFloat nLength = 0.2f;
 

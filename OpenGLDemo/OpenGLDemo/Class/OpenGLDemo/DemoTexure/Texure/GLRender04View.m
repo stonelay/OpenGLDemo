@@ -7,7 +7,6 @@
 //
 
 #import "GLRender04View.h"
-#import "GLLoadTool.h"
 
 
 static GLfloat lineAttrArr[] = {

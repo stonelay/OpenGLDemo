@@ -7,7 +7,7 @@
 //
 
 #import "GLRender11View.h"
-#import "GLLoadTool.h"
+
 #import <GLKit/GLKit.h>
 
 #define PointSize 50

@@ -7,7 +7,7 @@
 //
 
 #import "GLRender05View.h"
-#import "GLLoadTool.h"
+
 
 static GLfloat attrArr[] = {
     0.5f, -0.5f, -1.0f,     1.0f, 0.0f, // 右下
