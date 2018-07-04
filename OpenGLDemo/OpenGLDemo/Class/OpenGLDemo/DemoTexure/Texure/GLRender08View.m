@@ -9,7 +9,41 @@
 #import "GLRender08View.h"
 #import "GLESMath.h"
 
-int a;
+static CGFloat mLength = 0.3f;
+static CGFloat nLength = 0.2f;
+
+static GLfloat vAttrArr[][3] = {
+    {-1,  -1, -1},
+    {-1,  -1,  1},
+    {-1,   1, -1},
+    {-1,   1,  1},
+    
+    { 1,  -1, -1},
+    { 1,  -1,  1},
+    { 1,   1, -1},
+    { 1,   1,  1},
+};
+
+static GLfloat tAttrArr[][2] = {
+    {0.0, 0.0},
+    {0.0, 1.0},
+    {1.0, 1.0},
+    {1.0, 0.0},
+};
+
+static GLuint mIndices[][4] = {
+    {0, 1, 3, 2},
+    {4, 6, 7, 5},
+    {2, 3, 7, 6},
+    {0, 4, 5, 1},
+    {0, 2, 6, 4},
+    {1, 5, 7, 3},
+};
+static GLuint tIndices[] = {
+    0,1,2,3
+};
+
+
 
 @interface GLRender08View() {
     GLuint VAO[2];
@@ -29,7 +63,7 @@ int a;
 - (instancetype)init {
     if (self = [super init]) {
         [self setupGLProgram];  // shader
-        
+        [self setupData];
         [self addComponent];
         
     }
@@ -89,47 +123,14 @@ int a;
 }
 
 #pragma mark - data
+
 - (void)setupData {
-    
-    CGFloat mLength = 0.3f;
-    CGFloat nLength = 0.2f;
-    
-    GLfloat vAttrArr[][3] = {
-        {-1,  -1, -1},
-        {-1,  -1,  1},
-        {-1,   1, -1},
-        {-1,   1,  1},
-        
-        { 1,  -1, -1},
-        { 1,  -1,  1},
-        { 1,   1, -1},
-        { 1,   1,  1},
-    };
-    
-    GLfloat tAttrArr[][2] = {
-        {0.0, 0.0},
-        {0.0, 1.0},
-        {1.0, 1.0},
-        {1.0, 0.0},
-    };
-    
-    GLuint mIndices[][4] = {
-        {0, 1, 3, 2},
-        {4, 6, 7, 5},
-        {2, 3, 7, 6},
-        {0, 4, 5, 1},
-        {0, 2, 6, 4},
-        {1, 5, 7, 3},
-    };
-    GLuint tIndices[] = {
-        0,1,2,3
-    };
     
     GLfloat bAttrArr[6][4][5];
     for (int i = 0; i < sizeof(mIndices)/sizeof(mIndices[0]); i++) {
         for (int j = 0; j < sizeof(mIndices[i])/sizeof(GLfloat); j++) {
             for (int k = 0; k < 3; k++) {
-                    bAttrArr[i][j][k] = vAttrArr[mIndices[i][j]][k] * mLength;
+                bAttrArr[i][j][k] = vAttrArr[mIndices[i][j]][k] * mLength;
             }
             for (int m = 0; m < sizeof(tAttrArr[i])/sizeof(GLfloat); m++) {
                 bAttrArr[i][j][3 + m] = tAttrArr[tIndices[j]][m];
@@ -153,7 +154,7 @@ int a;
         }
     }
     
-
+    
     glGenVertexArraysOES(2, VAO);
     for (int i = 0; i < 2; i ++) {
         glBindVertexArrayOES(VAO[i]);
@@ -166,7 +167,7 @@ int a;
         } else {
             glBufferData(GL_ARRAY_BUFFER, sizeof(cAttrArr), cAttrArr, GL_STATIC_DRAW);
         }
-
+        
         GLuint position0 = glGetAttribLocation(self.myProgram, "position");
         glVertexAttribPointer(position0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
         glEnableVertexAttribArray(position0);
@@ -175,6 +176,11 @@ int a;
         glVertexAttribPointer(texureCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
         glEnableVertexAttribArray(texureCoor);
     }
+    
+    GLuint texture = [self setupTexture:@"for_test01"];
+}
+
+- (void)updateData {
     
     GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
     GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
@@ -217,11 +223,12 @@ int a;
     // Load the model-view matrix
     glUniformMatrix4fv(modelViewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
-    GLuint texture = [self setupTexture:@"for_test01"];
+    
     
     GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
     glUniform1i(buffer0, 0);
 }
+
 
 #pragma mark - render
 
@@ -238,7 +245,7 @@ int a;
     glUseProgram(self.myProgram);
     glViewport(self.frame.origin.x * scale, self.frame.origin.y * scale, self.frame.size.width * scale, self.frame.size.height * scale); //设置视口大小
     
-    [self setupData];       // data
+    [self updateData];       // data
     
     GLuint mIndices[6][4] = {
         {0,  1, 2, 3},

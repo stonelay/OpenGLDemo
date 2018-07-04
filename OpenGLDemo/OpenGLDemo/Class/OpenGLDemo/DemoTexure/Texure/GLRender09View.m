@@ -13,6 +13,40 @@
 
 #import "GLLoadTool.h"
 
+static CGFloat mLength = 0.3f;
+static CGFloat nLength = 0.2f;
+
+static GLfloat vAttrArr[][3] = {
+    {-1,  -1, -1},
+    {-1,  -1,  1},
+    {-1,   1, -1},
+    {-1,   1,  1},
+    
+    { 1,  -1, -1},
+    { 1,  -1,  1},
+    { 1,   1, -1},
+    { 1,   1,  1},
+};
+
+static GLfloat tAttrArr[][2] = {
+    {0.0, 0.0},
+    {0.0, 1.0},
+    {1.0, 1.0},
+    {1.0, 0.0},
+};
+
+static GLuint mIndices[][4] = {
+    {0, 1, 3, 2},
+    {4, 6, 7, 5},
+    {2, 3, 7, 6},
+    {0, 4, 5, 1},
+    {0, 2, 6, 4},
+    {1, 5, 7, 3},
+};
+static GLuint tIndices[] = {
+    0,1,2,3
+};
+
 
 
 @interface GLRender09View() {
@@ -40,6 +74,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         [self setupGLProgram];  // shader
+        [self setupData];
     }
     return self;
 }
@@ -77,41 +112,7 @@
 
 #pragma mark - data
 - (void)setupData {
-    
-    CGFloat mLength = 0.3f;
-    CGFloat nLength = 0.2f;
-    
-    GLfloat vAttrArr[][3] = {
-        {-1,  -1, -1},
-        {-1,  -1,  1},
-        {-1,   1, -1},
-        {-1,   1,  1},
-        
-        { 1,  -1, -1},
-        { 1,  -1,  1},
-        { 1,   1, -1},
-        { 1,   1,  1},
-    };
-    
-    GLfloat tAttrArr[][2] = {
-        {0.0, 0.0},
-        {0.0, 1.0},
-        {1.0, 1.0},
-        {1.0, 0.0},
-    };
-    
-    GLuint mIndices[][4] = {
-        {0, 1, 3, 2},
-        {4, 6, 7, 5},
-        {2, 3, 7, 6},
-        {0, 4, 5, 1},
-        {0, 2, 6, 4},
-        {1, 5, 7, 3},
-    };
-    GLuint tIndices[] = {
-        0,1,2,3
-    };
-    
+
     GLfloat bAttrArr[6][4][5];
     for (int i = 0; i < sizeof(mIndices)/sizeof(mIndices[0]); i++) {
         for (int j = 0; j < sizeof(mIndices[i])/sizeof(GLfloat); j++) {
@@ -140,7 +141,6 @@
         }
     }
     
-    
     glGenVertexArraysOES(2, VAO);
     for (int i = 0; i < 2; i ++) {
         glBindVertexArrayOES(VAO[i]);
@@ -166,9 +166,13 @@
         glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     }
     
+    [GLLoadTool setupTexture:@"for_test01" buffer:texureBuffer texure:GL_TEXTURE0];
+    
 //    GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
 //    GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
-    
+}
+
+- (void)updateData {
     float width = self.frame.size.width;
     float height = self.frame.size.height;
     
@@ -207,10 +211,10 @@
     // Load the model-view matrix
     glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
-//    GLuint texture = [self setupTexture:@"for_test01"];
-    [GLLoadTool setupTexture:@"for_test01" buffer:texureBuffer texure:GL_TEXTURE0];
+    //    GLuint texture = [self setupTexture:@"for_test01"];
     
-//    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
+    
+    //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
     glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
 }
 
@@ -221,7 +225,7 @@
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     [self.program useProgrm];
-    [self setupData];       // data
+    [self updateData];       // data
     
     GLuint mIndices[6][4] = {
         {0,  1, 2, 3},
@@ -272,8 +276,8 @@
     //        [self.view convertPoint:currentPostion fromView:self.view];
     xRotate = begin.x - current.x;
     yRotate = begin.y - current.y;
-    NSLog(@"%f", xRotate);
-    NSLog(@"%f", yRotate);
+//    NSLog(@"%f", xRotate);
+//    NSLog(@"%f", yRotate);
     [self render];
     //    }
 }

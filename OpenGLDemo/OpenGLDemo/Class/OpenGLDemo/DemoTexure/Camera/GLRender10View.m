@@ -66,7 +66,7 @@ static GLfloat corArr[] = {
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setupGLProgram];  // shader
-        //        [self setupData];       // data
+        [self setupData];       // data
         [self setupCache];
         [self captureDemo];
         semaphore = dispatch_semaphore_create(1);
@@ -159,7 +159,7 @@ static GLfloat corArr[] = {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     [self.program useProgrm];
-    [self setupData];
+//    [self setupData];
     glDrawArrays(GL_TRIANGLES, 0, 6);
     [self presentRenderbuffer];
 }
