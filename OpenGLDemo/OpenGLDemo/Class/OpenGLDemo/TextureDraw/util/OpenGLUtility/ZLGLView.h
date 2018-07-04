@@ -42,6 +42,9 @@ enum {
 @property (nonatomic, strong) ZLGLProgram *program;
 @property (nonatomic, strong) EAGLContext *context;
 
+- (void)updateData;
+- (void)draw;
+
 - (void)setupFramebuffer;
 - (BOOL)presentRenderbuffer;
 

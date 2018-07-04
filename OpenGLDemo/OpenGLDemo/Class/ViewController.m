@@ -46,7 +46,8 @@
         for (Class subclass in classes) {
             NSString *className = NSStringFromClass(subclass);
             if (![className isEqualToString:@"ViewController"]) {
-                NSString *title = [className stringByReplacingOccurrencesOfString:@"Controller" withString:@""];
+                ZLViewController *con = [subclass alloc];
+                NSString *title = con.controllerTitle ? con.controllerTitle : [className stringByReplacingOccurrencesOfString:@"Controller" withString:@""];
                 [tempDic addObject:@{@"controllerName": className,
                                      @"title": title}];
             }
@@ -93,7 +94,6 @@
     [self.navigationController pushViewController:[[NSClassFromString(controllerName) alloc] init]
                                          animated:YES];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

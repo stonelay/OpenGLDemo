@@ -21,8 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view = [[GLRender01View alloc] init];
-    [self createNavBarWithTitle:@"Demo01" withLeft:[UIImage imageNamed:@"icon_back"]];
-    
+    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+}
+
+- (NSString *)controllerTitle {
+    return @"简单三角形";
 }
 
 

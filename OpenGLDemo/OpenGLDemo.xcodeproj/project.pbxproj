@@ -16,8 +16,6 @@
 		480E6EB1202D377900D39CC8 /* ZLGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EB0202D377900D39CC8 /* ZLGLView.m */; };
 		480E6EBB203196A900D39CC8 /* GLRender10View.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EBA203196A900D39CC8 /* GLRender10View.m */; };
 		480E6EBE203196C800D39CC8 /* OpenGLDemo10Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EBD203196C800D39CC8 /* OpenGLDemo10Controller.m */; };
-		480E6EC120328FBD00D39CC8 /* ZLFramebuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EC020328FBD00D39CC8 /* ZLFramebuffer.m */; };
-		480E6EC42032900300D39CC8 /* ZLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EC32032900300D39CC8 /* ZLContext.m */; };
 		480E6ECE2032C33F00D39CC8 /* MAsync.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6ECD2032C33F00D39CC8 /* MAsync.m */; };
 		482F4C6E2057CADC00889C7C /* GLRender13View.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C6D2057CADB00889C7C /* GLRender13View.m */; };
 		482F4C712057CAF200889C7C /* OpenGLDemo13Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C702057CAF200889C7C /* OpenGLDemo13Controller.m */; };
@@ -129,10 +127,6 @@
 		480E6EBA203196A900D39CC8 /* GLRender10View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender10View.m; sourceTree = "<group>"; };
 		480E6EBC203196C800D39CC8 /* OpenGLDemo10Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo10Controller.h; sourceTree = "<group>"; };
 		480E6EBD203196C800D39CC8 /* OpenGLDemo10Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo10Controller.m; sourceTree = "<group>"; };
-		480E6EBF20328FBD00D39CC8 /* ZLFramebuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLFramebuffer.h; sourceTree = "<group>"; };
-		480E6EC020328FBD00D39CC8 /* ZLFramebuffer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLFramebuffer.m; sourceTree = "<group>"; };
-		480E6EC22032900300D39CC8 /* ZLContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLContext.h; sourceTree = "<group>"; };
-		480E6EC32032900300D39CC8 /* ZLContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLContext.m; sourceTree = "<group>"; };
 		480E6ECC2032C33F00D39CC8 /* MAsync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAsync.h; sourceTree = "<group>"; };
 		480E6ECD2032C33F00D39CC8 /* MAsync.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MAsync.m; sourceTree = "<group>"; };
 		482F4C6C2057CADB00889C7C /* GLRender13View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender13View.h; sourceTree = "<group>"; };
@@ -449,10 +443,6 @@
 				480E6EAD202AFE4B00D39CC8 /* ZLShaderAttribute.m */,
 				480E6EAF202D377900D39CC8 /* ZLGLView.h */,
 				480E6EB0202D377900D39CC8 /* ZLGLView.m */,
-				480E6EBF20328FBD00D39CC8 /* ZLFramebuffer.h */,
-				480E6EC020328FBD00D39CC8 /* ZLFramebuffer.m */,
-				480E6EC22032900300D39CC8 /* ZLContext.h */,
-				480E6EC32032900300D39CC8 /* ZLContext.m */,
 			);
 			path = OpenGLUtility;
 			sourceTree = "<group>";
@@ -639,15 +629,15 @@
 		48CB61EF201052BB00B665CC /* OpenGLDemo */ = {
 			isa = PBXGroup;
 			children = (
-				48CB62182015C56A00B665CC /* DemoTexure */,
-				48CB62072015B53100B665CC /* DemoDraw */,
+				48CB62182015C56A00B665CC /* TextureDraw */,
+				48CB62072015B53100B665CC /* SampleDraw */,
 				48CB61F920106D6300B665CC /* RenderView.h */,
 				48CB61FA20106D6300B665CC /* RenderView.m */,
 			);
 			path = OpenGLDemo;
 			sourceTree = "<group>";
 		};
-		48CB62072015B53100B665CC /* DemoDraw */ = {
+		48CB62072015B53100B665CC /* SampleDraw */ = {
 			isa = PBXGroup;
 			children = (
 				48CB62082015B6B700B665CC /* shader */,
@@ -655,7 +645,7 @@
 				48CB620D2015BB3200B665CC /* Circle */,
 				48CB620C2015BAF900B665CC /* Triangle */,
 			);
-			path = DemoDraw;
+			path = SampleDraw;
 			sourceTree = "<group>";
 		};
 		48CB62082015B6B700B665CC /* shader */ = {
@@ -700,17 +690,17 @@
 			path = Rectangle;
 			sourceTree = "<group>";
 		};
-		48CB62182015C56A00B665CC /* DemoTexure */ = {
+		48CB62182015C56A00B665CC /* TextureDraw */ = {
 			isa = PBXGroup;
 			children = (
 				48CB62422017130F00B665CC /* util */,
 				48CB62192015C58000B665CC /* shader */,
-				48CB621A2015C5ED00B665CC /* Texure */,
+				48CB621A2015C5ED00B665CC /* SampleTexture */,
 				480E6EB82031967A00D39CC8 /* Camera */,
 				487CBC3020511791009ECE7C /* Draw */,
 				4858C78D20B3F31400C3193A /* YUV */,
 			);
-			path = DemoTexure;
+			path = TextureDraw;
 			sourceTree = "<group>";
 		};
 		48CB62192015C58000B665CC /* shader */ = {
@@ -738,7 +728,7 @@
 			path = shader;
 			sourceTree = "<group>";
 		};
-		48CB621A2015C5ED00B665CC /* Texure */ = {
+		48CB621A2015C5ED00B665CC /* SampleTexture */ = {
 			isa = PBXGroup;
 			children = (
 				48CB62212015C63500B665CC /* GLRender04View.h */,
@@ -778,7 +768,7 @@
 				482F4C79205A83DD00889C7C /* OpenGLDemo14Controller.h */,
 				482F4C7A205A83DD00889C7C /* OpenGLDemo14Controller.m */,
 			);
-			path = Texure;
+			path = SampleTexture;
 			sourceTree = "<group>";
 		};
 		48CB62422017130F00B665CC /* util */ = {
@@ -1209,7 +1199,6 @@
 				48E9090A203E94A4002CBCAC /* FFmDemo01Controller.m in Sources */,
 				489A845820B6ABE2005BF4A8 /* OpenGLDemo16Controller.m in Sources */,
 				4858C79320B3F38100C3193A /* OpenGLDemo15Controller.m in Sources */,
-				480E6EC42032900300D39CC8 /* ZLContext.m in Sources */,
 				48CB62412016DD4E00B665CC /* OpenGLDemo07Controller.m in Sources */,
 				48CB62342016D7C400B665CC /* OpenGLDemo06Controller.m in Sources */,
 				48CB62102015BB6100B665CC /* OpenGLDemo02Controller.m in Sources */,
@@ -1224,7 +1213,6 @@
 				480E6EAB202AFD9B00D39CC8 /* ZLShaderUniform.m in Sources */,
 				48CB61FB20106D6300B665CC /* RenderView.m in Sources */,
 				48CB624F2017369B00B665CC /* GLRender08View.m in Sources */,
-				480E6EC120328FBD00D39CC8 /* ZLFramebuffer.m in Sources */,
 				48CB62172015BF7700B665CC /* GLRender03View.m in Sources */,
 				48CB61E12010516400B665CC /* NSMutableSet+Safe.m in Sources */,
 				48CB62372016D7DF00B665CC /* GLRender06View.m in Sources */,

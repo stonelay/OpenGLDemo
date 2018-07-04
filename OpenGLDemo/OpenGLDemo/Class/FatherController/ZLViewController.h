@@ -10,6 +10,7 @@
 
 @interface ZLViewController : UIViewController
 
+@property (nonatomic, strong) NSString *controllerTitle;
 @property (nonatomic, weak) UIView *navBarContainer;
 
 - (void)leftBtnDidTouch;

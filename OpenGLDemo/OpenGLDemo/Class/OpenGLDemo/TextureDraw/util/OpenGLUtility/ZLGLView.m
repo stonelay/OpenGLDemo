@@ -8,8 +8,6 @@
 
 #import "ZLGLView.h"
 
-
-
 @interface ZLGLView()
 
 @property (nonatomic, assign) GLuint defaultFramebuffer;
@@ -153,10 +151,26 @@
 }
 
 #pragma mark - system
+
 - (void)layoutSubviews {
+    [super layoutSubviews];
     [self deleteFramebuffer];
-//    [self setupFramebuffer];
+    [self setupFramebuffer];
+    [self render];
 }
+
+- (void)render {
+    glClearColor(0, 1.0, 0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    [self.program useProgrm];
+    [self updateData];
+    [self draw];
+    [self presentRenderbuffer];
+}
+
+- (void)updateData {}
+- (void)draw {}
 
 - (void)dealloc {
     ZLFuncLineLog(@"dealloc .....");

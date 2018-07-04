@@ -1,39 +1,40 @@
 //
-//  GLRender01View.m
+//  GLRender03View.m
 //  OpenGLDemo
 //
-//  Created by LayZhang on 2018/1/18.
+//  Created by LayZhang on 2018/1/22.
 //  Copyright © 2018年 Zhanglei. All rights reserved.
 //
 
-#import "GLRender01View.h"
-#import "ZLGLProgram.h"
+#import "GLRender03View.h"
+#import <OpenGLES/ES2/glext.h>
+
 
 static GLfloat attrArr[] = {
     0.5f,  -0.5f, -1.0f,
-    0.0f, 0.5f,  -1.0f,
-    -0.5f, -0.5f, -1.0f
+    0.5f,  0.5f,  -1.0f,
+    -0.5f, -0.5f, -1.0f,
+    -0.5f, 0.5f, -1.0f,
 };
 
-@interface GLRender01View() {
+@interface GLRender03View() {
     GLint attributes[NUM_ATTRIBUTES];
 }
 
 @end
 
-@implementation GLRender01View
+@implementation GLRender03View
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setupGLProgram];  // shader
+        [self setupData]; // data
     }
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self setupFramebuffer];
-    [self render];
 }
 
 #pragma mark - context
@@ -61,10 +62,11 @@ static GLfloat attrArr[] = {
     glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
     
-//    GLuint position0 = glGetAttribLocation(self.programId, "position");
+//    GLuint position0 = glGetAttribLocation(self.myProgram, "position");
     glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, NULL);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
-*/
+     */
+    
     // 不使用 VBO, 定点数据在 客户端
     glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, 0, attrArr);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
@@ -72,18 +74,9 @@ static GLfloat attrArr[] = {
 
 #pragma mark - render
 
-- (void)render {
-    glClearColor(0, 0.0, 1.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-//    [self setupFramebuffer];
-    [self setupData];       // data
-    
-    [self.program useProgrm];
-    
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    [self presentRenderbuffer];
-//    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+- (void)updateData {}
+- (void)draw {
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 

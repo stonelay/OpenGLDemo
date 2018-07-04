@@ -11,6 +11,7 @@
 
 /**
  单张 纹理
+ 和 直线
  */
 @interface OpenGLDemo04Controller ()
 
@@ -21,7 +22,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view = [[GLRender04View alloc] init];
-    [self createNavBarWithTitle:@"Demo04" withLeft:[UIImage imageNamed:@"icon_back"]];
+    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+}
+
+- (NSString *)controllerTitle {
+    return @"贴图和线条";
 }
 
 @end

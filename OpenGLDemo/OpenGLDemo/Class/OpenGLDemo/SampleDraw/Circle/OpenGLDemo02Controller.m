@@ -10,9 +10,8 @@
 #import "GLRender02View.h"
 
 /*
- 画圆
+ * 画圆
  */
-
 @interface OpenGLDemo02Controller ()
 
 @end
@@ -22,7 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view = [[GLRender02View alloc] init];
-    [self createNavBarWithTitle:@"Demo02" withLeft:[UIImage imageNamed:@"icon_back"]];
+    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+}
+
+- (NSString *)controllerTitle {
+    return @"画圆";
 }
 
 @end
