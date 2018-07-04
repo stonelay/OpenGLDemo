@@ -41,8 +41,8 @@
     
     self.program = [[ZLGLProgram alloc] init];
     
-    self.program.vShaderFile = @"shaderTexure15v";
-    self.program.fShaderFile = @"shaderTexure15f";
+    self.program.vShaderFile = @"shaderTexture15v";
+    self.program.fShaderFile = @"shaderTexture15f";
     [self.program addAttribute:@"position"];
     [self.program addAttribute:@"TexCoordIn"];
     [self.program addUniform:@"SamplerY"];
@@ -106,7 +106,7 @@
     glEnableVertexAttribArray(attributes[ATTRIBUTE_POSITION]);
     //    glVertexPointer(3, GL_FLOAT, 0,(void *)NULL);
     
-    //    GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
+    //    GLuint textureCoor = glGetAttribLocation(self.myProgram, "textureCoor");
     glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 2, GL_FLOAT, 0, 0, coordVertices);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
     

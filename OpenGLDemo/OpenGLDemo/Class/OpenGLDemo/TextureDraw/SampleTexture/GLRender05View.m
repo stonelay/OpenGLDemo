@@ -33,14 +33,13 @@ static GLfloat attrArr[] = {
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setupGLProgram];  // shader
+        [self setupData]; // data
     }
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self setupFramebuffer];
-    [self render];
 }
 
 #pragma mark - context
@@ -49,19 +48,19 @@ static GLfloat attrArr[] = {
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
     
-    self.program.vShaderFile = @"shaderTexure05v";
-    self.program.fShaderFile = @"shaderTexure05f";
+    self.program.vShaderFile = @"shaderTexture05v";
+    self.program.fShaderFile = @"shaderTexture05f";
     
     // attribute
     [self.program addAttribute:@"position"];
-    [self.program addAttribute:@"texureCoor"];
+    [self.program addAttribute:@"textureCoor"];
     
     // uniform
     [self.program addUniform:@"colorMap0"];
     [self.program addUniform:@"colorMap1"];
     [self.program compileAndLink];
     attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
-    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"texureCoor"];
+    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"textureCoor"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
     uniforms[UNIFORM_COLOR_MAP_1] = [self.program uniformID:@"colorMap1"];
     [self.program useProgrm];
@@ -82,7 +81,7 @@ static GLfloat attrArr[] = {
     glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
 
-//    GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
+//    GLuint textureCoor = glGetAttribLocation(self.myProgram, "textureCoor");
     glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     

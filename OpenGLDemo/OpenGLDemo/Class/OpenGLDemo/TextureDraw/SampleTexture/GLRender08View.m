@@ -119,7 +119,7 @@ static GLuint tIndices[] = {
 
 - (void)setupGLProgram {
     //加载shader
-    self.myProgram = [self setupProgaramVFile:@"shaderTexure08v" fFile:@"shaderTexure08f"];
+    self.myProgram = [self setupProgaramVFile:@"shaderTexture08v" fFile:@"shaderTexture08f"];
 }
 
 #pragma mark - data
@@ -172,9 +172,9 @@ static GLuint tIndices[] = {
         glVertexAttribPointer(position0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
         glEnableVertexAttribArray(position0);
         
-        GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
-        glVertexAttribPointer(texureCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
-        glEnableVertexAttribArray(texureCoor);
+        GLuint textureCoor = glGetAttribLocation(self.myProgram, "textureCoor");
+        glVertexAttribPointer(textureCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
+        glEnableVertexAttribArray(textureCoor);
     }
     
     GLuint texture = [self setupTexture:@"for_test01"];

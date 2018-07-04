@@ -88,11 +88,11 @@ static GLuint tIndices[] = {
 - (void)setupGLProgram {
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
-    self.program.vShaderFile = @"shaderTexure08v";
-    self.program.fShaderFile = @"shaderTexure08f";
+    self.program.vShaderFile = @"shaderTexture08v";
+    self.program.fShaderFile = @"shaderTexture08f";
     
     [self.program addAttribute:@"position"];
-    [self.program addAttribute:@"texureCoor"];
+    [self.program addAttribute:@"textureCoor"];
     [self.program addUniform:@"projectionMatrix"];
     [self.program addUniform:@"modelViewMatrix"];
     [self.program addUniform:@"colorMap0"];
@@ -100,7 +100,7 @@ static GLuint tIndices[] = {
     [self.program compileAndLink];
     
     attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
-    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"texureCoor"];
+    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"textureCoor"];
     uniforms[UNIFORM_PROJECTION_MATRIX] = [self.program uniformID:@"projectionMatrix"];
     uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"modelViewMatrix"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
@@ -159,7 +159,7 @@ static GLuint tIndices[] = {
         glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
         glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
         
-//        GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
+//        GLuint textureCoor = glGetAttribLocation(self.myProgram, "textureCoor");
         glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
         glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     }

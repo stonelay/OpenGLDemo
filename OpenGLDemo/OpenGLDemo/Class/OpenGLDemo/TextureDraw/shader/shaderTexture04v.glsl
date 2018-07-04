@@ -1,12 +1,13 @@
 
 
 attribute vec4 position;
-attribute vec2 texureCoor;
+attribute vec2 textureCoor;
 
-varying vec2 vTexureCoor;
+varying vec2 vTextureCoor;
 
 void main(void) {
     //    fragmentColor = inputColor;
-    vTexureCoor = texureCoor;
+    vTextureCoor = textureCoor;
     gl_Position = position;
+    gl_PointSize = 100.0;
 }

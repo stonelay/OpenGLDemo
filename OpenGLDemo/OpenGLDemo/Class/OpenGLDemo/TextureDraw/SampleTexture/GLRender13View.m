@@ -82,11 +82,11 @@
 - (void)initEarthProgram {
     //加载shader
     self.earthProgram = [[ZLGLProgram alloc] init];
-    self.earthProgram.vShaderFile = @"shaderTexure12v";
-    self.earthProgram.fShaderFile = @"shaderTexure12f";
+    self.earthProgram.vShaderFile = @"shaderTexture12v";
+    self.earthProgram.fShaderFile = @"shaderTexture12f";
     
     [self.earthProgram addAttribute:@"position"];
-    [self.earthProgram addAttribute:@"texureCoor"];
+    [self.earthProgram addAttribute:@"textureCoor"];
     [self.earthProgram addUniform:@"projectionMatrix"];
     [self.earthProgram addUniform:@"modelViewMatrix"];
     [self.earthProgram addUniform:@"colorMap0"];
@@ -94,7 +94,7 @@
     [self.earthProgram compileAndLink];
     
     e_attributes[ATTRIBUTE_VERTEX] = [self.earthProgram attributeID:@"position"];
-    e_attributes[ATTRIBUTE_TEXTURE_COORD] = [self.earthProgram attributeID:@"texureCoor"];
+    e_attributes[ATTRIBUTE_TEXTURE_COORD] = [self.earthProgram attributeID:@"textureCoor"];
     e_uniforms[UNIFORM_PROJECTION_MATRIX] = [self.earthProgram uniformID:@"projectionMatrix"];
     e_uniforms[UNIFORM_MODEL_MATRIX] = [self.earthProgram uniformID:@"modelViewMatrix"];
     e_uniforms[UNIFORM_COLOR_MAP_0] = [self.earthProgram uniformID:@"colorMap0"];
@@ -105,11 +105,11 @@
 - (void)initPicProgram {
     //加载shader
     self.picPorgram = [[ZLGLProgram alloc] init];
-    self.picPorgram.vShaderFile = @"shaderTexureLinev";
-    self.picPorgram.fShaderFile = @"shaderTexureLinef";
+    self.picPorgram.vShaderFile = @"shaderTextureLinev";
+    self.picPorgram.fShaderFile = @"shaderTextureLinef";
     
     [self.picPorgram addAttribute:@"position"];
-//    [self.picPorgram addAttribute:@"texureCoor"];
+//    [self.picPorgram addAttribute:@"textureCoor"];
     [self.picPorgram addUniform:@"projectionMatrix"];
     [self.picPorgram addUniform:@"modelViewMatrix"];
     [self.picPorgram addUniform:@"colorMap0"];
@@ -117,7 +117,7 @@
     [self.picPorgram compileAndLink];
     
     p_attributes[ATTRIBUTE_VERTEX] = [self.picPorgram attributeID:@"position"];
-//    p_attributes[ATTRIBUTE_TEXTURE_COORD] = [self.picPorgram attributeID:@"texureCoor"];
+//    p_attributes[ATTRIBUTE_TEXTURE_COORD] = [self.picPorgram attributeID:@"textureCoor"];
     p_uniforms[UNIFORM_PROJECTION_MATRIX] = [self.picPorgram uniformID:@"projectionMatrix"];
     p_uniforms[UNIFORM_MODEL_MATRIX] = [self.picPorgram uniformID:@"modelViewMatrix"];
     p_uniforms[UNIFORM_COLOR_MAP_0] = [self.picPorgram uniformID:@"colorMap0"];
@@ -346,7 +346,7 @@
     // Load the model-view matrix
     glUniformMatrix4fv(e_uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
-//    [GLLoadTool setupTexture:@"pic_earth" buffer:earthBuffer texure:GL_TEXTURE0];
+//    [GLLoadTool setupTexture:@"pic_earth" buffer:earthBuffer texture:GL_TEXTURE0];
     
     [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"pic_earth"];
     //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");

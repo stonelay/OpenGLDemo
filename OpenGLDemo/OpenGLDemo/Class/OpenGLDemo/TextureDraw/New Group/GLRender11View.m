@@ -64,8 +64,8 @@
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
     
-    self.program.vShaderFile = @"shaderTexure11v";
-    self.program.fShaderFile = @"shaderTexure11f";
+    self.program.vShaderFile = @"shaderTexture11v";
+    self.program.fShaderFile = @"shaderTexture11f";
     [self.program addAttribute:@"position"];
     [self.program addUniform:@"colorMap0"];
     [self.program addUniform:@"model"];
@@ -100,12 +100,12 @@
 //    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
 //    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
 //
-//    //    GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
+//    //    GLuint textureCoor = glGetAttribLocation(self.myProgram, "textureCoor");
 //    glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
 //    glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
 //
-//    GLuint txure01 = [self setupTexture:@"for_test01" texure:GL_TEXTURE0];
-//    GLuint txure02 = [self setupTexture:@"for_test02" texure:GL_TEXTURE1];
+//    GLuint txure01 = [self setupTexture:@"for_test01" texture:GL_TEXTURE0];
+//    GLuint txure02 = [self setupTexture:@"for_test02" texture:GL_TEXTURE1];
 //
 //    //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
 //    glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);

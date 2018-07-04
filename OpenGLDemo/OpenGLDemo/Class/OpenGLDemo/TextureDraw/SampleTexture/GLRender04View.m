@@ -54,17 +54,17 @@ static GLfloat picAttrArr[] = {
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
     
-    self.program.vShaderFile = @"shaderTexure04v";
-    self.program.fShaderFile = @"shaderTexure04f";
+    self.program.vShaderFile = @"shaderTexture04v";
+    self.program.fShaderFile = @"shaderTexture04f";
     
     // attribute
     [self.program addAttribute:@"position"];
-    [self.program addAttribute:@"texureCoor"];
+    [self.program addAttribute:@"textureCoor"];
     // uniform
     [self.program addUniform:@"colorMap0"];
     [self.program compileAndLink];
     attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
-    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"texureCoor"];
+    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"textureCoor"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
     [self.program useProgrm];
 }

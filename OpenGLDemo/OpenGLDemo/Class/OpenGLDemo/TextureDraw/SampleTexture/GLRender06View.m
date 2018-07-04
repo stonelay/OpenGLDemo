@@ -36,22 +36,22 @@
 
 - (void)setupGLProgram {
     //加载shader
-//    self.myProgram = [self setupProgaramVFile:@"shaderTexure06v" fFile:@"shaderTexure06f"];
+//    self.myProgram = [self setupProgaramVFile:@"shaderTexture06v" fFile:@"shaderTexture06f"];
     
     self.program = [[ZLGLProgram alloc] init];
     
-    self.program.vShaderFile = @"shaderTexure06v";
-    self.program.fShaderFile = @"shaderTexure06f";
+    self.program.vShaderFile = @"shaderTexture06v";
+    self.program.fShaderFile = @"shaderTexture06f";
     
     // attribute
     [self.program addAttribute:@"position"];
-    [self.program addAttribute:@"texureCoor"];
+    [self.program addAttribute:@"textureCoor"];
     // uniform
     [self.program addUniform:@"rotateMatrix"];
     [self.program addUniform:@"colorMap0"];
     [self.program compileAndLink];
     attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
-    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"texureCoor"];
+    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"textureCoor"];
     uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"rotateMatrix"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
     [self.program useProgrm];
@@ -80,7 +80,7 @@
     glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
     
-//    GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
+//    GLuint textureCoor = glGetAttribLocation(self.myProgram, "textureCoor");
     glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     

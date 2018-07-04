@@ -12,7 +12,7 @@ uniform mat4 model;
 
 void main(void) {
     
-//    vTexureCoor = vertexColor;
+//    vTextureCoor = vertexColor;
     gl_Position = model * projection * position;
 //    gl_PointSize = 32.0;
 }

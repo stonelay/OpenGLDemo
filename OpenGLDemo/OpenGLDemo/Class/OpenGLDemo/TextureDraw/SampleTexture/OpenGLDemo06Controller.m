@@ -10,7 +10,7 @@
 #import "GLRender06View.h"
 
 /**
- texure 旋转
+ texture 旋转
  */
 @interface OpenGLDemo06Controller ()
 

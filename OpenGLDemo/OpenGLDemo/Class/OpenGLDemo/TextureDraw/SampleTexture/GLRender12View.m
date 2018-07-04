@@ -67,11 +67,11 @@
 - (void)setupGLProgram {
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
-    self.program.vShaderFile = @"shaderTexure12v";
-    self.program.fShaderFile = @"shaderTexure12f";
+    self.program.vShaderFile = @"shaderTexture12v";
+    self.program.fShaderFile = @"shaderTexture12f";
     
     [self.program addAttribute:@"position"];
-    [self.program addAttribute:@"texureCoor"];
+    [self.program addAttribute:@"textureCoor"];
     [self.program addUniform:@"projectionMatrix"];
     [self.program addUniform:@"modelViewMatrix"];
     [self.program addUniform:@"colorMap0"];
@@ -79,7 +79,7 @@
     [self.program compileAndLink];
     
     attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
-    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"texureCoor"];
+    attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"textureCoor"];
     uniforms[UNIFORM_PROJECTION_MATRIX] = [self.program uniformID:@"projectionMatrix"];
     uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"modelViewMatrix"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];

@@ -82,7 +82,7 @@
 
 - (void)setupGLProgram {
     //加载shader
-    self.myProgram = [self setupProgaramVFile:@"shaderTexure07v" fFile:@"shaderTexure07f"];
+    self.myProgram = [self setupProgaramVFile:@"shaderTexture07v" fFile:@"shaderTexture07f"];
 }
 
 #pragma mark - data
@@ -107,9 +107,9 @@
     glVertexAttribPointer(position0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
     glEnableVertexAttribArray(position0);
     
-    GLuint texureCoor = glGetAttribLocation(self.myProgram, "texureCoor");
-    glVertexAttribPointer(texureCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
-    glEnableVertexAttribArray(texureCoor);
+    GLuint textureCoor = glGetAttribLocation(self.myProgram, "textureCoor");
+    glVertexAttribPointer(textureCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
+    glEnableVertexAttribArray(textureCoor);
     
     
     GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");

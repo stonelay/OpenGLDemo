@@ -19,21 +19,21 @@
 		480E6ECE2032C33F00D39CC8 /* MAsync.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6ECD2032C33F00D39CC8 /* MAsync.m */; };
 		482F4C6E2057CADC00889C7C /* GLRender13View.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C6D2057CADB00889C7C /* GLRender13View.m */; };
 		482F4C712057CAF200889C7C /* OpenGLDemo13Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C702057CAF200889C7C /* OpenGLDemo13Controller.m */; };
-		482F4C742057DA4B00889C7C /* shaderTexureLinef.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 482F4C722057DA4A00889C7C /* shaderTexureLinef.glsl */; };
-		482F4C752057DA4B00889C7C /* shaderTexureLinev.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 482F4C732057DA4B00889C7C /* shaderTexureLinev.glsl */; };
+		482F4C742057DA4B00889C7C /* shaderTextureLinef.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 482F4C722057DA4A00889C7C /* shaderTextureLinef.glsl */; };
+		482F4C752057DA4B00889C7C /* shaderTextureLinev.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 482F4C732057DA4B00889C7C /* shaderTextureLinev.glsl */; };
 		482F4C78205A83C600889C7C /* GLRender14View.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C77205A83C600889C7C /* GLRender14View.m */; };
 		482F4C7B205A83DD00889C7C /* OpenGLDemo14Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C7A205A83DD00889C7C /* OpenGLDemo14Controller.m */; };
-		4831161F2057A0EB00E26EF3 /* shaderTexure12f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4831161D2057A0EB00E26EF3 /* shaderTexure12f.glsl */; };
-		483116202057A0EB00E26EF3 /* shaderTexure12v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4831161E2057A0EB00E26EF3 /* shaderTexure12v.glsl */; };
+		4831161F2057A0EB00E26EF3 /* shaderTexture12f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4831161D2057A0EB00E26EF3 /* shaderTexture12f.glsl */; };
+		483116202057A0EB00E26EF3 /* shaderTexture12v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4831161E2057A0EB00E26EF3 /* shaderTexture12v.glsl */; };
 		4858C79020B3F35600C3193A /* GLRender15View.m in Sources */ = {isa = PBXBuildFile; fileRef = 4858C78F20B3F35600C3193A /* GLRender15View.m */; };
 		4858C79320B3F38100C3193A /* OpenGLDemo15Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 4858C79220B3F38100C3193A /* OpenGLDemo15Controller.m */; };
-		4858C79620B3F48B00C3193A /* shaderTexure15v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4858C79420B3F48B00C3193A /* shaderTexure15v.glsl */; };
-		4858C79720B3F48B00C3193A /* shaderTexure15f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4858C79520B3F48B00C3193A /* shaderTexure15f.glsl */; };
+		4858C79620B3F48B00C3193A /* shaderTexture15v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4858C79420B3F48B00C3193A /* shaderTexture15v.glsl */; };
+		4858C79720B3F48B00C3193A /* shaderTexture15f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4858C79520B3F48B00C3193A /* shaderTexture15f.glsl */; };
 		4858C79F20B5575A00C3193A /* 176x144_yuv420p.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 4858C79E20B5575A00C3193A /* 176x144_yuv420p.yuv */; };
 		487CBC3320511C69009ECE7C /* GLRender11View.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC3220511C69009ECE7C /* GLRender11View.m */; };
 		487CBC3A20511ED6009ECE7C /* OpenGLDemo11Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC3920511ED6009ECE7C /* OpenGLDemo11Controller.m */; };
-		487CBC3D205120D0009ECE7C /* shaderTexure11f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 487CBC3B205120D0009ECE7C /* shaderTexure11f.glsl */; };
-		487CBC3E205120D0009ECE7C /* shaderTexure11v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 487CBC3C205120D0009ECE7C /* shaderTexure11v.glsl */; };
+		487CBC3D205120D0009ECE7C /* shaderTexture11f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 487CBC3B205120D0009ECE7C /* shaderTexture11f.glsl */; };
+		487CBC3E205120D0009ECE7C /* shaderTexture11v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 487CBC3C205120D0009ECE7C /* shaderTexture11v.glsl */; };
 		487CBC43205146F0009ECE7C /* OpenGLDemo12Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC42205146F0009ECE7C /* OpenGLDemo12Controller.m */; };
 		487CBC462051470E009ECE7C /* GLRender12View.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC452051470E009ECE7C /* GLRender12View.m */; };
 		489A845820B6ABE2005BF4A8 /* OpenGLDemo16Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A845720B6ABE2005BF4A8 /* OpenGLDemo16Controller.m */; };
@@ -73,25 +73,25 @@
 		48CB62172015BF7700B665CC /* GLRender03View.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB62162015BF7700B665CC /* GLRender03View.m */; };
 		48CB62202015C61300B665CC /* OpenGLDemo04Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB621F2015C61300B665CC /* OpenGLDemo04Controller.m */; };
 		48CB62232015C63500B665CC /* GLRender04View.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB62222015C63500B665CC /* GLRender04View.m */; };
-		48CB62252015C91B00B665CC /* shaderTexure04f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB62242015C91B00B665CC /* shaderTexure04f.glsl */; };
-		48CB62272015C92F00B665CC /* shaderTexure04v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB62262015C92F00B665CC /* shaderTexure04v.glsl */; };
+		48CB62252015C91B00B665CC /* shaderTexture04f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB62242015C91B00B665CC /* shaderTexture04f.glsl */; };
+		48CB62272015C92F00B665CC /* shaderTexture04v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB62262015C92F00B665CC /* shaderTexture04v.glsl */; };
 		48CB622A2015D49A00B665CC /* GLRender05View.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB62292015D49A00B665CC /* GLRender05View.m */; };
 		48CB622D2015D4AE00B665CC /* OpenGLDemo05Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB622C2015D4AE00B665CC /* OpenGLDemo05Controller.m */; };
-		48CB62302015D9C800B665CC /* shaderTexure05f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB622E2015D9C800B665CC /* shaderTexure05f.glsl */; };
-		48CB62312015D9C800B665CC /* shaderTexure05v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB622F2015D9C800B665CC /* shaderTexure05v.glsl */; };
+		48CB62302015D9C800B665CC /* shaderTexture05f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB622E2015D9C800B665CC /* shaderTexture05f.glsl */; };
+		48CB62312015D9C800B665CC /* shaderTexture05v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB622F2015D9C800B665CC /* shaderTexture05v.glsl */; };
 		48CB62342016D7C400B665CC /* OpenGLDemo06Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB62332016D7C300B665CC /* OpenGLDemo06Controller.m */; };
 		48CB62372016D7DF00B665CC /* GLRender06View.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB62362016D7DF00B665CC /* GLRender06View.m */; };
-		48CB623A2016D86900B665CC /* shaderTexure06f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB62382016D86900B665CC /* shaderTexure06f.glsl */; };
-		48CB623B2016D86900B665CC /* shaderTexure06v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB62392016D86900B665CC /* shaderTexure06v.glsl */; };
+		48CB623A2016D86900B665CC /* shaderTexture06f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB62382016D86900B665CC /* shaderTexture06f.glsl */; };
+		48CB623B2016D86900B665CC /* shaderTexture06v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB62392016D86900B665CC /* shaderTexture06v.glsl */; };
 		48CB623E2016DD3D00B665CC /* GLRender07View.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB623D2016DD3D00B665CC /* GLRender07View.m */; };
 		48CB62412016DD4E00B665CC /* OpenGLDemo07Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB62402016DD4E00B665CC /* OpenGLDemo07Controller.m */; };
 		48CB62452017132B00B665CC /* GLESMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 48CB62432017132B00B665CC /* GLESMath.c */; };
-		48CB624820171B2800B665CC /* shaderTexure07f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB624620171B2800B665CC /* shaderTexure07f.glsl */; };
-		48CB624920171B2800B665CC /* shaderTexure07v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB624720171B2800B665CC /* shaderTexure07v.glsl */; };
+		48CB624820171B2800B665CC /* shaderTexture07f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB624620171B2800B665CC /* shaderTexture07f.glsl */; };
+		48CB624920171B2800B665CC /* shaderTexture07v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB624720171B2800B665CC /* shaderTexture07v.glsl */; };
 		48CB624C2017368C00B665CC /* OpenGLDemo08Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB624B2017368C00B665CC /* OpenGLDemo08Controller.m */; };
 		48CB624F2017369B00B665CC /* GLRender08View.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB624E2017369B00B665CC /* GLRender08View.m */; };
-		48CB6252201736DF00B665CC /* shaderTexure08f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB6250201736DE00B665CC /* shaderTexure08f.glsl */; };
-		48CB6253201736DF00B665CC /* shaderTexure08v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB6251201736DF00B665CC /* shaderTexure08v.glsl */; };
+		48CB6252201736DF00B665CC /* shaderTexture08f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB6250201736DE00B665CC /* shaderTexture08f.glsl */; };
+		48CB6253201736DF00B665CC /* shaderTexture08v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB6251201736DF00B665CC /* shaderTexture08v.glsl */; };
 		48E90900203E92BD002CBCAC /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908F9203E92BC002CBCAC /* libavutil.a */; };
 		48E90901203E92BD002CBCAC /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908FA203E92BC002CBCAC /* libavfilter.a */; };
 		48E90902203E92BD002CBCAC /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908FB203E92BC002CBCAC /* libavcodec.a */; };
@@ -133,27 +133,27 @@
 		482F4C6D2057CADB00889C7C /* GLRender13View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender13View.m; sourceTree = "<group>"; };
 		482F4C6F2057CAF200889C7C /* OpenGLDemo13Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo13Controller.h; sourceTree = "<group>"; };
 		482F4C702057CAF200889C7C /* OpenGLDemo13Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo13Controller.m; sourceTree = "<group>"; };
-		482F4C722057DA4A00889C7C /* shaderTexureLinef.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexureLinef.glsl; sourceTree = "<group>"; };
-		482F4C732057DA4B00889C7C /* shaderTexureLinev.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexureLinev.glsl; sourceTree = "<group>"; };
+		482F4C722057DA4A00889C7C /* shaderTextureLinef.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTextureLinef.glsl; sourceTree = "<group>"; };
+		482F4C732057DA4B00889C7C /* shaderTextureLinev.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTextureLinev.glsl; sourceTree = "<group>"; };
 		482F4C76205A83C600889C7C /* GLRender14View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender14View.h; sourceTree = "<group>"; };
 		482F4C77205A83C600889C7C /* GLRender14View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender14View.m; sourceTree = "<group>"; };
 		482F4C79205A83DD00889C7C /* OpenGLDemo14Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo14Controller.h; sourceTree = "<group>"; };
 		482F4C7A205A83DD00889C7C /* OpenGLDemo14Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo14Controller.m; sourceTree = "<group>"; };
-		4831161D2057A0EB00E26EF3 /* shaderTexure12f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure12f.glsl; sourceTree = "<group>"; };
-		4831161E2057A0EB00E26EF3 /* shaderTexure12v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure12v.glsl; sourceTree = "<group>"; };
+		4831161D2057A0EB00E26EF3 /* shaderTexture12f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture12f.glsl; sourceTree = "<group>"; };
+		4831161E2057A0EB00E26EF3 /* shaderTexture12v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture12v.glsl; sourceTree = "<group>"; };
 		4858C78E20B3F35600C3193A /* GLRender15View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender15View.h; sourceTree = "<group>"; };
 		4858C78F20B3F35600C3193A /* GLRender15View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender15View.m; sourceTree = "<group>"; };
 		4858C79120B3F38100C3193A /* OpenGLDemo15Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo15Controller.h; sourceTree = "<group>"; };
 		4858C79220B3F38100C3193A /* OpenGLDemo15Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo15Controller.m; sourceTree = "<group>"; };
-		4858C79420B3F48B00C3193A /* shaderTexure15v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure15v.glsl; sourceTree = "<group>"; };
-		4858C79520B3F48B00C3193A /* shaderTexure15f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure15f.glsl; sourceTree = "<group>"; };
+		4858C79420B3F48B00C3193A /* shaderTexture15v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture15v.glsl; sourceTree = "<group>"; };
+		4858C79520B3F48B00C3193A /* shaderTexture15f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture15f.glsl; sourceTree = "<group>"; };
 		4858C79E20B5575A00C3193A /* 176x144_yuv420p.yuv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 176x144_yuv420p.yuv; sourceTree = "<group>"; };
 		487CBC3120511C69009ECE7C /* GLRender11View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender11View.h; sourceTree = "<group>"; };
 		487CBC3220511C69009ECE7C /* GLRender11View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender11View.m; sourceTree = "<group>"; };
 		487CBC3820511ED6009ECE7C /* OpenGLDemo11Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo11Controller.h; sourceTree = "<group>"; };
 		487CBC3920511ED6009ECE7C /* OpenGLDemo11Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo11Controller.m; sourceTree = "<group>"; };
-		487CBC3B205120D0009ECE7C /* shaderTexure11f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure11f.glsl; sourceTree = "<group>"; };
-		487CBC3C205120D0009ECE7C /* shaderTexure11v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure11v.glsl; sourceTree = "<group>"; };
+		487CBC3B205120D0009ECE7C /* shaderTexture11f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture11f.glsl; sourceTree = "<group>"; };
+		487CBC3C205120D0009ECE7C /* shaderTexture11v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture11v.glsl; sourceTree = "<group>"; };
 		487CBC41205146F0009ECE7C /* OpenGLDemo12Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo12Controller.h; sourceTree = "<group>"; };
 		487CBC42205146F0009ECE7C /* OpenGLDemo12Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo12Controller.m; sourceTree = "<group>"; };
 		487CBC442051470E009ECE7C /* GLRender12View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender12View.h; sourceTree = "<group>"; };
@@ -234,34 +234,34 @@
 		48CB621F2015C61300B665CC /* OpenGLDemo04Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo04Controller.m; sourceTree = "<group>"; };
 		48CB62212015C63500B665CC /* GLRender04View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender04View.h; sourceTree = "<group>"; };
 		48CB62222015C63500B665CC /* GLRender04View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender04View.m; sourceTree = "<group>"; };
-		48CB62242015C91B00B665CC /* shaderTexure04f.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = shaderTexure04f.glsl; sourceTree = "<group>"; };
-		48CB62262015C92F00B665CC /* shaderTexure04v.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = shaderTexure04v.glsl; sourceTree = "<group>"; };
+		48CB62242015C91B00B665CC /* shaderTexture04f.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = shaderTexture04f.glsl; sourceTree = "<group>"; };
+		48CB62262015C92F00B665CC /* shaderTexture04v.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = shaderTexture04v.glsl; sourceTree = "<group>"; };
 		48CB62282015D49A00B665CC /* GLRender05View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender05View.h; sourceTree = "<group>"; };
 		48CB62292015D49A00B665CC /* GLRender05View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender05View.m; sourceTree = "<group>"; };
 		48CB622B2015D4AE00B665CC /* OpenGLDemo05Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo05Controller.h; sourceTree = "<group>"; };
 		48CB622C2015D4AE00B665CC /* OpenGLDemo05Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo05Controller.m; sourceTree = "<group>"; };
-		48CB622E2015D9C800B665CC /* shaderTexure05f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure05f.glsl; sourceTree = "<group>"; };
-		48CB622F2015D9C800B665CC /* shaderTexure05v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure05v.glsl; sourceTree = "<group>"; };
+		48CB622E2015D9C800B665CC /* shaderTexture05f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture05f.glsl; sourceTree = "<group>"; };
+		48CB622F2015D9C800B665CC /* shaderTexture05v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture05v.glsl; sourceTree = "<group>"; };
 		48CB62322016D7C300B665CC /* OpenGLDemo06Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo06Controller.h; sourceTree = "<group>"; };
 		48CB62332016D7C300B665CC /* OpenGLDemo06Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo06Controller.m; sourceTree = "<group>"; };
 		48CB62352016D7DF00B665CC /* GLRender06View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender06View.h; sourceTree = "<group>"; };
 		48CB62362016D7DF00B665CC /* GLRender06View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender06View.m; sourceTree = "<group>"; };
-		48CB62382016D86900B665CC /* shaderTexure06f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure06f.glsl; sourceTree = "<group>"; };
-		48CB62392016D86900B665CC /* shaderTexure06v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure06v.glsl; sourceTree = "<group>"; };
+		48CB62382016D86900B665CC /* shaderTexture06f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture06f.glsl; sourceTree = "<group>"; };
+		48CB62392016D86900B665CC /* shaderTexture06v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture06v.glsl; sourceTree = "<group>"; };
 		48CB623C2016DD3D00B665CC /* GLRender07View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender07View.h; sourceTree = "<group>"; };
 		48CB623D2016DD3D00B665CC /* GLRender07View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender07View.m; sourceTree = "<group>"; };
 		48CB623F2016DD4E00B665CC /* OpenGLDemo07Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo07Controller.h; sourceTree = "<group>"; };
 		48CB62402016DD4E00B665CC /* OpenGLDemo07Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo07Controller.m; sourceTree = "<group>"; };
 		48CB62432017132B00B665CC /* GLESMath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = GLESMath.c; sourceTree = "<group>"; };
 		48CB62442017132B00B665CC /* GLESMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESMath.h; sourceTree = "<group>"; };
-		48CB624620171B2800B665CC /* shaderTexure07f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure07f.glsl; sourceTree = "<group>"; };
-		48CB624720171B2800B665CC /* shaderTexure07v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure07v.glsl; sourceTree = "<group>"; };
+		48CB624620171B2800B665CC /* shaderTexture07f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture07f.glsl; sourceTree = "<group>"; };
+		48CB624720171B2800B665CC /* shaderTexture07v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture07v.glsl; sourceTree = "<group>"; };
 		48CB624A2017368C00B665CC /* OpenGLDemo08Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo08Controller.h; sourceTree = "<group>"; };
 		48CB624B2017368C00B665CC /* OpenGLDemo08Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo08Controller.m; sourceTree = "<group>"; };
 		48CB624D2017369B00B665CC /* GLRender08View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender08View.h; sourceTree = "<group>"; };
 		48CB624E2017369B00B665CC /* GLRender08View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender08View.m; sourceTree = "<group>"; };
-		48CB6250201736DE00B665CC /* shaderTexure08f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure08f.glsl; sourceTree = "<group>"; };
-		48CB6251201736DF00B665CC /* shaderTexure08v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexure08v.glsl; sourceTree = "<group>"; };
+		48CB6250201736DE00B665CC /* shaderTexture08f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture08f.glsl; sourceTree = "<group>"; };
+		48CB6251201736DF00B665CC /* shaderTexture08v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture08v.glsl; sourceTree = "<group>"; };
 		48E90885203E92BC002CBCAC /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		48E90886203E92BC002CBCAC /* buffersrc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffersrc.h; sourceTree = "<group>"; };
 		48E90887203E92BC002CBCAC /* buffersink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffersink.h; sourceTree = "<group>"; };
@@ -706,24 +706,24 @@
 		48CB62192015C58000B665CC /* shader */ = {
 			isa = PBXGroup;
 			children = (
-				48CB62242015C91B00B665CC /* shaderTexure04f.glsl */,
-				48CB62262015C92F00B665CC /* shaderTexure04v.glsl */,
-				48CB622E2015D9C800B665CC /* shaderTexure05f.glsl */,
-				48CB622F2015D9C800B665CC /* shaderTexure05v.glsl */,
-				48CB62382016D86900B665CC /* shaderTexure06f.glsl */,
-				48CB62392016D86900B665CC /* shaderTexure06v.glsl */,
-				48CB624620171B2800B665CC /* shaderTexure07f.glsl */,
-				48CB624720171B2800B665CC /* shaderTexure07v.glsl */,
-				48CB6250201736DE00B665CC /* shaderTexure08f.glsl */,
-				48CB6251201736DF00B665CC /* shaderTexure08v.glsl */,
-				487CBC3B205120D0009ECE7C /* shaderTexure11f.glsl */,
-				487CBC3C205120D0009ECE7C /* shaderTexure11v.glsl */,
-				4831161D2057A0EB00E26EF3 /* shaderTexure12f.glsl */,
-				4831161E2057A0EB00E26EF3 /* shaderTexure12v.glsl */,
-				4858C79520B3F48B00C3193A /* shaderTexure15f.glsl */,
-				4858C79420B3F48B00C3193A /* shaderTexure15v.glsl */,
-				482F4C722057DA4A00889C7C /* shaderTexureLinef.glsl */,
-				482F4C732057DA4B00889C7C /* shaderTexureLinev.glsl */,
+				48CB62242015C91B00B665CC /* shaderTexture04f.glsl */,
+				48CB62262015C92F00B665CC /* shaderTexture04v.glsl */,
+				48CB622E2015D9C800B665CC /* shaderTexture05f.glsl */,
+				48CB622F2015D9C800B665CC /* shaderTexture05v.glsl */,
+				48CB62382016D86900B665CC /* shaderTexture06f.glsl */,
+				48CB62392016D86900B665CC /* shaderTexture06v.glsl */,
+				48CB624620171B2800B665CC /* shaderTexture07f.glsl */,
+				48CB624720171B2800B665CC /* shaderTexture07v.glsl */,
+				48CB6250201736DE00B665CC /* shaderTexture08f.glsl */,
+				48CB6251201736DF00B665CC /* shaderTexture08v.glsl */,
+				487CBC3B205120D0009ECE7C /* shaderTexture11f.glsl */,
+				487CBC3C205120D0009ECE7C /* shaderTexture11v.glsl */,
+				4831161D2057A0EB00E26EF3 /* shaderTexture12f.glsl */,
+				4831161E2057A0EB00E26EF3 /* shaderTexture12v.glsl */,
+				4858C79520B3F48B00C3193A /* shaderTexture15f.glsl */,
+				4858C79420B3F48B00C3193A /* shaderTexture15v.glsl */,
+				482F4C722057DA4A00889C7C /* shaderTextureLinef.glsl */,
+				482F4C732057DA4B00889C7C /* shaderTextureLinev.glsl */,
 			);
 			path = shader;
 			sourceTree = "<group>";
@@ -1073,31 +1073,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4831161F2057A0EB00E26EF3 /* shaderTexure12f.glsl in Resources */,
-				483116202057A0EB00E26EF3 /* shaderTexure12v.glsl in Resources */,
+				4831161F2057A0EB00E26EF3 /* shaderTexture12f.glsl in Resources */,
+				483116202057A0EB00E26EF3 /* shaderTexture12v.glsl in Resources */,
 				4858C79F20B5575A00C3193A /* 176x144_yuv420p.yuv in Resources */,
-				48CB623B2016D86900B665CC /* shaderTexure06v.glsl in Resources */,
+				48CB623B2016D86900B665CC /* shaderTexture06v.glsl in Resources */,
 				48CB61A420104DD600B665CC /* LaunchScreen.storyboard in Resources */,
-				48CB62312015D9C800B665CC /* shaderTexure05v.glsl in Resources */,
-				48CB62302015D9C800B665CC /* shaderTexure05f.glsl in Resources */,
+				48CB62312015D9C800B665CC /* shaderTexture05v.glsl in Resources */,
+				48CB62302015D9C800B665CC /* shaderTexture05f.glsl in Resources */,
 				48CB61FE2010710700B665CC /* shaderDrawf.glsl in Resources */,
-				4858C79620B3F48B00C3193A /* shaderTexure15v.glsl in Resources */,
-				482F4C742057DA4B00889C7C /* shaderTexureLinef.glsl in Resources */,
-				48CB6253201736DF00B665CC /* shaderTexure08v.glsl in Resources */,
+				4858C79620B3F48B00C3193A /* shaderTexture15v.glsl in Resources */,
+				482F4C742057DA4B00889C7C /* shaderTextureLinef.glsl in Resources */,
+				48CB6253201736DF00B665CC /* shaderTexture08v.glsl in Resources */,
 				48E90935203FAD29002CBCAC /* SourceBundle.bundle in Resources */,
-				48CB624820171B2800B665CC /* shaderTexure07f.glsl in Resources */,
-				4858C79720B3F48B00C3193A /* shaderTexure15f.glsl in Resources */,
-				48CB62252015C91B00B665CC /* shaderTexure04f.glsl in Resources */,
-				48CB62272015C92F00B665CC /* shaderTexure04v.glsl in Resources */,
+				48CB624820171B2800B665CC /* shaderTexture07f.glsl in Resources */,
+				4858C79720B3F48B00C3193A /* shaderTexture15f.glsl in Resources */,
+				48CB62252015C91B00B665CC /* shaderTexture04f.glsl in Resources */,
+				48CB62272015C92F00B665CC /* shaderTexture04v.glsl in Resources */,
 				48CB61A120104DD600B665CC /* Assets.xcassets in Resources */,
-				48CB623A2016D86900B665CC /* shaderTexure06f.glsl in Resources */,
-				48CB6252201736DF00B665CC /* shaderTexure08f.glsl in Resources */,
-				487CBC3D205120D0009ECE7C /* shaderTexure11f.glsl in Resources */,
-				48CB624920171B2800B665CC /* shaderTexure07v.glsl in Resources */,
-				482F4C752057DA4B00889C7C /* shaderTexureLinev.glsl in Resources */,
+				48CB623A2016D86900B665CC /* shaderTexture06f.glsl in Resources */,
+				48CB6252201736DF00B665CC /* shaderTexture08f.glsl in Resources */,
+				487CBC3D205120D0009ECE7C /* shaderTexture11f.glsl in Resources */,
+				48CB624920171B2800B665CC /* shaderTexture07v.glsl in Resources */,
+				482F4C752057DA4B00889C7C /* shaderTextureLinev.glsl in Resources */,
 				48CB619F20104DD600B665CC /* Main.storyboard in Resources */,
 				489A846B20B81B15005BF4A8 /* move.mp4 in Resources */,
-				487CBC3E205120D0009ECE7C /* shaderTexure11v.glsl in Resources */,
+				487CBC3E205120D0009ECE7C /* shaderTexture11v.glsl in Resources */,
 				48CB61FF2010710700B665CC /* shaderDrawv.glsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
