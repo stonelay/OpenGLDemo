@@ -13,7 +13,7 @@
     GLint attributes[NUM_ATTRIBUTES];
     GLint uniforms[NUM_UNIFORMS];
     
-    GLuint texureBuffer;
+    GLuint textureBuffer;
 }
 
 @end
@@ -57,7 +57,7 @@
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
     [self.program useProgrm];
     
-    glGenTextures(1, &texureBuffer);
+    glGenTextures(1, &textureBuffer);
 }
 
 #pragma mark - data
@@ -86,8 +86,8 @@
     glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     
 //    GLuint texture = [self setupTexture:@"for_test02"];
-    [GLLoadTool setupTexture:@"for_test02" buffer:texureBuffer texure:GL_TEXTURE0];
     
+    [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"for_test02"];
     
 //    获取shader里面的变量，这里记得要在glLinkProgram后面，后面，后面！
 //    GLuint rotate = glGetUniformLocation(self.program.programId, "rotateMatrix");

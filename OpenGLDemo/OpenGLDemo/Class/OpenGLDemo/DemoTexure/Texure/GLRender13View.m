@@ -38,6 +38,8 @@
     GLint p_uniforms[NUM_UNIFORMS];
     
     BOOL isPoint;
+    
+    GLuint textureBuffer;
 }
 
 @property (nonatomic, strong) ZLGLProgram *earthProgram;
@@ -99,6 +101,7 @@
     e_uniforms[UNIFORM_MODEL_MATRIX] = [self.earthProgram uniformID:@"modelViewMatrix"];
     e_uniforms[UNIFORM_COLOR_MAP_0] = [self.earthProgram uniformID:@"colorMap0"];
     
+    glGenTextures(1, &textureBuffer);
 }
 
 - (void)initPicProgram {
@@ -346,8 +349,8 @@
     glUniformMatrix4fv(e_uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
 //    [GLLoadTool setupTexture:@"pic_earth" buffer:earthBuffer texure:GL_TEXTURE0];
-    [self loadTexture:GL_TEXTURE0 fileName:@"pic_earth"];
     
+    [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"pic_earth"];
     //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
     glUniform1i(e_uniforms[UNIFORM_COLOR_MAP_0], 0);
     

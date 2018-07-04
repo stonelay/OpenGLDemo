@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+// 简单封装 program, 方便使用
 @interface ZLGLProgram : NSObject
 
 @property (nonatomic, assign) GLuint programId; // gl 句柄

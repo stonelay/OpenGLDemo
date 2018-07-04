@@ -63,7 +63,7 @@ static GLuint tIndices[] = {
     GLint attributes[NUM_ATTRIBUTES];
     GLint uniforms[NUM_UNIFORMS];
     
-    GLuint texureBuffer;
+    GLuint textureBuffer;
 }
 
 
@@ -107,7 +107,7 @@ static GLuint tIndices[] = {
     uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"modelViewMatrix"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
     
-    glGenTextures(1, &texureBuffer);
+    glGenTextures(1, &textureBuffer);
 }
 
 #pragma mark - data
@@ -166,8 +166,7 @@ static GLuint tIndices[] = {
         glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     }
     
-    [GLLoadTool setupTexture:@"for_test01" buffer:texureBuffer texure:GL_TEXTURE0];
-    
+    [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"for_test01"];
 //    GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
 //    GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
 }

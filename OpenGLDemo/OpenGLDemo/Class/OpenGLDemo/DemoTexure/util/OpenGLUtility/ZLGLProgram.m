@@ -36,8 +36,8 @@
     return self;
 }
 
-// 在 link 之前 需要 addAttribute
-// 不是说 必须， 只是会影响性能
+// glProgram 管理一份 attributes
+// 在link之前addAttribute
 - (void)addAttribute:(NSString *)attributeName {
     if ([self.attributes.allKeys containsObject:attributeName]) {
         return;
@@ -54,12 +54,12 @@
     return attribute.attributeId;
 }
 
+// glProgram 管理一份 uniforms
 - (void)addUniform:(NSString *)uniformName {
     if ([self.uniforms.allKeys containsObject:uniformName]) {
         return;
     }
-//    GLuint uniformId =
-//    glGetUniformLocation(self.programId, [uniformName UTF8String]);
+//    GLuint uniformId = glGetUniformLocation(self.programId, [uniformName UTF8String]);
     
     ZLShaderUniform *uniform =
     [ZLShaderUniform uniformWithId:-1 uniformName:uniformName];
@@ -175,6 +175,5 @@
         self.programId = 0;
     }
 }
-
 
 @end

@@ -58,7 +58,9 @@
 - (void)setupGLProgram {
     glGenBuffers(1, &aBuffer);
     glGenTextures(1, &textureBuffer);
-    [GLLoadTool setupTexture:@"pic_earth" buffer:textureBuffer texure:GL_TEXTURE0];
+    
+    [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"pic_earth"];
+    
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
     

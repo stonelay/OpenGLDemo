@@ -28,7 +28,7 @@ static GLfloat picAttrArr[] = {
     GLint attributes[NUM_ATTRIBUTES];
     GLint uniforms[NUM_UNIFORMS];
     
-    GLuint texureBuffer;
+    GLuint textureBuffer;
 }
 
 @end
@@ -68,7 +68,7 @@ static GLfloat picAttrArr[] = {
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
     [self.program useProgrm];
     
-    glGenTextures(1, &texureBuffer);
+    glGenTextures(1, &textureBuffer);
 }
 
 #pragma mark - data
@@ -114,8 +114,7 @@ static GLfloat picAttrArr[] = {
     
     //    GLuint texture = [self setupTexture:@"for_test02"];
     //    [GLLoadTool setupTexture:@"for_test02" texure:GL_TEXTURE0];
-    [GLLoadTool setupTexture:@"for_test02" buffer:texureBuffer texure:GL_TEXTURE0];
-    
+    [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"for_test02"];
     
     //    GLuint buffer0 = glGetUniformLocation(self.program.programId, "colorMap0");
     //    glUniform1i(buffer0, 0);

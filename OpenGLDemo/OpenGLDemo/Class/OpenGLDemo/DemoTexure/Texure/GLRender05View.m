@@ -23,7 +23,7 @@ static GLfloat attrArr[] = {
     GLint attributes[NUM_ATTRIBUTES];
     GLint uniforms[NUM_UNIFORMS];
     
-    GLuint texureBuffer[2];
+    GLuint textureBuffer[2];
 }
 
 @end
@@ -66,8 +66,8 @@ static GLfloat attrArr[] = {
     uniforms[UNIFORM_COLOR_MAP_1] = [self.program uniformID:@"colorMap1"];
     [self.program useProgrm];
     
-    glGenTextures(1, &texureBuffer[0]);
-    glGenTextures(1, &texureBuffer[1]);
+    glGenTextures(1, &textureBuffer[0]);
+    glGenTextures(1, &textureBuffer[1]);
 }
 
 #pragma mark - data
@@ -86,8 +86,8 @@ static GLfloat attrArr[] = {
     glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     
-    [GLLoadTool setupTexture:@"for_test01" buffer:texureBuffer[0] texure:GL_TEXTURE0];
-    [GLLoadTool setupTexture:@"for_test02" buffer:texureBuffer[1] texure:GL_TEXTURE1];
+    [self setupTexture:GL_TEXTURE0 buffer:textureBuffer[0] fileName:@"for_test01"];
+    [self setupTexture:GL_TEXTURE1 buffer:textureBuffer[1] fileName:@"for_test02"];
     
 //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
     glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);

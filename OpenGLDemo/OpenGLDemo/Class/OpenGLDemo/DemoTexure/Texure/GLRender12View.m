@@ -187,7 +187,7 @@
     // Load the model-view matrix
     glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
-    [GLLoadTool setupTexture:@"pic_earth" buffer:textureBuffer texure:GL_TEXTURE0];
+    [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"pic_earth"];
     
     //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
     glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);

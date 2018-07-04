@@ -37,8 +37,6 @@ enum {
 };
 
 
-
-
 @interface ZLGLView : UIView
 
 @property (nonatomic, strong) ZLGLProgram *program;
@@ -47,6 +45,6 @@ enum {
 - (void)setupFramebuffer;
 - (BOOL)presentRenderbuffer;
 
-- (void)loadTexture:(GLenum)texture fileName:(NSString *)fileName;
+- (void)setupTexture:(GLenum)texture buffer:(GLuint)buffer fileName:(NSString *)fileName;
 
 @end

@@ -164,7 +164,7 @@
     _context = nil;
 }
 
-- (void)loadTexture:(GLenum)texture fileName:(NSString *)fileName {
+- (void)setupTexture:(GLenum)texture buffer:(GLuint)buffer fileName:(NSString *)fileName {
     // 1获取图片的CGImageRef
     CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
     if (!spriteImage) {
@@ -188,41 +188,16 @@
     
     glActiveTexture(texture);
     
-    GLuint buffer;
-    glGenTextures(1, &buffer);
     glBindTexture(GL_TEXTURE_2D, buffer);
     
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
     float fw = width, fh = height;
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
     free(spriteData);
 }
-
-//- (void)getData {
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-////        glBindFramebuffer(GL_FRAMEBUFFER, _defaultFramebuffer);
-//        glBindTexture(GL_TEXTURE_2D, _texBuffer);
-//        NSUInteger totalBytesForImage = 750 * 1334 * 4;
-//        GLubyte *rawImagePixels;
-//        rawImagePixels = (GLubyte *)malloc(totalBytesForImage);
-//        glReadPixels(0, 0, 750, 1334, GL_RGBA, GL_UNSIGNED_BYTE, rawImagePixels);
-//        CGDataProviderRef dataProvider = CGDataProviderCreateWithData(NULL, rawImagePixels, totalBytesForImage, freeInfo);
-//        CGColorSpaceRef defaultRGBColorSpace = CGColorSpaceCreateDeviceRGB();
-//        CGImageRef cgImageFromBytes = CGImageCreate(750, 1334, 8, 32, 4 * 750, defaultRGBColorSpace, kCGBitmapByteOrderDefault | kCGImageAlphaLast, dataProvider, NULL, NO, kCGRenderingIntentDefault);
-//        UIImage *image = [UIImage imageWithCGImage:cgImageFromBytes];
-//        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, SCREENWIDTH / 2, SCREENHEIGHT - 64)];
-//        imageView.image = image;
-//        [self addSubview:imageView];
-//        [self getData];
-//    });
-//}
-//
-//void freeInfo (void *info, const void *data, size_t size) {
-//    free((void *)data);
-//}
 
 @end
