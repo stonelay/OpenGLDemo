@@ -19,7 +19,11 @@
     [super viewDidLoad];
     
     self.view = [[GLRender08View alloc] init];
-    [self createNavBarWithTitle:@"Demo08" withLeft:[UIImage imageNamed:@"icon_back"]];
+    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+}
+
+- (NSString *)controllerTitle {
+    return @"没有整理之前的三维立方体";
 }
 
 @end

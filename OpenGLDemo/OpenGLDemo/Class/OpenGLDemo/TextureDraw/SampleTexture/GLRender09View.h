@@ -8,6 +8,9 @@
 
 #import "ZLGLView.h"
 
+/*
+ * 整理之后的 三维立方体
+ */
 @interface GLRender09View : ZLGLView
 
 @end

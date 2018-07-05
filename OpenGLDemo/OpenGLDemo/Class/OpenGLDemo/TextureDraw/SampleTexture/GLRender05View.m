@@ -64,9 +64,6 @@ static GLfloat attrArr[] = {
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
     uniforms[UNIFORM_COLOR_MAP_1] = [self.program uniformID:@"colorMap1"];
     [self.program useProgrm];
-    
-    glGenTextures(1, &textureBuffer[0]);
-    glGenTextures(1, &textureBuffer[1]);
 }
 
 #pragma mark - data
@@ -85,28 +82,21 @@ static GLfloat attrArr[] = {
     glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     
+    glGenTextures(2, textureBuffer);
     [self setupTexture:GL_TEXTURE0 buffer:textureBuffer[0] fileName:@"for_test01"];
     [self setupTexture:GL_TEXTURE1 buffer:textureBuffer[1] fileName:@"for_test02"];
     
 //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
     glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
-    
 //    GLuint buffer1 = glGetUniformLocation(self.myProgram, "colorMap1");
     glUniform1i(uniforms[UNIFORM_COLOR_MAP_1], 1);
 }
 
 #pragma mark - render
 
-- (void)render {
-    glClearColor(0, 1.0, 0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    [self.program useProgrm];
-    [self setupData];
-    
+- (void)updateData {}
+- (void)draw {
     glDrawArrays(GL_TRIANGLES, 0, 6);
-    
-    [self presentRenderbuffer];
 }
 
 @end

@@ -97,6 +97,7 @@
 
 - (void)createFramebuffer {
     if (_context && !_defaultFramebuffer) {
+        NSLog(@"create frame buffer..");
         [EAGLContext setCurrentContext:_context];
         
         // framebuffer
@@ -129,6 +130,7 @@
 
 - (void)deleteFramebuffer {
     if (_context) {
+        NSLog(@"delete frame buffer..");
         [EAGLContext setCurrentContext:_context];
         
         if (_defaultFramebuffer) {

@@ -79,8 +79,6 @@ static GLuint tIndices[] = {
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self setupFramebuffer];
-    [self render];
 }
 
 #pragma mark - context
@@ -104,13 +102,10 @@ static GLuint tIndices[] = {
     uniforms[UNIFORM_PROJECTION_MATRIX] = [self.program uniformID:@"projectionMatrix"];
     uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"modelViewMatrix"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
-    
-    glGenTextures(1, &textureBuffer);
 }
 
 #pragma mark - data
 - (void)setupData {
-
     GLfloat bAttrArr[6][4][5];
     for (int i = 0; i < sizeof(mIndices)/sizeof(mIndices[0]); i++) {
         for (int j = 0; j < sizeof(mIndices[i])/sizeof(GLfloat); j++) {
@@ -140,40 +135,42 @@ static GLuint tIndices[] = {
     }
     
     glGenVertexArraysOES(2, VAO);
-    for (int i = 0; i < 2; i ++) {
-        glBindVertexArrayOES(VAO[i]);
-        
-        
-        GLuint buf;
-        glGenBuffers(1, &buf);
-        glBindBuffer(GL_ARRAY_BUFFER, buf);
-        if (i == 0) {
-            glBufferData(GL_ARRAY_BUFFER, sizeof(bAttrArr), bAttrArr, GL_STATIC_DRAW);
-        } else {
-            glBufferData(GL_ARRAY_BUFFER, sizeof(cAttrArr), cAttrArr, GL_STATIC_DRAW);
-        }
-        
-//        GLuint position0 = glGetAttribLocation(self.myProgram, "position");
-//        [self.program addAttribute:@"position"];
-//        glBindAttribLocation(self.myProgram, 0, "position");
-        glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
-        glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
-        
-//        GLuint textureCoor = glGetAttribLocation(self.myProgram, "textureCoor");
-        glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
-        glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
-    }
     
+    // 立方体0
+    glBindVertexArrayOES(VAO[0]);
+    GLuint cube0Buf;
+    glGenBuffers(1, &cube0Buf);
+    glBindBuffer(GL_ARRAY_BUFFER, cube0Buf);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(bAttrArr), bAttrArr, GL_STATIC_DRAW);
+    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
+    glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
+    
+    // 立方体1
+    glBindVertexArrayOES(VAO[1]);
+    GLuint cube1Buf;
+    glGenBuffers(1, &cube1Buf);
+    glBindBuffer(GL_ARRAY_BUFFER, cube1Buf);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cAttrArr), cAttrArr, GL_STATIC_DRAW);
+    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
+    glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
+    glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
+    
+    glGenTextures(1, &textureBuffer);
     [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"for_test01"];
-//    GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
-//    GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
+    glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
 }
 
+#pragma mark - render
 - (void)updateData {
+    //    GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
+    //    GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
+    
     float width = self.frame.size.width;
     float height = self.frame.size.height;
-    
-    
+
     KSMatrix4 _projectionMatrix;
     ksMatrixLoadIdentity(&_projectionMatrix);
     float aspect = width / height; //长宽比
@@ -186,7 +183,6 @@ static GLuint tIndices[] = {
     
     // 需要计算 正反面
     glEnable(GL_CULL_FACE);
-    
     
     KSMatrix4 _modelViewMatrix;
     ksMatrixLoadIdentity(&_modelViewMatrix);
@@ -207,23 +203,9 @@ static GLuint tIndices[] = {
     
     // Load the model-view matrix
     glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
-    
-    //    GLuint texture = [self setupTexture:@"for_test01"];
-    
-    
-    //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
-    glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
 }
 
-#pragma mark - render
-
-- (void)render {
-    glClearColor(0, 1.0, 0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    [self.program useProgrm];
-    [self updateData];       // data
-    
+- (void)draw {
     GLuint mIndices[6][4] = {
         {0,  1, 2, 3},
         {4,  5, 6, 7},
@@ -232,14 +214,14 @@ static GLuint tIndices[] = {
         {16,17,18,19},
         {20,21,22,23},
     };
-    for (int i = 0; i < 2; i++) {
-        glBindVertexArrayOES(VAO[i]);
-        for (int i = 0; i < 6; i++) {
-            glDrawElements(GL_TRIANGLE_FAN, sizeof(mIndices[i]) / sizeof(mIndices[i][0]), GL_UNSIGNED_INT, mIndices[i]);
-        }
+    glBindVertexArrayOES(VAO[0]);
+    for (int i = 0; i < 6; i++) {
+        glDrawElements(GL_TRIANGLE_FAN, sizeof(mIndices[i]) / sizeof(mIndices[i][0]), GL_UNSIGNED_INT, mIndices[i]);
     }
-    
-    [self presentRenderbuffer];
+    glBindVertexArrayOES(VAO[1]);
+    for (int i = 0; i < 6; i++) {
+        glDrawElements(GL_TRIANGLE_FAN, sizeof(mIndices[i]) / sizeof(mIndices[i][0]), GL_UNSIGNED_INT, mIndices[i]);
+    }
 }
 
 #pragma mark - touch

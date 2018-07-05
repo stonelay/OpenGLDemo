@@ -21,7 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view = [[GLRender05View alloc] init];
-    [self createNavBarWithTitle:@"Demo05" withLeft:[UIImage imageNamed:@"icon_back"]];
+    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+}
+
+- (NSString *)controllerTitle {
+    return @"多张纹理贴图";
 }
 
 @end

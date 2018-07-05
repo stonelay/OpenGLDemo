@@ -14,5 +14,5 @@ void main(void) {
     
 //    vTextureCoor = vertexColor;
     gl_Position = model * projection * position;
-//    gl_PointSize = 32.0;
+    gl_PointSize = 32.0;
 }

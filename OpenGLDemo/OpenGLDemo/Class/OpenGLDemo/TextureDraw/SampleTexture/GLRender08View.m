@@ -107,9 +107,8 @@ static GLuint tIndices[] = {
 }
 
 - (void)layoutSubviews {
-    
+    [super layoutSubviews];
     [self destoryRenderAndFrameBuffer];
-    
     [self setupFrameBuffer];
     
     [self render];
@@ -177,7 +176,7 @@ static GLuint tIndices[] = {
         glEnableVertexAttribArray(textureCoor);
     }
     
-    GLuint texture = [self setupTexture:@"for_test01"];
+    [self setupTexture:@"for_test01"];
 }
 
 - (void)updateData {

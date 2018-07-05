@@ -18,7 +18,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view = [[GLRender07View alloc] init];
-    [self createNavBarWithTitle:@"Demo07" withLeft:[UIImage imageNamed:@"icon_back"]];
+    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+}
+
+- (NSString *)controllerTitle {
+    return @"整理之前的renderView";
 }
 
 

@@ -18,7 +18,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view = [[GLRender10View alloc] init];
-    [self createNavBarWithTitle:@"Demo10" withLeft:[UIImage imageNamed:@"icon_back"]];
+    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+}
+
+- (NSString *)controllerTitle {
+    return @"获取摄像信息，并实时绘制";
 }
 
 @end

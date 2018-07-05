@@ -68,13 +68,10 @@
 }
 
 - (void)layoutSubviews {
-    
+    [super layoutSubviews];
     [self destoryRenderAndFrameBuffer];
-    
     [self setupRenderBuffer];
-    
     [self setupFrameBuffer];
-    
     [self render];
 }
 
@@ -87,8 +84,6 @@
 
 #pragma mark - data
 - (void)setupData {
-    
-    
     
     GLfloat attrArr[] = {
         0.5f, -0.5f, 0.0f,     1.0f, 0.0f, // 右下
@@ -153,7 +148,7 @@
     // Load the model-view matrix
     glUniformMatrix4fv(modelViewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
-    GLuint texture = [self setupTexture:@"for_test01"];
+    [self setupTexture:@"for_test01"];
     
     
     //    获取shader里面的变量，这里记得要在glLinkProgram后面，后面，后面！

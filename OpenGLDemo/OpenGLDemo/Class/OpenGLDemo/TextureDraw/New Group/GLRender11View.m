@@ -35,32 +35,21 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setupGLProgram];  // shader
+        [self setupData];
     }
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-//    if (!isInited) {
+    if (!isInited) {
         isInited = YES;
-        
-        [self setupFramebuffer];
         [self clear];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self render];
-        });
-        
-//    }
+    }
 }
 
 #pragma mark - context
-
 - (void)setupGLProgram {
-    glGenBuffers(1, &aBuffer);
-    glGenTextures(1, &textureBuffer);
-    
-    [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"pic_earth"];
-    
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
     
@@ -80,8 +69,6 @@
     
     [self.program useProgrm];
     
-    
-    
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -89,29 +76,17 @@
 
 #pragma mark - data
 - (void)setupData {
-    for (int i = 0; i + 1 < self.pointArray.count; i ++) {
-        [self renderLineFromPoint:[self.pointArray[i] CGPointValue] toPoint:[self.pointArray[i + 1] CGPointValue]];
-    }
-//    glGenBuffers(1, &attrBuffer);
-//    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(attrArr), attrArr, GL_DYNAMIC_DRAW);
-//
-//    //    GLuint position0 = glGetAttribLocation(self.myProgram, "position");
-//    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
-//    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
-//
-//    //    GLuint textureCoor = glGetAttribLocation(self.myProgram, "textureCoor");
-//    glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
-//    glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
-//
-//    GLuint txure01 = [self setupTexture:@"for_test01" texture:GL_TEXTURE0];
-//    GLuint txure02 = [self setupTexture:@"for_test02" texture:GL_TEXTURE1];
-//
-//    //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
-//    glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
-//
-//    //    GLuint buffer1 = glGetUniformLocation(self.myProgram, "colorMap1");
-//    glUniform1i(uniforms[UNIFORM_COLOR_MAP_1], 1);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakeOrtho(0, 750, 0, 1334, -1, 1);
+    GLKMatrix4 modelViewMatrix = GLKMatrix4Identity; // this sample uses a constant identity modelView matrix
+    //    GLKMatrix4 MVPMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
+    
+    glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, modelViewMatrix.m);
+    glUniformMatrix4fv(uniforms[UNIFORM_PROJECTION_MATRIX], 1, GL_FALSE, projectionMatrix.m);
+    
+    glGenBuffers(1, &aBuffer);
+    glGenTextures(1, &textureBuffer);
+    
+    [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"point"];
 }
 
 #pragma mark - render
@@ -120,48 +95,20 @@
     glClearColor(1.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
-    
-    
     [self presentRenderbuffer];
 }
 
 - (void)render {
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakeOrtho(0, 750, 0, 1334, -1, 1);
-    GLKMatrix4 modelViewMatrix = GLKMatrix4Identity; // this sample uses a constant identity modelView matrix
-//    GLKMatrix4 MVPMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
-    
-    glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, modelViewMatrix.m);
-    glUniformMatrix4fv(uniforms[UNIFORM_PROJECTION_MATRIX], 1, GL_FALSE, projectionMatrix.m);
-    
-    [self.program useProgrm];
-    [self setupData];
-    
-//    glDrawArrays(GL_TRIANGLES, 0, 6);
-    
-    
+//
+//    [self.program useProgrm];
+    [self updateData];
+    [self draw];
+    [self presentRenderbuffer];
 }
-
-
-- (NSMutableArray *)pointArray {
-    if (!_pointArray) {
-        _pointArray = [NSMutableArray new];
-        NSInteger count = PointSize;
-        
-        float a = 0.8; // 水平方向的半径
-        float b = a * SCREENWIDTH / SCREENHEIGHT;
-        float delta = 2.0*M_PI/count;
-        
-        for (int i = 0; i < count; i++) {
-            [_pointArray addObject:[NSValue valueWithCGPoint:CGPointMake(a * cos(delta * i), b * sin(delta * i))]];
-        }
-    }
-    return _pointArray;
-}
-
 
 - (void)renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end {
     
-    [self setupFramebuffer];
+    [self setupFramebuffer];//
     
     static GLfloat*        vertexBuffer = NULL;
 //    static GLfloat        vertexBuffer[2 * 1];
@@ -195,43 +142,35 @@
         vertexCount += 1;
     }
     
-    
-//    vertexBuffer[0] = start.x;
-//    vertexBuffer[1] = start.y;
-//    NSLog(@"x,%f y,%f, count, %lu", start.x, start.y, (unsigned long)vertexCount);
-    // Load data to the Vertex Buffer Object
     glBindBuffer(GL_ARRAY_BUFFER, aBuffer);
     glBufferData(GL_ARRAY_BUFFER, vertexCount * 2 * sizeof(GLfloat), vertexBuffer, GL_DYNAMIC_DRAW);
     
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
     glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 2, GL_FLOAT, GL_FALSE, 0, 0);
     
-    // Draw
-    //    glUseProgram(program[PROGRAM_POINT].id);
-    [self.program useProgrm];
     glDrawArrays(GL_POINTS, 0, (int)vertexCount);
-    
     [self presentRenderbuffer];
 }
 
+- (void)updateData {
+    
+}
+- (void)draw {
+    
+}
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    CGRect                bounds = [self bounds];
-    UITouch*            touch = [[event touchesForView:self] anyObject];
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    CGRect bounds = [self bounds];
+    UITouch *touch = [[event touchesForView:self] anyObject];
     firstTouch = YES;
-    // Convert touch point from UIView referential to OpenGL one (upside-down flip)
     location = [touch locationInView:self];
     location.y = bounds.size.height - location.y;
 }
 
-// Handles the continuation of a touch.
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    CGRect                bounds = [self bounds];
-    UITouch*            touch = [[event touchesForView:self] anyObject];
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    CGRect bounds = [self bounds];
+    UITouch *touch = [[event touchesForView:self] anyObject];
     
-    // Convert touch point from UIView referential to OpenGL one (upside-down flip)
     if (firstTouch) {
         firstTouch = NO;
         previousLocation = [touch previousLocationInView:self];
@@ -243,15 +182,12 @@
         previousLocation.y = bounds.size.height - previousLocation.y;
     }
     
-    // Render the stroke
     [self renderLineFromPoint:previousLocation toPoint:location];
 }
 
-// Handles the end of a touch event when the touch is a tap.
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    CGRect                bounds = [self bounds];
-    UITouch*            touch = [[event touchesForView:self] anyObject];
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    CGRect bounds = [self bounds];
+    UITouch *touch = [[event touchesForView:self] anyObject];
     if (firstTouch) {
         firstTouch = NO;
         previousLocation = [touch previousLocationInView:self];

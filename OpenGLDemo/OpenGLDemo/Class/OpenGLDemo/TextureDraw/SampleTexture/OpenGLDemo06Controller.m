@@ -21,7 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view = [[GLRender06View alloc] init];
-    [self createNavBarWithTitle:@"Demo06" withLeft:[UIImage imageNamed:@"icon_back"]];
+    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+}
+
+- (NSString *)controllerTitle {
+    return @"纹理贴图旋转";
 }
 
 @end

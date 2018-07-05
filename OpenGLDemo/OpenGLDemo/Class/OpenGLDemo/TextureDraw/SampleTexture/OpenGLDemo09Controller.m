@@ -19,7 +19,11 @@
     [super viewDidLoad];
     
     self.view = [[GLRender09View alloc] init];
-    [self createNavBarWithTitle:@"Demo09" withLeft:[UIImage imageNamed:@"icon_back"]];
+    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+}
+
+- (NSString *)controllerTitle {
+    return @"多个可绘制立方体";
 }
 
 @end

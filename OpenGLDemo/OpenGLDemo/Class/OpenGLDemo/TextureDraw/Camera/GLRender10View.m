@@ -10,8 +10,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ZLGLProgram.h"
 
-#import "MAsync.h"
-
 static GLfloat attrArr[] = {
     0.5f, -0.5f, -1.0f,     1.0f, 0.0f, // 右下
     -0.5f, 0.5f, -1.0f,     0.0f, 1.0f, // 左上
@@ -21,40 +19,36 @@ static GLfloat attrArr[] = {
     0.5f, -0.5f, -1.0f,     1.0f, 0.0f, // 右下
 };
 
-static GLfloat positionArr[] = {
-    0.5f, -0.5f, -1.0f,
-    -0.5f, 0.5f, -1.0f,
-    -0.5f, -0.5f, -1.0f,
-    0.5f, 0.5f, -1.0f,
-    -0.5f, 0.5f, -1.0f,
-    0.5f, -0.5f, -1.0f,
-};
-
-static GLfloat corArr[] = {
-    1.0f, 0.0f, // 右下
-    0.0f, 1.0f, // 左上
-    0.0f, 0.0f, // 左下
-    1.0f, 1.0f, // 右上
-    0.0f, 1.0f, // 左上
-    1.0f, 0.0f, // 右下
-};
-
+//static GLfloat positionArr[] = {
+//    0.5f, -0.5f, -1.0f,
+//    -0.5f, 0.5f, -1.0f,
+//    -0.5f, -0.5f, -1.0f,
+//    0.5f, 0.5f, -1.0f,
+//    -0.5f, 0.5f, -1.0f,
+//    0.5f, -0.5f, -1.0f,
+//};
+//
+//static GLfloat corArr[] = {
+//    1.0f, 0.0f, // 右下
+//    0.0f, 1.0f, // 左上
+//    0.0f, 0.0f, // 左下
+//    1.0f, 1.0f, // 右上
+//    0.0f, 1.0f, // 左上
+//    1.0f, 0.0f, // 右下
+//};
 
 @interface GLRender10View()<AVCaptureVideoDataOutputSampleBufferDelegate> {
     GLint attributes[NUM_ATTRIBUTES];
     GLint uniforms[NUM_UNIFORMS];
     
-    CVOpenGLESTextureCacheRef _videoTextureCache;
-    CVOpenGLESTextureRef _videoTexture;
+    CVOpenGLESTextureCacheRef _videoTextureCache; //cache
+    CVOpenGLESTextureRef _videoTexture; // 
     
     CVPixelBufferRef renderTarget;
     
     GLuint _texture;
-    
-    dispatch_semaphore_t semaphore;
-}
 
-//@property (nonatomic, strong) ZLGLProgram *program;
+}
 
 @property (nonatomic, strong) AVCaptureSession *session;
 
@@ -67,9 +61,8 @@ static GLfloat corArr[] = {
     if (self = [super initWithFrame:frame]) {
         [self setupGLProgram];  // shader
         [self setupData];       // data
-        [self setupCache];
+        [self setupCache];      // cache
         [self captureDemo];
-        semaphore = dispatch_semaphore_create(1);
     }
     return self;
 }
@@ -88,19 +81,13 @@ static GLfloat corArr[] = {
         NSLog(@"Error at CVOpenGLESTextureCacheCreate %d", err);
         return;
     }
-    
-    
 }
-
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self setupFramebuffer];
-    [self render];
 }
 
 #pragma mark - context
-
 - (void)setupGLProgram {
     //加载shader
     self.program = [[ZLGLProgram alloc] init];
@@ -113,13 +100,10 @@ static GLfloat corArr[] = {
     attributes[ATTRIBUTE_VERTEX] = [self.program attributeID:@"position"];
     attributes[ATTRIBUTE_TEXTURE_COORD] = [self.program attributeID:@"textureCoor"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
-    
-    glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
 }
 
 #pragma mark - data
 - (void)setupData {
-    
     // 使用 VBO, 顶点数据在服务端 传偏移量 提高效率
     GLuint attrBuffer;
     glGenBuffers(1, &attrBuffer);
@@ -133,41 +117,25 @@ static GLfloat corArr[] = {
     glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     
-    // 不实用 VBO 使用 客户端的数据
+    
+    glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
+    
+    // 不使用 VBO 使用 客户端的数据
 //    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, positionArr);
 //    glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
 //
 //    glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, corArr);
 //    glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
-    
-    
-    
-    //    glBindTexture(CVOpenGLESTextureGetTarget(_videoTexture), CVOpenGLESTextureGetName(_videoTexture));
-    //    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    //    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    //    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    //    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    
-    
-    
 }
 
 #pragma mark - render
-
-- (void)render {
-    glClearColor(0, 1.0, 0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    [self.program useProgrm];
-//    [self setupData];
+- (void)updateData {}
+- (void)draw {
     glDrawArrays(GL_TRIANGLES, 0, 6);
-    [self presentRenderbuffer];
 }
 
 #pragma mark - avssion
-
 - (void)captureDemo {
-    
     // 1. 初始化session
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
     self.session = session;
@@ -200,7 +168,7 @@ static GLfloat corArr[] = {
     [connection setVideoOrientation:AVCaptureVideoOrientationPortraitUpsideDown];
     
     // 5. 启动
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [session startRunning];
     });
     
@@ -264,10 +232,10 @@ static GLfloat corArr[] = {
                                                        pixelBuffer,
                                                        NULL,
                                                        GL_TEXTURE_2D,
-                                                       GL_RGBA,
+                                                       GL_RGBA, //
                                                        dimensions.width,
                                                        dimensions.height,
-                                                       GL_BGRA,
+                                                       GL_BGRA, //
                                                        GL_UNSIGNED_BYTE,
                                                        0,
                                                        &_videoTexture);
@@ -282,9 +250,6 @@ static GLfloat corArr[] = {
         _videoTexture = NULL;
     }
     //    CVOpenGLESTextureCacheFlush(_videoTextureCache, 0);
-    NSLog(@"=====");
-    ////////////
-    
 }
 
 - (void)captureOutput:(AVCaptureOutput *)output didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {

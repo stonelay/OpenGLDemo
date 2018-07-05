@@ -8,6 +8,11 @@
 
 #import "RenderView.h"
 
+/*
+ * 没有把 program 和 context 抽象出来的renderview
+ * 留着做对比
+ */
+
 @interface GLRender07View : RenderView
 
 @end
