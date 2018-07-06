@@ -25,6 +25,8 @@
 		482F4C7B205A83DD00889C7C /* OpenGLDemo14Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C7A205A83DD00889C7C /* OpenGLDemo14Controller.m */; };
 		4831161F2057A0EB00E26EF3 /* shaderTexture12f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4831161D2057A0EB00E26EF3 /* shaderTexture12f.glsl */; };
 		483116202057A0EB00E26EF3 /* shaderTexture12v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4831161E2057A0EB00E26EF3 /* shaderTexture12v.glsl */; };
+		484F5E7120EF4A6B00DD7953 /* PanSetting11View.m in Sources */ = {isa = PBXBuildFile; fileRef = 484F5E7020EF4A6B00DD7953 /* PanSetting11View.m */; };
+		484F5E7420EF62C700DD7953 /* DrawModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 484F5E7320EF62C700DD7953 /* DrawModel.m */; };
 		4858C79020B3F35600C3193A /* GLRender15View.m in Sources */ = {isa = PBXBuildFile; fileRef = 4858C78F20B3F35600C3193A /* GLRender15View.m */; };
 		4858C79320B3F38100C3193A /* OpenGLDemo15Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 4858C79220B3F38100C3193A /* OpenGLDemo15Controller.m */; };
 		4858C79620B3F48B00C3193A /* shaderTexture15v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4858C79420B3F48B00C3193A /* shaderTexture15v.glsl */; };
@@ -141,6 +143,10 @@
 		482F4C7A205A83DD00889C7C /* OpenGLDemo14Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo14Controller.m; sourceTree = "<group>"; };
 		4831161D2057A0EB00E26EF3 /* shaderTexture12f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture12f.glsl; sourceTree = "<group>"; };
 		4831161E2057A0EB00E26EF3 /* shaderTexture12v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture12v.glsl; sourceTree = "<group>"; };
+		484F5E6F20EF4A6B00DD7953 /* PanSetting11View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanSetting11View.h; sourceTree = "<group>"; };
+		484F5E7020EF4A6B00DD7953 /* PanSetting11View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PanSetting11View.m; sourceTree = "<group>"; };
+		484F5E7220EF62C700DD7953 /* DrawModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawModel.h; sourceTree = "<group>"; };
+		484F5E7320EF62C700DD7953 /* DrawModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DrawModel.m; sourceTree = "<group>"; };
 		4858C78E20B3F35600C3193A /* GLRender15View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender15View.h; sourceTree = "<group>"; };
 		4858C78F20B3F35600C3193A /* GLRender15View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender15View.m; sourceTree = "<group>"; };
 		4858C79120B3F38100C3193A /* OpenGLDemo15Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo15Controller.h; sourceTree = "<group>"; };
@@ -483,6 +489,10 @@
 				487CBC3220511C69009ECE7C /* GLRender11View.m */,
 				487CBC3820511ED6009ECE7C /* OpenGLDemo11Controller.h */,
 				487CBC3920511ED6009ECE7C /* OpenGLDemo11Controller.m */,
+				484F5E6F20EF4A6B00DD7953 /* PanSetting11View.h */,
+				484F5E7020EF4A6B00DD7953 /* PanSetting11View.m */,
+				484F5E7220EF62C700DD7953 /* DrawModel.h */,
+				484F5E7320EF62C700DD7953 /* DrawModel.m */,
 			);
 			name = Draw;
 			path = "New Group";
@@ -1194,11 +1204,13 @@
 				48CB61E02010516400B665CC /* NSMutableDictionary+Safe.m in Sources */,
 				489A846920B813F9005BF4A8 /* AVPlayerDemoController.m in Sources */,
 				480E6EAE202AFE4B00D39CC8 /* ZLShaderAttribute.m in Sources */,
+				484F5E7420EF62C700DD7953 /* DrawModel.m in Sources */,
 				48CB61B620104FF700B665CC /* main.m in Sources */,
 				48CB61E22010516400B665CC /* NSDictionary+Safe.m in Sources */,
 				48E9090A203E94A4002CBCAC /* FFmDemo01Controller.m in Sources */,
 				489A845820B6ABE2005BF4A8 /* OpenGLDemo16Controller.m in Sources */,
 				4858C79320B3F38100C3193A /* OpenGLDemo15Controller.m in Sources */,
+				484F5E7120EF4A6B00DD7953 /* PanSetting11View.m in Sources */,
 				48CB62412016DD4E00B665CC /* OpenGLDemo07Controller.m in Sources */,
 				48CB62342016D7C400B665CC /* OpenGLDemo06Controller.m in Sources */,
 				48CB62102015BB6100B665CC /* OpenGLDemo02Controller.m in Sources */,

@@ -7,7 +7,15 @@
 //
 
 #import "ZLGLView.h"
+//#import "DrawModel.h"
+@class DrawElement;
 
 @interface GLRender11View : ZLGLView
+
+@property (nonatomic, strong) DrawElement *drawElement;
+
+- (void)clear;
+- (void)replay;
+- (void)undo;
 
 @end
