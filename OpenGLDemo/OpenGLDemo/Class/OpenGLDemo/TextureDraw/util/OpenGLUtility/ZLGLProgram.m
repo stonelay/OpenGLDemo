@@ -74,7 +74,6 @@
 #pragma mark - compile
 - (BOOL)compileAndLink {
     GLuint verShader, fragShader;      //vector 和 fragment shader ID
-    
     self.programId = glCreateProgram();     //创建一个shader program
     
     //创建并且编译 vector shader

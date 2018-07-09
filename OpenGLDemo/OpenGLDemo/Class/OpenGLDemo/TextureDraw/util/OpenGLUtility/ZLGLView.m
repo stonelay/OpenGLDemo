@@ -156,7 +156,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self deleteFramebuffer];
+//    [self deleteFramebuffer];
     [self setupFramebuffer];
     [self render];
 }

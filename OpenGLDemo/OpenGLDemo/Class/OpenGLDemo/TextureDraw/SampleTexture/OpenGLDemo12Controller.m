@@ -19,7 +19,11 @@
     [super viewDidLoad];
     
     self.view = [[GLRender12View alloc] init];
-    [self createNavBarWithTitle:@"Demo12" withLeft:[UIImage imageNamed:@"icon_back"]];
+    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+}
+
+- (NSString *)controllerTitle {
+    return @"地球";
 }
 
 @end

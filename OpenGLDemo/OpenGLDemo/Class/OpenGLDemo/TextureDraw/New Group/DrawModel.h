@@ -35,6 +35,7 @@
 @property (nonatomic, assign) GLfloat r;
 @property (nonatomic, assign) GLfloat g;
 @property (nonatomic, assign) GLfloat b;
+@property (nonatomic, assign) GLfloat a;
 
 @end
 

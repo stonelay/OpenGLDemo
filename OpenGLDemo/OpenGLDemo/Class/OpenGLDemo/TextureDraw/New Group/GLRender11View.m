@@ -137,7 +137,7 @@ static GLfloat brushColor[4];          // brush color
     brushColor[0] = self.drawElement.r;
     brushColor[1] = self.drawElement.g;
     brushColor[2] = self.drawElement.b;
-    brushColor[3] = 0.3;
+    brushColor[3] = 0.6;
     
     glUniform4fv(uniforms[UNIFORM_COLOR], 1, brushColor);
 }
@@ -267,6 +267,7 @@ static GLfloat brushColor[4];          // brush color
             [self renderLineFromPoint:lineModel.beginPoint toPoint:lineModel.endPoint realTime:YES];
         }
     }
+    self.drawElement = self.settingView.drawElement;
 }
 
 - (void)undo {

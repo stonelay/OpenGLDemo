@@ -12,6 +12,8 @@
 
 #import "ZLGLProgram.h"
 
+static int statck = 20;         //statck：切片----把球体横向切成几部分
+static int slice = 50;//纵向切几部分
 
 @interface GLRender12View() {
 //    GLuint VAO[2];
@@ -34,7 +36,6 @@
     BOOL isPoint;
 }
 
-
 @end
 
 @implementation GLRender12View
@@ -43,7 +44,7 @@
     if (self = [super init]) {
         [self setupGLProgram];  // shader
         [self initComponent];
-        
+        [self setupData];
     }
     return self;
 }
@@ -51,15 +52,16 @@
 - (void)initComponent {
     UIButton *button = [[UIButton alloc] init];
     [button setFrame:CGRectMake(10, 64 + 10, 80, 30)];
-    [button setTitle:@"change" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(chenge:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"Change" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(change:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self setupFramebuffer];
-    [self render];
+//    [self setupFramebuffer];
+//    [self render];
+    
 }
 
 #pragma mark - context
@@ -83,22 +85,12 @@
     uniforms[UNIFORM_PROJECTION_MATRIX] = [self.program uniformID:@"projectionMatrix"];
     uniforms[UNIFORM_MODEL_MATRIX] = [self.program uniformID:@"modelViewMatrix"];
     uniforms[UNIFORM_COLOR_MAP_0] = [self.program uniformID:@"colorMap0"];
-    
-    [self initVBO];
-}
-
-- (void)initVBO {
-//    glGenVertexArraysOES(2, VAO);
-    glGenBuffers(1, &vbo);
-    glGenTextures(1, &textureBuffer);
 }
 
 #pragma mark - data
 - (void)setupData {
     
     float radius = 1.0f;     //球的半径
-    int statck = 20;         //statck：切片----把球体横向切成几部分
-    int slice = 50;//纵向切几部分
     float statckStep = (float) (M_PI / statck);//单位角度值
     
     float sliceStep = (float) (M_PI * 2 / slice);//水平圆递增的角度
@@ -142,6 +134,7 @@
         }
     }
     
+    glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(drawArray), drawArray, GL_STATIC_DRAW);
     glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL);
@@ -150,8 +143,17 @@
     glVertexAttribPointer(attributes[ATTRIBUTE_TEXTURE_COORD], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 5, NULL + sizeof(GL_FLOAT)*3);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_TEXTURE_COORD]);
     
+    glGenTextures(1, &textureBuffer);
+    [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"pic_earth"];
+    //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
+    glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
+}
+
+#pragma mark - render
+- (void)updateData {
     float width = self.frame.size.width;
     float height = self.frame.size.height;
+    NSLog(@"width %f, height %f", width, height);
     
     KSMatrix4 _projectionMatrix;
     ksMatrixLoadIdentity(&_projectionMatrix);
@@ -166,6 +168,7 @@
     // 需要计算 正反面
     glEnable(GL_CULL_FACE);
     
+    /*------------------------------------------------------------------------*/
     KSMatrix4 _modelViewMatrix;
     ksMatrixLoadIdentity(&_modelViewMatrix);
     
@@ -185,31 +188,14 @@
     
     // Load the model-view matrix
     glUniformMatrix4fv(uniforms[UNIFORM_MODEL_MATRIX], 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
-    
-    [self setupTexture:GL_TEXTURE0 buffer:textureBuffer fileName:@"pic_earth"];
-    
-    //    GLuint buffer0 = glGetUniformLocation(self.myProgram, "colorMap0");
-    glUniform1i(uniforms[UNIFORM_COLOR_MAP_0], 0);
-    
+}
+
+- (void)draw {
     if (isPoint) {
         glDrawArrays(GL_POINTS, 0,  ((statck+1) * 2 - 2) * (slice+1));
     } else {
         glDrawArrays(GL_TRIANGLE_STRIP, 0, ((statck+1) * 2 - 2) * (slice+1));
     }
-}
-
-#pragma mark - render
-
-- (void)render {
-    glClearColor(0, 1.0, 0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    [self.program useProgrm];
-    
-    [self setupData];       // data
-    
-    
-    [self presentRenderbuffer];
 }
 
 #pragma mark - touch
@@ -238,7 +224,7 @@
     eyRotate -= yRotate;
 }
 
-- (void)chenge:(id)sender {
+- (void)change:(id)sender {
     isPoint = !isPoint;
     [self render];
 }

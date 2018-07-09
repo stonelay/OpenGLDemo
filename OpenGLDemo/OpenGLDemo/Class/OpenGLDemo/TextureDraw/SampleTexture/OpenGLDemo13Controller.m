@@ -19,7 +19,11 @@
     [super viewDidLoad];
     
     self.view = [[GLRender13View alloc] init];
-    [self createNavBarWithTitle:@"Demo13" withLeft:[UIImage imageNamed:@"icon_back"]];
+    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+}
+
+- (NSString *)controllerTitle {
+    return @"地球和线";
 }
 
 @end
