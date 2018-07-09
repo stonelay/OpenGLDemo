@@ -23,6 +23,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setupGLProgram];  // shader
+        [self setupData];
     }
     return self;
 }
@@ -30,15 +31,14 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [self setupFramebuffer];
-    [self render];
+//    [self setupFramebuffer];
+//    [self render];
 }
 
 #pragma mark - context
 
 - (void)setupGLProgram {
     //加载shader
-    
     self.program = [[ZLGLProgram alloc] init];
     
     self.program.vShaderFile = @"shaderTexture15v";
@@ -83,51 +83,33 @@
 
 #pragma mark - data
 - (void)setupData {
-    static const GLfloat squareVertices[] = {
-//        -1.0f, -1.0f,
-//        1.0f, -1.0f,
-//        -1.0f,  1.0f,
-//        1.0f,  1.0f,
-        
-        -1.0f, 0.5,
-        -0.5, -1.0f,
-        0.5,  1.0f,
-        1.0f,  -0.5,
+    static const GLfloat attrArray[] = {
+        -1.0f, 0.5, 0.0f, 1.0f,
+        -0.5, -1.0f, 1.0f, 1.0f,
+        0.5,  1.0f, 0.0f, 0.0f,
+        1.0f, -0.5, 1.0f, 0.0f,
     };
     
-    static const GLfloat coordVertices[] = {
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        0.0f,  0.0f,
-        1.0f,  0.0f,
-    };
+    GLuint buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(attrArray), attrArray, GL_DYNAMIC_DRAW);
     
-    glVertexAttribPointer(attributes[ATTRIBUTE_POSITION], 2, GL_FLOAT, 0, 0, squareVertices);
+    glVertexAttribPointer(attributes[ATTRIBUTE_POSITION], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 4, NULL);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_POSITION]);
-    //    glVertexPointer(3, GL_FLOAT, 0,(void *)NULL);
-    
-    //    GLuint textureCoor = glGetAttribLocation(self.myProgram, "textureCoor");
-    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 2, GL_FLOAT, 0, 0, coordVertices);
+
+    glVertexAttribPointer(attributes[ATTRIBUTE_VERTEX], 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 4, NULL+sizeof(GL_FLOAT)*2);
     glEnableVertexAttribArray(attributes[ATTRIBUTE_VERTEX]);
-    
-    // Draw
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 #pragma mark - render
-
-- (void)render {
-    glClearColor(0, 1.0, 0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+- (void)updateData {
     
-    [self.program useProgrm];
-    [self setupData];
-    
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    
-    [self presentRenderbuffer];
 }
 
+- (void)draw {
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+}
 
 #pragma mark - 接口
 static BOOL isGray = YES;
@@ -135,6 +117,9 @@ static BOOL isGray = YES;
     
     isGray = !isGray;
     unsigned char *blackData=(unsigned char *)malloc(w*h*3/2);
+    
+    //---1.5*w*h---//
+    //--Y--/-U-/-V-//
     memcpy(blackData, data, w*h*3/2);
     if (isGray) {
         memset(blackData+w*h,128,w*h/2);

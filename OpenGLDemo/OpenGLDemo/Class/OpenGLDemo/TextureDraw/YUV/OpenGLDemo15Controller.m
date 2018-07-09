@@ -24,18 +24,18 @@
     GLRender15View *view = (GLRender15View *)self.view;
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"176x144_yuv420p" ofType:@"yuv"];
-    
     NSData *reader = [NSData dataWithContentsOfFile:filePath];
-    NSLog(@"the reader length is %i", reader.length);
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [view displayYUV420pData:[reader bytes] width:256 height:256];
+    NSLog(@"the reader length is %lu", (unsigned long)reader.length);
+
     [view displayYUV420pData:[reader bytes] width:176 height:144];
-//    });
     
     [view bk_whenTapped:^{
         [view displayYUV420pData:[reader bytes] width:176 height:144];
     }];
-    
-    
 }
+
+- (NSString *)controllerTitle {
+    return @"解析显示YUV格式文件，点击切换";
+}
+
 @end
