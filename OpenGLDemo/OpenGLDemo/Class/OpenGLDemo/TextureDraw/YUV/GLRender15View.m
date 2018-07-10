@@ -113,7 +113,7 @@
 
 #pragma mark - 接口
 static BOOL isGray = YES;
-- (void)displayYUV420pData:(void *)data width:(GLsizei)w height:(GLsizei)h {
+- (void)displayYUV420pData:(const void *)data width:(GLsizei)w height:(GLsizei)h {
     
     isGray = !isGray;
     unsigned char *blackData=(unsigned char *)malloc(w*h*3/2);
