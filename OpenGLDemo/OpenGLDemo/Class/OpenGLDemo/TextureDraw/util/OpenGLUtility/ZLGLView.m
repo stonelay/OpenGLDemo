@@ -121,10 +121,10 @@
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthRenderbuffer);
         glEnable(GL_DEPTH_TEST);
         
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+        
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 }
 
