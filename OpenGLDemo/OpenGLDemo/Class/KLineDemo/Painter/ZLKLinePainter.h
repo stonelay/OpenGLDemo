@@ -1,13 +1,15 @@
 //
-//  TKBasePainter.h
+//  ZLKLinePainter.h
 //  OpenGLDemo
 //
 //  Created by LayZhang on 2018/7/17.
 //  Copyright © 2018年 Zhanglei. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@interface TKBasePainter : UIControl
+@protocol ZLKLinePainter <NSObject>
+
+- (void)draw;
 
 @end

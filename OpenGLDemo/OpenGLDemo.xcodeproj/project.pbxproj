@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4052A6836A8F73C6DCA97A7B /* libPods-OpenGLDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D495144F95F8B2BDC5E3AD8 /* libPods-OpenGLDemo.a */; };
+		4800590321070DAA00B4C38E /* ZLGridePainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4800590221070DAA00B4C38E /* ZLGridePainter.m */; };
+		48005907210722F500B4C38E /* KLineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48005906210722F500B4C38E /* KLineModel.m */; };
+		4800590E21072AF000B4C38E /* ZLPaintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4800590D21072AF000B4C38E /* ZLPaintView.m */; };
 		480E6E9E202AC7DC00D39CC8 /* GLRender09View.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6E9D202AC7DC00D39CC8 /* GLRender09View.m */; };
 		480E6EA4202AC82000D39CC8 /* OpenGLDemo09Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EA3202AC82000D39CC8 /* OpenGLDemo09Controller.m */; };
 		480E6EA8202ACF1700D39CC8 /* ZLGLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 480E6EA7202ACF1700D39CC8 /* ZLGLProgram.m */; };
@@ -33,7 +36,7 @@
 		4858C79720B3F48B00C3193A /* shaderTexture15f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4858C79520B3F48B00C3193A /* shaderTexture15f.glsl */; };
 		4858C79F20B5575A00C3193A /* 176x144_yuv420p.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 4858C79E20B5575A00C3193A /* 176x144_yuv420p.yuv */; };
 		4875CB8C20FDD035003EBED2 /* KLineDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4875CB8B20FDD035003EBED2 /* KLineDemoController.m */; };
-		4875CB9020FDD146003EBED2 /* TKBasePainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4875CB8F20FDD146003EBED2 /* TKBasePainter.m */; };
+		4875CB9020FDD146003EBED2 /* ZLBasePainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4875CB8F20FDD146003EBED2 /* ZLBasePainter.m */; };
 		487CBC3320511C69009ECE7C /* GLRender11View.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC3220511C69009ECE7C /* GLRender11View.m */; };
 		487CBC3A20511ED6009ECE7C /* OpenGLDemo11Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC3920511ED6009ECE7C /* OpenGLDemo11Controller.m */; };
 		487CBC3D205120D0009ECE7C /* shaderTexture11f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 487CBC3B205120D0009ECE7C /* shaderTexture11f.glsl */; };
@@ -115,6 +118,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4800590121070DAA00B4C38E /* ZLGridePainter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLGridePainter.h; sourceTree = "<group>"; };
+		4800590221070DAA00B4C38E /* ZLGridePainter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLGridePainter.m; sourceTree = "<group>"; };
+		48005905210722F500B4C38E /* KLineModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KLineModel.h; sourceTree = "<group>"; };
+		48005906210722F500B4C38E /* KLineModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KLineModel.m; sourceTree = "<group>"; };
+		4800590C21072AF000B4C38E /* ZLPaintView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLPaintView.h; sourceTree = "<group>"; };
+		4800590D21072AF000B4C38E /* ZLPaintView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLPaintView.m; sourceTree = "<group>"; };
 		480E6E9C202AC7DC00D39CC8 /* GLRender09View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender09View.h; sourceTree = "<group>"; };
 		480E6E9D202AC7DC00D39CC8 /* GLRender09View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender09View.m; sourceTree = "<group>"; };
 		480E6EA2202AC82000D39CC8 /* OpenGLDemo09Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo09Controller.h; sourceTree = "<group>"; };
@@ -158,9 +167,9 @@
 		4858C79E20B5575A00C3193A /* 176x144_yuv420p.yuv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 176x144_yuv420p.yuv; sourceTree = "<group>"; };
 		4875CB8A20FDD035003EBED2 /* KLineDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KLineDemoController.h; sourceTree = "<group>"; };
 		4875CB8B20FDD035003EBED2 /* KLineDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KLineDemoController.m; sourceTree = "<group>"; };
-		4875CB8E20FDD146003EBED2 /* TKBasePainter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TKBasePainter.h; sourceTree = "<group>"; };
-		4875CB8F20FDD146003EBED2 /* TKBasePainter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TKBasePainter.m; sourceTree = "<group>"; };
-		4875CB9120FDD220003EBED2 /* TKPainterProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TKPainterProtocol.h; sourceTree = "<group>"; };
+		4875CB8E20FDD146003EBED2 /* ZLBasePainter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLBasePainter.h; sourceTree = "<group>"; };
+		4875CB8F20FDD146003EBED2 /* ZLBasePainter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLBasePainter.m; sourceTree = "<group>"; };
+		4875CB9120FDD220003EBED2 /* ZLKLinePainter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLKLinePainter.h; sourceTree = "<group>"; };
 		487CBC3120511C69009ECE7C /* GLRender11View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender11View.h; sourceTree = "<group>"; };
 		487CBC3220511C69009ECE7C /* GLRender11View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender11View.m; sourceTree = "<group>"; };
 		487CBC3820511ED6009ECE7C /* OpenGLDemo11Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo11Controller.h; sourceTree = "<group>"; };
@@ -445,6 +454,33 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		48005900210708F900B4C38E /* GridPanter */ = {
+			isa = PBXGroup;
+			children = (
+				4800590121070DAA00B4C38E /* ZLGridePainter.h */,
+				4800590221070DAA00B4C38E /* ZLGridePainter.m */,
+			);
+			path = GridPanter;
+			sourceTree = "<group>";
+		};
+		480059042107229B00B4C38E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				48005905210722F500B4C38E /* KLineModel.h */,
+				48005906210722F500B4C38E /* KLineModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4800590B21072AE200B4C38E /* PaintView */ = {
+			isa = PBXGroup;
+			children = (
+				4800590C21072AF000B4C38E /* ZLPaintView.h */,
+				4800590D21072AF000B4C38E /* ZLPaintView.m */,
+			);
+			path = PaintView;
+			sourceTree = "<group>";
+		};
 		480E6EA5202ACEB600D39CC8 /* OpenGLUtility */ = {
 			isa = PBXGroup;
 			children = (
@@ -492,6 +528,7 @@
 		4875CB8920FDD01A003EBED2 /* KLineDemo */ = {
 			isa = PBXGroup;
 			children = (
+				480059042107229B00B4C38E /* Model */,
 				4875CB8D20FDD085003EBED2 /* Painter */,
 				4875CB8A20FDD035003EBED2 /* KLineDemoController.h */,
 				4875CB8B20FDD035003EBED2 /* KLineDemoController.m */,
@@ -502,9 +539,11 @@
 		4875CB8D20FDD085003EBED2 /* Painter */ = {
 			isa = PBXGroup;
 			children = (
-				4875CB8E20FDD146003EBED2 /* TKBasePainter.h */,
-				4875CB8F20FDD146003EBED2 /* TKBasePainter.m */,
-				4875CB9120FDD220003EBED2 /* TKPainterProtocol.h */,
+				4800590B21072AE200B4C38E /* PaintView */,
+				48005900210708F900B4C38E /* GridPanter */,
+				4875CB8E20FDD146003EBED2 /* ZLBasePainter.h */,
+				4875CB8F20FDD146003EBED2 /* ZLBasePainter.m */,
+				4875CB9120FDD220003EBED2 /* ZLKLinePainter.h */,
 			);
 			path = Painter;
 			sourceTree = "<group>";
@@ -1201,6 +1240,7 @@
 				482F4C7B205A83DD00889C7C /* OpenGLDemo14Controller.m in Sources */,
 				48CB62452017132B00B665CC /* GLESMath.c in Sources */,
 				48CB61E62010516400B665CC /* ScreenAuotoSizeScale.m in Sources */,
+				4800590321070DAA00B4C38E /* ZLGridePainter.m in Sources */,
 				48CB61E72010516400B665CC /* NSString+ZLEX.m in Sources */,
 				487CBC462051470E009ECE7C /* GLRender12View.m in Sources */,
 				480E6EA4202AC82000D39CC8 /* OpenGLDemo09Controller.m in Sources */,
@@ -1229,6 +1269,7 @@
 				48CB61E92010516400B665CC /* UIImage+ZLEX.m in Sources */,
 				48CB61E82010516400B665CC /* CALayer+ZLEX.m in Sources */,
 				48CB622D2015D4AE00B665CC /* OpenGLDemo05Controller.m in Sources */,
+				4800590E21072AF000B4C38E /* ZLPaintView.m in Sources */,
 				48CB62232015C63500B665CC /* GLRender04View.m in Sources */,
 				48CB61E02010516400B665CC /* NSMutableDictionary+Safe.m in Sources */,
 				489A846920B813F9005BF4A8 /* AVPlayerDemoController.m in Sources */,
@@ -1242,9 +1283,10 @@
 				484F5E7120EF4A6B00DD7953 /* PanSetting11View.m in Sources */,
 				48CB62412016DD4E00B665CC /* OpenGLDemo07Controller.m in Sources */,
 				48CB62342016D7C400B665CC /* OpenGLDemo06Controller.m in Sources */,
-				4875CB9020FDD146003EBED2 /* TKBasePainter.m in Sources */,
+				4875CB9020FDD146003EBED2 /* ZLBasePainter.m in Sources */,
 				48CB62102015BB6100B665CC /* OpenGLDemo02Controller.m in Sources */,
 				48CB62202015C61300B665CC /* OpenGLDemo04Controller.m in Sources */,
+				48005907210722F500B4C38E /* KLineModel.m in Sources */,
 				482F4C712057CAF200889C7C /* OpenGLDemo13Controller.m in Sources */,
 				48CB624C2017368C00B665CC /* OpenGLDemo08Controller.m in Sources */,
 				48CB61B820104FF700B665CC /* ZLViewController.m in Sources */,
