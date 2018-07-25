@@ -1,13 +1,13 @@
 //
-//  ZLGridePainter.h
+//  ZLCandlePainter.h
 //  OpenGLDemo
 //
-//  Created by LayZhang on 2018/7/24.
+//  Created by LayZhang on 2018/7/25.
 //  Copyright © 2018年 Zhanglei. All rights reserved.
 //
 
 #import "ZLBasePainter.h"
 
-@interface ZLGridePainter : ZLBasePainter
+@interface ZLCandlePainter : ZLBasePainter
 
 @end

@@ -12,4 +12,14 @@
 
 - (void)draw;
 
+// pan
+- (void)panBeginPoint:(CGPoint)point;
+- (void)panChangePoint:(CGPoint)point;
+- (void)panEndPoint:(CGPoint)point;
+
+// pinch
+- (void)pinchBeginScale:(CGFloat)scale;
+- (void)pinchChangeScale:(CGFloat)scale;
+- (void)pinchEndScale:(CGFloat)scale;
+
 @end

@@ -27,10 +27,14 @@
 
 @implementation ZLGridePainter
 
-- (void)zl_initDefault {
-    
+- (void)p_initDefault {
+    self.borderShapeLayer.strokeColor = BorderStrokeColor.CGColor;
+    self.xAxisShapeLayer.strokeColor = AxisStrokeColor.CGColor;
+    self.latitudeLayer.strokeColor = LatitudeStrokeColor.CGColor;
+    self.longitudeLayer.strokeColor = LongitudeStrokeColor.CGColor;
 }
 
+#pragma mark - override
 - (void)draw {
     if (!self.p_havePaintView) {
         return;
@@ -39,10 +43,15 @@
     [self drawAxis];
 }
 
+- (void)panBeginPoint:(CGPoint)point {}
+- (void)panChangePoint:(CGPoint)point {}
+- (void)panEndPoint:(CGPoint)point {}
+
+#pragma mark - draw
 - (void)drawBorder {
-    UIBezierPath *path = [UIBezierPath bezierPathWithRect:self.paintView.bounds];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:self.p_bounds];
     self.borderShapeLayer.path = path.CGPath;
-    [self.paintView.layer addSublayer:self.borderShapeLayer];
+    [self p_addSublayer:self.borderShapeLayer];
 }
 
 - (void)drawAxis {
@@ -58,7 +67,7 @@
     
     self.xAxisShapeLayer.path = path.CGPath;
     
-    [self.paintView.layer addSublayer:self.xAxisShapeLayer];
+    [self p_addSublayer:self.xAxisShapeLayer];
 }
 
 - (void)drawLatitudeLines {}
@@ -97,7 +106,6 @@
     if (!_borderShapeLayer) {
         _borderShapeLayer = [CAShapeLayer layer];
         _borderShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
-        _borderShapeLayer.strokeColor = BorderStrokeColor.CGColor;
         _borderShapeLayer.fillColor = ZLClearColor.CGColor;
         _borderShapeLayer.lineWidth = LINEWIDTH;
     }
@@ -108,7 +116,6 @@
     if (!_xAxisShapeLayer) {
         _xAxisShapeLayer = [CAShapeLayer layer];
         _xAxisShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
-        _xAxisShapeLayer.strokeColor = AxisStrokeColor.CGColor;
         _xAxisShapeLayer.fillColor = ZLClearColor.CGColor;
         _xAxisShapeLayer.lineWidth = LINEWIDTH;
     }
@@ -119,7 +126,6 @@
     if (!_longitudeLayer) {
         _longitudeLayer = [CAShapeLayer layer];
         _longitudeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
-        _longitudeLayer.strokeColor = LongitudeStrokeColor.CGColor;
         _longitudeLayer.fillColor = ZLClearColor.CGColor;
         _longitudeLayer.lineWidth = LINEWIDTH;
     }
@@ -130,7 +136,6 @@
     if (!_latitudeLayer) {
         _latitudeLayer = [CAShapeLayer layer];
         _latitudeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
-        _latitudeLayer.strokeColor = LatitudeStrokeColor.CGColor;
         _latitudeLayer.fillColor = ZLClearColor.CGColor;
         _latitudeLayer.lineWidth = LINEWIDTH;
     }

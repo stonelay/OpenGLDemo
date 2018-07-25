@@ -8,10 +8,17 @@
 
 #import "ZLBasePainter.h"
 
+@interface ZLBasePainter()
+
+@property (nonatomic, weak) UIView *paintView;
+
+@end
+
 @implementation ZLBasePainter
 
-- (instancetype)init {
+- (instancetype)initWithPaintView:(UIView *)paintView {
     if (self = [super init]) {
+        self.paintView = paintView;
         [self p_initDefault];
     }
     return self;
@@ -21,6 +28,16 @@
 - (void)draw {
     // abstract 子类实现
 }
+
+// pan
+- (void)panBeginPoint:(CGPoint)point {}
+- (void)panChangePoint:(CGPoint)point {}
+- (void)panEndPoint:(CGPoint)point {}
+
+// pinch
+- (void)pinchBeginScale:(CGFloat)scale {}
+- (void)pinchChangeScale:(CGFloat)scale {}
+- (void)pinchEndScale:(CGFloat)scale {}
 
 #pragma mark - private
 - (void)p_initDefault {
@@ -43,6 +60,20 @@
         return 0;
     }
     return self.paintView.width;
+}
+
+- (CGRect)p_frame {
+    if (![self p_havePaintView]) {
+        return CGRectZero;
+    }
+    return self.paintView.frame;
+}
+
+- (CGRect)p_bounds {
+    if (![self p_havePaintView]) {
+        return CGRectZero;
+    }
+    return self.paintView.bounds;
 }
 
 - (void)p_addSublayer:(CALayer *)sublayer {

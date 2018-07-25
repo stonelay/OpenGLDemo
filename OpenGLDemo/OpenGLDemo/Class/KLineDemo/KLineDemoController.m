@@ -10,7 +10,10 @@
 
 #import "ZLPaintView.h"
 
-@interface KLineDemoController ()
+#import "KLineModel.h"
+#import "KLineDataCenter.h"
+
+@interface KLineDemoController ()<NSXMLParserDelegate>
 
 @end
 
@@ -22,7 +25,7 @@
     [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
     
     ZLPaintView *painter = [[ZLPaintView alloc] initWithFrame:CGRectMake(10, NAVBARHEIGHT + 10, SCREENWIDTH - 2 * 10, SCREENHEIGHT - NAVBARHEIGHT - 2 * 10)];
-    painter.linePainterOp = ZLKLinePainterOpGride;
+    painter.linePainterOp = ZLKLinePainterOpGride | ZLKLinePainterOpCandle;
     [painter draw];
 //
 //    ZLGridePainter *painter1 = [[ZLGridePainter alloc] initWithFrame:CGRectMake(20, NAVBARHEIGHT + 20, SCREENWIDTH - 2 * 10, SCREENHEIGHT - NAVBARHEIGHT - 2 * 10)];
@@ -30,10 +33,14 @@
     
     [self.view addSubview:painter];
 //    [self.view addSubview:painter1];
+    
+    
+//    NSArray *a = [KLineDataCenter shareInstance].hisKLineData;
 }
 
 
 - (NSString *)controllerTitle {
     return @"KLine";
 }
+
 @end
