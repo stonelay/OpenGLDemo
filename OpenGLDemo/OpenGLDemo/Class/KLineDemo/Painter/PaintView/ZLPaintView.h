@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ZLKLinePainter.h"
+#import "ZLBasePaintView.h"
 
 typedef NS_OPTIONS(NSUInteger, ZLKLinePainterOp) {
     ZLKLinePainterOpNone                        = 0,
@@ -16,7 +16,7 @@ typedef NS_OPTIONS(NSUInteger, ZLKLinePainterOp) {
     ZLKLinePainterOpMA                          = 1 << 2,
 };
 
-@interface ZLPaintView : UIControl<ZLKLinePainter>
+@interface ZLPaintView : ZLBasePaintView
 
 @property (nonatomic, assign) ZLKLinePainterOp linePainterOp;
 @property (nonatomic, strong) NSArray<ZLKLinePainter> *painterArray;

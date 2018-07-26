@@ -8,26 +8,23 @@
 
 #import "ZLGridePainter.h"
 
-#define BorderStrokeColor       ZLHEXCOLOR(0x636363)
-#define AxisStrokeColor         ZLHEXCOLOR(0x636363)
+#define BorderStrokeColor       ZLHEXCOLOR(0x222222)
+#define AxisStrokeColor         ZLHEXCOLOR(0x999999)
 #define LongitudeStrokeColor    ZLHEXCOLOR(0xC71585)
 #define LatitudeStrokeColor     ZLHEXCOLOR(0xC71585)
-
-#define AxisMarginBottom (60 * SCALE)
 
 @interface ZLGridePainter()
 
 @property (nonatomic, strong) CAShapeLayer *borderShapeLayer;
 @property (nonatomic, strong) CAShapeLayer *xAxisShapeLayer;
 
-@property (nonatomic, strong) CAShapeLayer *longitudeLayer;
-@property (nonatomic, strong) CAShapeLayer *latitudeLayer;
 
 @end
 
 @implementation ZLGridePainter
 
 - (void)p_initDefault {
+    [super p_initDefault];
     self.borderShapeLayer.strokeColor = BorderStrokeColor.CGColor;
     self.xAxisShapeLayer.strokeColor = AxisStrokeColor.CGColor;
     self.latitudeLayer.strokeColor = LatitudeStrokeColor.CGColor;
@@ -36,11 +33,12 @@
 
 #pragma mark - override
 - (void)draw {
-    if (!self.p_havePaintView) {
-        return;
-    }
+    [super draw];
+    
     [self drawBorder];
     [self drawAxis];
+    [self drawLongittueLines];
+    [self drawLatitudeLines];
 }
 
 - (void)panBeganPoint:(CGPoint)point {}
@@ -49,14 +47,16 @@
 
 #pragma mark - draw
 - (void)drawBorder {
-    UIBezierPath *path = [UIBezierPath bezierPathWithRect:self.p_bounds];
+    CGRect border = self.p_bounds;
+    border.size.height += self.bMargin;
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:border];
     self.borderShapeLayer.path = path.CGPath;
     [self p_addSublayer:self.borderShapeLayer];
 }
 
 - (void)drawAxis {
-    CGPoint pointXBegin = CGPointMake(0, self.p_height - AxisMarginBottom);
-    CGPoint pointXEnd = CGPointMake(self.p_width, self.p_height - AxisMarginBottom);
+    CGPoint pointXBegin = CGPointMake(0, self.p_height);
+    CGPoint pointXEnd = CGPointMake(self.p_width, self.p_height);
     
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:pointXBegin];
@@ -71,8 +71,15 @@
     [self p_addSublayer:self.xAxisShapeLayer];
 }
 
-- (void)drawLatitudeLines {}
-- (void)drawLongittueLines {}
+- (void)drawLatitudeLines {
+    // 当前场景 不适合 在这绘制
+    // noop
+}
+
+- (void)drawLongittueLines {
+    // 当前场景 不适合 在这绘制
+    // noop
+}
 
 - (void)releaseBorderShapeLayer{
     if (self.borderShapeLayer) {

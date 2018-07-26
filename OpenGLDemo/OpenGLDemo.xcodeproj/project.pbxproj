@@ -32,6 +32,10 @@
 		483607C5210814DB0024B481 /* KLineDataCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 483607C4210814DB0024B481 /* KLineDataCenter.m */; };
 		483607C82108160F0024B481 /* MockServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 483607C72108160F0024B481 /* MockServer.m */; };
 		483607CA210817B40024B481 /* N225.xml in Resources */ = {isa = PBXBuildFile; fileRef = 483607C9210817B40024B481 /* N225.xml */; };
+		483607D32109CBAF0024B481 /* ZLBasePaintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 483607D22109CBAF0024B481 /* ZLBasePaintView.m */; };
+		483607D72109CF530024B481 /* SceneBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 483607D62109CF530024B481 /* SceneBaseModel.m */; };
+		483607DA2109CFA30024B481 /* SceneCandleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 483607D92109CFA30024B481 /* SceneCandleModel.m */; };
+		483607DD2109CFB40024B481 /* SceneCrossModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 483607DC2109CFB40024B481 /* SceneCrossModel.m */; };
 		484F5E7120EF4A6B00DD7953 /* PanSetting11View.m in Sources */ = {isa = PBXBuildFile; fileRef = 484F5E7020EF4A6B00DD7953 /* PanSetting11View.m */; };
 		484F5E7420EF62C700DD7953 /* DrawModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 484F5E7320EF62C700DD7953 /* DrawModel.m */; };
 		4858C79020B3F35600C3193A /* GLRender15View.m in Sources */ = {isa = PBXBuildFile; fileRef = 4858C78F20B3F35600C3193A /* GLRender15View.m */; };
@@ -165,6 +169,14 @@
 		483607C62108160F0024B481 /* MockServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MockServer.h; sourceTree = "<group>"; };
 		483607C72108160F0024B481 /* MockServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MockServer.m; sourceTree = "<group>"; };
 		483607C9210817B40024B481 /* N225.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = N225.xml; sourceTree = "<group>"; };
+		483607D12109CBAF0024B481 /* ZLBasePaintView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLBasePaintView.h; sourceTree = "<group>"; };
+		483607D22109CBAF0024B481 /* ZLBasePaintView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLBasePaintView.m; sourceTree = "<group>"; };
+		483607D52109CF530024B481 /* SceneBaseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneBaseModel.h; sourceTree = "<group>"; };
+		483607D62109CF530024B481 /* SceneBaseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneBaseModel.m; sourceTree = "<group>"; };
+		483607D82109CFA30024B481 /* SceneCandleModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneCandleModel.h; sourceTree = "<group>"; };
+		483607D92109CFA30024B481 /* SceneCandleModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneCandleModel.m; sourceTree = "<group>"; };
+		483607DB2109CFB40024B481 /* SceneCrossModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneCrossModel.h; sourceTree = "<group>"; };
+		483607DC2109CFB40024B481 /* SceneCrossModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneCrossModel.m; sourceTree = "<group>"; };
 		484F5E6F20EF4A6B00DD7953 /* PanSetting11View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanSetting11View.h; sourceTree = "<group>"; };
 		484F5E7020EF4A6B00DD7953 /* PanSetting11View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PanSetting11View.m; sourceTree = "<group>"; };
 		484F5E7220EF62C700DD7953 /* DrawModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawModel.h; sourceTree = "<group>"; };
@@ -493,8 +505,11 @@
 		4800590B21072AE200B4C38E /* PaintView */ = {
 			isa = PBXGroup;
 			children = (
+				483607D42109CF3C0024B481 /* SceneModel */,
 				4800590C21072AF000B4C38E /* ZLPaintView.h */,
 				4800590D21072AF000B4C38E /* ZLPaintView.m */,
+				483607D12109CBAF0024B481 /* ZLBasePaintView.h */,
+				483607D22109CBAF0024B481 /* ZLBasePaintView.m */,
 			);
 			path = PaintView;
 			sourceTree = "<group>";
@@ -525,6 +540,19 @@
 				480E6ECD2032C33F00D39CC8 /* MAsync.m */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		483607D42109CF3C0024B481 /* SceneModel */ = {
+			isa = PBXGroup;
+			children = (
+				483607D52109CF530024B481 /* SceneBaseModel.h */,
+				483607D62109CF530024B481 /* SceneBaseModel.m */,
+				483607D82109CFA30024B481 /* SceneCandleModel.h */,
+				483607D92109CFA30024B481 /* SceneCandleModel.m */,
+				483607DB2109CFB40024B481 /* SceneCrossModel.h */,
+				483607DC2109CFB40024B481 /* SceneCrossModel.m */,
+			);
+			path = SceneModel;
 			sourceTree = "<group>";
 		};
 		4858C78D20B3F31400C3193A /* YUV */ = {
@@ -1266,9 +1294,11 @@
 				487CBC462051470E009ECE7C /* GLRender12View.m in Sources */,
 				480E6EA4202AC82000D39CC8 /* OpenGLDemo09Controller.m in Sources */,
 				487CBC3320511C69009ECE7C /* GLRender11View.m in Sources */,
+				483607D72109CF530024B481 /* SceneBaseModel.m in Sources */,
 				480E6EB1202D377900D39CC8 /* ZLGLView.m in Sources */,
 				4858C79020B3F35600C3193A /* GLRender15View.m in Sources */,
 				48CB62142015BF6500B665CC /* OpenGLDemo03Controller.m in Sources */,
+				483607DD2109CFB40024B481 /* SceneCrossModel.m in Sources */,
 				48CB61EB2010516400B665CC /* UIButton+ZLEX.m in Sources */,
 				480E6ECE2032C33F00D39CC8 /* MAsync.m in Sources */,
 				487CBC43205146F0009ECE7C /* OpenGLDemo12Controller.m in Sources */,
@@ -1284,6 +1314,7 @@
 				48CB61DF2010516400B665CC /* NSMutableArray+Safe.m in Sources */,
 				48E909392040048E002CBCAC /* VTBDemo01Controller.m in Sources */,
 				48CB61F2201052D900B665CC /* OpenGLDemo01Controller.m in Sources */,
+				483607D32109CBAF0024B481 /* ZLBasePaintView.m in Sources */,
 				480E6E9E202AC7DC00D39CC8 /* GLRender09View.m in Sources */,
 				48CB622A2015D49A00B665CC /* GLRender05View.m in Sources */,
 				48CB61EE2010524800B665CC /* MainViewCell.m in Sources */,
@@ -1294,6 +1325,7 @@
 				48CB62232015C63500B665CC /* GLRender04View.m in Sources */,
 				48CB61E02010516400B665CC /* NSMutableDictionary+Safe.m in Sources */,
 				489A846920B813F9005BF4A8 /* AVPlayerDemoController.m in Sources */,
+				483607DA2109CFA30024B481 /* SceneCandleModel.m in Sources */,
 				480E6EAE202AFE4B00D39CC8 /* ZLShaderAttribute.m in Sources */,
 				484F5E7420EF62C700DD7953 /* DrawModel.m in Sources */,
 				48CB61B620104FF700B665CC /* main.m in Sources */,

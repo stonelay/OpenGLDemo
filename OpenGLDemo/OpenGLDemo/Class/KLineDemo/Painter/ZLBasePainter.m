@@ -10,14 +10,16 @@
 
 @interface ZLBasePainter()
 
+@property (nonatomic, assign) CGFloat bMargin; // 底部距离
 @property (nonatomic, weak) UIView *paintView;
 
 @end
 
 @implementation ZLBasePainter
 
-- (instancetype)initWithPaintView:(UIView *)paintView {
+- (instancetype)initWithPaintView:(UIView *)paintView withBMargin:(CGFloat)bMargin {
     if (self = [super init]) {
+        self.bMargin = bMargin;
         self.paintView = paintView;
         [self p_initDefault];
     }
@@ -26,7 +28,8 @@
 
 #pragma mark - ZLKLinePainter
 - (void)draw {
-    // abstract 子类实现
+    [self p_havePaintView];
+    [self p_haveDataSource];
 }
 
 // pan
@@ -54,46 +57,40 @@
 }
 
 - (CGFloat)p_height {
-    if (![self p_havePaintView]) {
-        return 0;
-    }
-    return self.paintView.height;
+    [self p_havePaintView];
+    return self.paintView.height - self.bMargin;
 }
 
 - (CGFloat)p_width {
-    if (![self p_havePaintView]) {
-        return 0;
-    }
+    [self p_havePaintView];
     return self.paintView.width;
 }
 
 - (CGRect)p_frame {
-    if (![self p_havePaintView]) {
-        return CGRectZero;
-    }
-    return self.paintView.frame;
+    [self p_havePaintView];
+    CGRect frame = self.paintView.frame;
+    frame.size.height -= self.bMargin;
+    return frame;
 }
 
 - (CGRect)p_bounds {
-    if (![self p_havePaintView]) {
-        return CGRectZero;
-    }
-    return self.paintView.bounds;
+    [self p_havePaintView];
+    CGRect bounds = self.paintView.bounds;
+    bounds.size.height -= self.bMargin;
+    return bounds;
 }
 
 - (void)p_addSublayer:(CALayer *)sublayer {
-    if (![self p_havePaintView]) {
-        return;
-    }
+    [self p_havePaintView];
     [self.paintView.layer addSublayer:sublayer];
 }
 
-- (BOOL)p_havePaintView {
-    if (!self.paintView) {
-        ZLErrorLog(@"error: paintView is nil!!!");
-        return NO;
-    }
-    return YES;
+- (void)p_havePaintView {
+    NSAssert(self.paintView, @"paintView is nil!!!");
+}
+
+- (void)p_haveDataSource {
+    NSAssert(self.dataSource, @"dataSource is nil!!!");
 }
 
 #pragma mark - sys

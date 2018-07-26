@@ -9,65 +9,34 @@
 #import "ZLCandlePainter.h"
 #import "KLineModel.h"
 
-#define UninitializedIndex   -1
+#import "SceneCandleModel.h"
+#import "SceneCrossModel.h"
+
+//#define UninitializedIndex   -1
 
 #define UpColor         ZLHEXCOLOR(0xDC143C)
 #define DownColor       ZLHEXCOLOR(0x47D3D1)
 #define NormalColor     ZLHEXCOLOR(0xFAFAD2)
+#define CrossColor      ZLHEXCOLOR(0x333333)
 
 @interface ZLCandlePainter() {
-    CGFloat _kLineCellSpace;    //cell间隔
-    CGFloat _kLineCellWidth;    //cell宽度
-    
-    CGFloat _kMinScale;     //最小缩放量
-    CGFloat _kMaxScale;     //最大缩放量
-    
     UIColor *_uColor; // 涨
     UIColor *_dColor; // 跌
     UIColor *_nColor; // 平
 }
 
-@property (nonatomic, assign) NSUInteger arrayMaxCount; // 最大展示个数
+@property (nonatomic, strong) SceneCandleModel *sceneCandleModel;
+@property (nonatomic, strong) SceneCrossModel *sceneCrossModel;
+@property (nonatomic, strong) NSArray *curShowArray;
 
 @property (nonatomic, strong) CAShapeLayer *candleShapeLayer;  // 蜡烛线
 @property (nonatomic, strong) CAShapeLayer *trackingCrosslayer;// 十字线
-
-@property (nonatomic, strong) NSArray *needShowArray;
-
-// value
-@property (nonatomic, assign) CGFloat unitValue;    // 单位点的值
-@property (nonatomic, assign) NSUInteger showCount; // 当前页面显示的个数
-
-
-@property (nonatomic, assign) CGPoint longPressPoint;
-
-@property (nonatomic, assign) NSInteger oriIndex;   // pan 之前的第一条index
-@property (nonatomic, assign) NSInteger curIndex;   // pan 中当前index
-
-@property (nonatomic, assign) CGFloat oriXScale;      // pinch 之前缩放比例
-@property (nonatomic, assign) CGFloat curXScale;      // pinch 中当前缩放比例
-
-@property (nonatomic, assign) CGFloat sHigherPrice;   // 当前屏幕最高价
-@property (nonatomic, assign) CGFloat sLowerPrice;   // 当前屏幕最高价
-
-@property (nonatomic, assign) CGPoint moveBeginPoint;
-@property (nonatomic, assign) CGPoint moveEndPoint;
-
 
 @end
 
 @implementation ZLCandlePainter
 
 - (void)p_initDefault {
-    _kLineCellSpace = 4 * SCALE;    //cell间隔
-    _kLineCellWidth = 8 * SCALE;    //cell宽度
-    
-    _kMinScale = 0.1;     //最小缩放量
-    _kMaxScale = 4.0;     //最大缩放量
-    
-    self.oriXScale = 1.0;
-    self.oriIndex = UninitializedIndex;
-    
     _uColor = UpColor;
     _dColor = DownColor;
     _nColor = NormalColor;
@@ -75,64 +44,76 @@
 
 #pragma mark - override
 - (void)draw {
-    if (!self.p_havePaintView) {
-        return;
-    }
-    [self prepareDrawWithPoint:CGPointZero andScale:1.0];
+    [super draw];
+    
+    [self updateCandleScene];
+    [self updateCrossScene];
+    [self updateCurShowArray];
     [self drawCandle];
+}
+
+- (void)updateCandleScene {
+    if ([self.dataSource respondsToSelector:@selector(sceneCandleModelInpainter:)]) {
+        self.sceneCandleModel = [self.dataSource sceneCandleModelInpainter:self];
+    }
+}
+
+- (void)updateCrossScene {
+    if ([self.dataSource respondsToSelector:@selector(sceneCrossModelInpainter:)]) {
+        self.sceneCrossModel = [self.dataSource sceneCrossModelInpainter:self];
+    }
+}
+
+- (void)updateCurShowArray {
+    if ([self.dataSource respondsToSelector:@selector(showArrayInPainter:)]) {
+        self.curShowArray = [self.dataSource showArrayInPainter:self];
+    }
 }
 
 // pan
-- (void)panBeganPoint:(CGPoint)point {
-    self.oriIndex = self.curIndex;
-}
+- (void)panBeganPoint:(CGPoint)point {}
 
 - (void)panChangedPoint:(CGPoint)point {
-    [self prepareDrawWithPoint:point andScale:1.0];
+    [self updateCandleScene];
+    [self updateCurShowArray];
     [self drawCandle];
 }
 
-- (void)panEndedPoint:(CGPoint)point {
-    self.oriIndex = self.curIndex;
-}
+- (void)panEndedPoint:(CGPoint)point {}
 
 // pinch
-- (void)pinchBeganScale:(CGFloat)scale {
-    self.oriXScale = self.curXScale;
-}
+- (void)pinchBeganScale:(CGFloat)scale {}
 
 - (void)pinchChangedScale:(CGFloat)scale {
-    [self prepareDrawWithPoint:CGPointZero andScale:scale];
+    [self updateCandleScene];
+    [self updateCurShowArray];
     [self drawCandle];
 }
 
-- (void)pinchEndedScale:(CGFloat)scale {
-    self.oriXScale = self.curXScale;
-}
+- (void)pinchEndedScale:(CGFloat)scale {}
 
 // longPress
 - (void)longPressBeganLocation:(CGPoint)location {
-    self.longPressPoint = location;
+    [self updateCrossScene];
     [self drawTrackingCross];
 }
 
 - (void)longPressChangedLocation:(CGPoint)location {
-    NSLog(@"x : %f, y : %f", location.x, location.y);
-    self.longPressPoint = location;
+    [self updateCrossScene];
     [self drawTrackingCross];
 }
 
 - (void)longPressEndedLocation:(CGPoint)location {
-    self.longPressPoint = CGPointZero;
+    [self updateCrossScene];
     [self releaseTrackingCrossLayer];
 }
-
 
 #pragma mark - draw
 - (void)drawCandle {
     [self releaseCandleShapeLayer];
-    [self.needShowArray enumerateObjectsUsingBlock:^(KLineModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
-        CAShapeLayer *cellCAShapeLayer = [self getSublayerFromModel:model Index:idx];
+    
+    [self.curShowArray enumerateObjectsUsingBlock:^(KLineModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
+        CAShapeLayer *cellCAShapeLayer = [self getCandleLayerFromModel:model Index:idx];
         [self.candleShapeLayer addSublayer:cellCAShapeLayer];
     }];
 
@@ -142,91 +123,14 @@
 - (void)drawTrackingCross {
     [self releaseTrackingCrossLayer];
     
-    if (CGPointEqualToPoint(self.longPressPoint, CGPointZero)) {
+    if (CGPointEqualToPoint(self.sceneCrossModel.longPressPoint, CGPointZero)) {
         ZLErrorLog(@"不对 CGPointZero 绘制");
         return;
     }
-    [self.trackingCrosslayer addSublayer:[self getTrackingCrossLayerFromLocation:self.longPressPoint]];
+    
+    [self.trackingCrosslayer addSublayer:[self getTrackingCrossLayer]];
     
     [self p_addSublayer:self.trackingCrosslayer];
-}
-
-- (void)prepareDrawWithPoint:(CGPoint)point andScale:(CGFloat)scale {
-    [self fixScale:scale];
-    [self fixShowCount];
-    [self fixBeginIndexWithPoint:point];
-    [self fixShowData];
-    [self fixMaximum];
-}
-
-// 计算 缩放比例
-- (void)fixScale:(CGFloat)scale {
-    CGFloat curScale = self.oriXScale * scale;
-    curScale = MAX(curScale, _kMinScale);
-    curScale = MIN(curScale, _kMaxScale);
-    
-    self.curXScale = curScale;
-}
-
-// 计算 要显示几个
-- (void)fixShowCount {
-    if ([self.dataSource respondsToSelector:@selector(maxNumberOfPainter:)]) {
-        self.arrayMaxCount = [self.dataSource maxNumberOfPainter:self];
-    }
-    self.showCount = self.p_width / ((_kLineCellSpace + _kLineCellWidth) * self.curXScale);
-    if (self.showCount > self.arrayMaxCount) {
-        self.showCount = self.arrayMaxCount;
-    }
-}
-
-// 计算 从第几个开始显示
-- (void)fixBeginIndexWithPoint:(CGPoint)point {
-    if (self.oriIndex == UninitializedIndex) {
-        NSInteger beginIndex = self.arrayMaxCount - self.showCount;
-        if (beginIndex < 0) {
-            beginIndex = 0;
-        }
-        self.oriIndex = beginIndex;//初始化偏移位置
-    }
-    
-    CGFloat cellWidth = ((_kLineCellSpace + _kLineCellWidth) * self.curXScale);
-    
-    self.curIndex = self.oriIndex - point.x / cellWidth;
-}
-
-- (void)fixShowData {
-    if (self.curIndex < 0) {
-        self.curIndex = 0;
-    }
-    
-    if (self.curIndex > self.arrayMaxCount - self.showCount) {
-        self.curIndex = self.arrayMaxCount - self.showCount;
-    }
-    
-    NSUInteger fIndex = self.curIndex;
-    NSUInteger length = self.showCount;
-
-    if ([self.dataSource respondsToSelector:@selector(paintArrayFrom:length:painter:)]) {
-        self.needShowArray = [[self.dataSource paintArrayFrom:fIndex length:length painter:self] copy];
-    }
-}
-
-// 计算最高最低 和 单位值
-- (void)fixMaximum {
-    self.sLowerPrice = FLT_MAX;
-    self.sHigherPrice = 0;
-    
-    for (KLineModel *model in self.needShowArray) {
-        self.sHigherPrice = MAX(model.high, self.sHigherPrice);
-        self.sLowerPrice = MIN(model.low, self.sLowerPrice);
-    }
-    
-    // 预留屏幕上下空隙
-    self.sLowerPrice *= 0.95;
-    self.sHigherPrice *= 1.05;
-    
-    // 计算每个点代表的值是多少
-    self.unitValue = (self.sHigherPrice - self.sLowerPrice) / self.p_height;
 }
 
 #pragma mark - release
@@ -261,26 +165,40 @@
 }
 
 #pragma mark - sublayers
-- (CAShapeLayer *)getSublayerFromModel:(KLineModel *)model Index:(NSInteger)index {
+- (CAShapeLayer *)getCandleLayerFromModel:(KLineModel *)model Index:(NSInteger)index {
+    
+    CGFloat sHigherPrice = self.sceneCandleModel.sHigherPrice;
+    CGFloat unitValue = self.sceneCandleModel.unitValue;
+    CGFloat showCount = self.sceneCandleModel.showCount;
+    CGFloat arrayMaxCount = self.sceneCandleModel.arrayMaxCount;
+    CGFloat kLineCellSpace = self.sceneCandleModel.kLineCellSpace;
+    CGFloat kLineCellWidth = self.sceneCandleModel.kLineCellWidth;
+    CGFloat curXScale = self.sceneCandleModel.curXScale;
+    
     // 开高低收 位置
-    CGFloat openY = (self.sHigherPrice - model.open) / self.unitValue;
-    CGFloat closeY = (self.sHigherPrice - model.close) / self.unitValue;
-    CGFloat x = (_kLineCellSpace + _kLineCellWidth) * index * self.curXScale;
+    CGFloat openY = (sHigherPrice - model.open) / unitValue;
+    CGFloat closeY = (sHigherPrice - model.close) / unitValue;
+    // 计算方式 防止屏幕抖动
+    CGFloat x = (kLineCellSpace + kLineCellWidth) * index * curXScale; // 从左往右画
+    if (showCount == arrayMaxCount) {
+        x = self.p_width - (showCount - index) * (kLineCellSpace + kLineCellWidth) * curXScale; //从右往左画 当前条数不足 撑满屏幕时
+    }
+    
     CGFloat y = MIN(openY, closeY);
     CGFloat height = MAX(fabs(closeY - openY), LINEWIDTH);
 
     // bezier
-    CGRect rect = CGRectMake(x, y, _kLineCellWidth * self.curXScale, height);
+    CGRect rect = CGRectMake(x, y, kLineCellWidth * curXScale, height);
     UIBezierPath *cellpath = [UIBezierPath bezierPathWithRect:rect];
     cellpath.lineWidth = LINEWIDTH;
     
     // 最高
-    [cellpath moveToPoint:CGPointMake(x + _kLineCellWidth * self.curXScale / 2, y)];
-    [cellpath addLineToPoint:CGPointMake(x + _kLineCellWidth * self.curXScale / 2, (self.sHigherPrice - model.high) / self.unitValue)];
+    [cellpath moveToPoint:CGPointMake(x + kLineCellWidth * curXScale / 2, y)];
+    [cellpath addLineToPoint:CGPointMake(x + kLineCellWidth * curXScale / 2, (sHigherPrice - model.high) / unitValue)];
     
     // 最低
-    [cellpath moveToPoint:CGPointMake(x + _kLineCellWidth * self.curXScale / 2, y + height)];
-    [cellpath addLineToPoint:CGPointMake(x + _kLineCellWidth * self.curXScale / 2, (self.sHigherPrice - model.low) / self.unitValue)];
+    [cellpath moveToPoint:CGPointMake(x + kLineCellWidth * curXScale / 2, y + height)];
+    [cellpath addLineToPoint:CGPointMake(x + kLineCellWidth * curXScale / 2, (sHigherPrice - model.low) / unitValue)];
     
     CAShapeLayer *cellCAShapeLayer = [CAShapeLayer layer];
     cellCAShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
@@ -301,20 +219,27 @@
     return cellCAShapeLayer;
 }
 
-- (CAShapeLayer *)getTrackingCrossLayerFromLocation:(CGPoint)location {
+- (CAShapeLayer *)getTrackingCrossLayer {
+    CGFloat sHigherPrice = self.sceneCrossModel.sHigherPrice;
+    CGFloat unitValue = self.sceneCrossModel.unitValue;
+    CGFloat kLineCellSpace = self.sceneCrossModel.kLineCellSpace;
+    CGFloat kLineCellWidth = self.sceneCrossModel.kLineCellWidth;
+    CGFloat curXScale = self.sceneCrossModel.curXScale;
+    CGFloat x = self.sceneCrossModel.longPressPoint.x;
+//    CGFloat y = self.sceneCrossModel.longPressPoint.y;
     
-    CGFloat curCellStep = (_kLineCellSpace + _kLineCellWidth) * self.curXScale;
-    NSInteger index = location.x / curCellStep;
-    CGFloat crossX = index * curCellStep + _kLineCellWidth * self.curXScale / 2;
+    CGFloat curCellStep = (kLineCellSpace + kLineCellWidth) * curXScale;
+    NSInteger index = x / curCellStep;
+    CGFloat crossX = index * curCellStep + kLineCellWidth * curXScale / 2;
     
-    KLineModel *model = [self.needShowArray objectAtIndex:index];
-    CGFloat adge = 3 * self.curXScale;
+    KLineModel *model = [self.curShowArray objectAtIndex:index];
+    CGFloat adge = 3 * curXScale;
     
-    CGFloat top = (self.sHigherPrice - model.high) / self.unitValue - adge;
-    CGFloat bottom = (self.sHigherPrice - model.low) / self.unitValue + adge;
-    CGFloat left = (_kLineCellSpace + _kLineCellWidth) * index * self.curXScale - adge;
-    CGFloat right = (_kLineCellSpace + _kLineCellWidth) * index * self.curXScale + _kLineCellWidth * self.curXScale + adge;
-    CGFloat openY = (self.sHigherPrice - model.open) / self.unitValue;
+    CGFloat top = (sHigherPrice - model.high) / unitValue - adge;
+    CGFloat bottom = (sHigherPrice - model.low) / unitValue + adge;
+    CGFloat left = (kLineCellSpace + kLineCellWidth) * index * curXScale - adge;
+    CGFloat right = (kLineCellSpace + kLineCellWidth) * index * curXScale + kLineCellWidth * curXScale + adge;
+    CGFloat openY = (sHigherPrice - model.open) / unitValue;
     
     UIBezierPath *crossPath = [UIBezierPath bezierPath];
     crossPath.lineCapStyle = kCGLineCapRound; //线条拐角
@@ -334,7 +259,7 @@
     
     CAShapeLayer *crossCAShapeLayer = [CAShapeLayer layer];
     crossCAShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
-    crossCAShapeLayer.strokeColor = ZLBlackColor.CGColor;
+    crossCAShapeLayer.strokeColor = CrossColor.CGColor;
     
     crossCAShapeLayer.path = crossPath.CGPath;
     
