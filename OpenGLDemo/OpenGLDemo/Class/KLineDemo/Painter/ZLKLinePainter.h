@@ -10,16 +10,23 @@
 
 @protocol ZLKLinePainter <NSObject>
 
+@required
 - (void)draw;
 
+@optional
 // pan
-- (void)panBeginPoint:(CGPoint)point;
-- (void)panChangePoint:(CGPoint)point;
-- (void)panEndPoint:(CGPoint)point;
+- (void)panBeganPoint:(CGPoint)point;
+- (void)panChangedPoint:(CGPoint)point;
+- (void)panEndedPoint:(CGPoint)point;
 
 // pinch
-- (void)pinchBeginScale:(CGFloat)scale;
-- (void)pinchChangeScale:(CGFloat)scale;
-- (void)pinchEndScale:(CGFloat)scale;
+- (void)pinchBeganScale:(CGFloat)scale;
+- (void)pinchChangedScale:(CGFloat)scale;
+- (void)pinchEndedScale:(CGFloat)scale;
+
+// longPress
+- (void)longPressBeganLocation:(CGPoint)location;
+- (void)longPressChangedLocation:(CGPoint)location;
+- (void)longPressEndedLocation:(CGPoint)location;
 
 @end

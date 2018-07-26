@@ -43,9 +43,9 @@
     [self drawAxis];
 }
 
-- (void)panBeginPoint:(CGPoint)point {}
-- (void)panChangePoint:(CGPoint)point {}
-- (void)panEndPoint:(CGPoint)point {}
+- (void)panBeganPoint:(CGPoint)point {}
+- (void)panChangedPoint:(CGPoint)point {}
+- (void)panEndedPoint:(CGPoint)point {}
 
 #pragma mark - draw
 - (void)drawBorder {
@@ -67,6 +67,7 @@
     
     self.xAxisShapeLayer.path = path.CGPath;
     
+    [path removeAllPoints];
     [self p_addSublayer:self.xAxisShapeLayer];
 }
 

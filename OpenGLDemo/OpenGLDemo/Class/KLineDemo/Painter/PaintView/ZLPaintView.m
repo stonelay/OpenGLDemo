@@ -16,8 +16,9 @@
 
 @property (nonatomic, strong) NSMutableArray *drawDataArray;
 
-@property (nonatomic, strong) UIPanGestureRecognizer *panGesture; //
-@property (nonatomic, strong) UIPanGestureRecognizer *pinchGesture; //
+@property (nonatomic, strong) UIPanGestureRecognizer *panGesture;       //
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;   //
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGesture;//
 
 @end
 
@@ -37,8 +38,11 @@
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
     [self addGestureRecognizer:self.panGesture];
     
-    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGesture:)];
-    [self addGestureRecognizer:pinchGesture];
+    self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGesture:)];
+    [self addGestureRecognizer:self.pinchGesture];
+    
+    self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesture:)];
+    [self addGestureRecognizer:self.longPressGesture];
 }
 
 - (void)loadData {
@@ -84,33 +88,31 @@
 
 #pragma mark - gesture
 - (void)panGesture:(UIPanGestureRecognizer *)gesture {
+    CGPoint point = [gesture translationInView:gesture.view];
     switch (gesture.state) {
         case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateFailed:
             break;
         case UIGestureRecognizerStateChanged: {
-            CGPoint point = [gesture translationInView:gesture.view];
             if (self.painterArray && self.painterArray.count != 0) {
                 for (int i = 0; i < self.painterArray.count; i++) {
-                    [self.painterArray[i] panChangePoint:point];
+                    [self.painterArray[i] panChangedPoint:point];
                 }
             }
         }
             break;
         case UIGestureRecognizerStateBegan: {
-            CGPoint point = [gesture translationInView:gesture.view];
             if (self.painterArray && self.painterArray.count != 0) {
                 for (int i = 0; i < self.painterArray.count; i++) {
-                    [self.painterArray[i] panBeginPoint:point];
+                    [self.painterArray[i] panBeganPoint:point];
                 }
             }
         }
             break;
         case UIGestureRecognizerStateEnded:{
-            CGPoint point = [gesture translationInView:gesture.view];
             if (self.painterArray && self.painterArray.count != 0) {
                 for (int i = 0; i < self.painterArray.count; i++) {
-                    [self.painterArray[i] panEndPoint:point];
+                    [self.painterArray[i] panEndedPoint:point];
                 }
             }
         }
@@ -128,7 +130,7 @@
         case UIGestureRecognizerStateChanged: {
             if (self.painterArray && self.painterArray.count != 0) {
                 for (int i = 0; i < self.painterArray.count; i++) {
-                    [self.painterArray[i] pinchChangeScale:gesture.scale];
+                    [self.painterArray[i] pinchChangedScale:gesture.scale];
                 }
             }
         }
@@ -136,7 +138,7 @@
         case UIGestureRecognizerStateBegan: {
             if (self.painterArray && self.painterArray.count != 0) {
                 for (int i = 0; i < self.painterArray.count; i++) {
-                    [self.painterArray[i] pinchBeginScale:gesture.scale];
+                    [self.painterArray[i] pinchBeganScale:gesture.scale];
                 }
             }
         }
@@ -144,7 +146,42 @@
         case UIGestureRecognizerStateEnded:{
             if (self.painterArray && self.painterArray.count != 0) {
                 for (int i = 0; i < self.painterArray.count; i++) {
-                    [self.painterArray[i] pinchEndScale:gesture.scale];
+                    [self.painterArray[i] pinchEndedScale:gesture.scale];
+                }
+            }
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)longPressGesture:(UILongPressGestureRecognizer *)gesture {
+    CGPoint point = [gesture locationInView:self];
+    switch (gesture.state) {
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+            break;
+        case UIGestureRecognizerStateChanged: {
+            if (self.painterArray && self.painterArray.count != 0) {
+                for (int i = 0; i < self.painterArray.count; i++) {
+                    [self.painterArray[i] longPressChangedLocation:point];
+                }
+            }
+        }
+            break;
+        case UIGestureRecognizerStateBegan: {
+            if (self.painterArray && self.painterArray.count != 0) {
+                for (int i = 0; i < self.painterArray.count; i++) {
+                    [self.painterArray[i] longPressBeganLocation:point];
+                }
+            }
+        }
+            break;
+        case UIGestureRecognizerStateEnded:{
+            if (self.painterArray && self.painterArray.count != 0) {
+                for (int i = 0; i < self.painterArray.count; i++) {
+                    [self.painterArray[i] longPressEndedLocation:point];
                 }
             }
         }

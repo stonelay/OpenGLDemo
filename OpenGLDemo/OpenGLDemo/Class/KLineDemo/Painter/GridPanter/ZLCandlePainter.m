@@ -39,6 +39,8 @@
 @property (nonatomic, assign) NSUInteger showCount; // 当前页面显示的个数
 
 
+@property (nonatomic, assign) CGPoint longPressPoint;
+
 @property (nonatomic, assign) NSInteger oriIndex;   // pan 之前的第一条index
 @property (nonatomic, assign) NSInteger curIndex;   // pan 中当前index
 
@@ -81,32 +83,50 @@
 }
 
 // pan
-- (void)panBeginPoint:(CGPoint)point {
+- (void)panBeganPoint:(CGPoint)point {
     self.oriIndex = self.curIndex;
 }
 
-- (void)panChangePoint:(CGPoint)point {
+- (void)panChangedPoint:(CGPoint)point {
     [self prepareDrawWithPoint:point andScale:1.0];
     [self drawCandle];
 }
 
-- (void)panEndPoint:(CGPoint)point {
+- (void)panEndedPoint:(CGPoint)point {
     self.oriIndex = self.curIndex;
 }
 
 // pinch
-- (void)pinchBeginScale:(CGFloat)scale {
+- (void)pinchBeganScale:(CGFloat)scale {
     self.oriXScale = self.curXScale;
 }
 
-- (void)pinchChangeScale:(CGFloat)scale {
+- (void)pinchChangedScale:(CGFloat)scale {
     [self prepareDrawWithPoint:CGPointZero andScale:scale];
     [self drawCandle];
 }
 
-- (void)pinchEndScale:(CGFloat)scale {
+- (void)pinchEndedScale:(CGFloat)scale {
     self.oriXScale = self.curXScale;
 }
+
+// longPress
+- (void)longPressBeganLocation:(CGPoint)location {
+    self.longPressPoint = location;
+    [self drawTrackingCross];
+}
+
+- (void)longPressChangedLocation:(CGPoint)location {
+    NSLog(@"x : %f, y : %f", location.x, location.y);
+    self.longPressPoint = location;
+    [self drawTrackingCross];
+}
+
+- (void)longPressEndedLocation:(CGPoint)location {
+    self.longPressPoint = CGPointZero;
+    [self releaseTrackingCrossLayer];
+}
+
 
 #pragma mark - draw
 - (void)drawCandle {
@@ -117,6 +137,18 @@
     }];
 
     [self p_addSublayer:self.candleShapeLayer];
+}
+
+- (void)drawTrackingCross {
+    [self releaseTrackingCrossLayer];
+    
+    if (CGPointEqualToPoint(self.longPressPoint, CGPointZero)) {
+        ZLErrorLog(@"不对 CGPointZero 绘制");
+        return;
+    }
+    [self.trackingCrosslayer addSublayer:[self getTrackingCrossLayerFromLocation:self.longPressPoint]];
+    
+    [self p_addSublayer:self.trackingCrosslayer];
 }
 
 - (void)prepareDrawWithPoint:(CGPoint)point andScale:(CGFloat)scale {
@@ -205,6 +237,12 @@
     }
 }
 
+- (void)releaseTrackingCrossLayer {
+    if (self.trackingCrosslayer) {
+        [self.trackingCrosslayer removeFromSuperlayer];
+        self.trackingCrosslayer = nil;
+    }
+}
 #pragma mark - property
 - (CAShapeLayer *)candleShapeLayer {
     if (!_candleShapeLayer) {
@@ -214,9 +252,17 @@
     return _candleShapeLayer;
 }
 
+- (CAShapeLayer *)trackingCrosslayer {
+    if (!_trackingCrosslayer) {
+        _trackingCrosslayer = [CAShapeLayer layer];
+        _trackingCrosslayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    }
+    return _trackingCrosslayer;
+}
+
 #pragma mark - sublayers
 - (CAShapeLayer *)getSublayerFromModel:(KLineModel *)model Index:(NSInteger)index {
-    // 开盘
+    // 开高低收 位置
     CGFloat openY = (self.sHigherPrice - model.open) / self.unitValue;
     CGFloat closeY = (self.sHigherPrice - model.close) / self.unitValue;
     CGFloat x = (_kLineCellSpace + _kLineCellWidth) * index * self.curXScale;
@@ -255,8 +301,50 @@
     return cellCAShapeLayer;
 }
 
+- (CAShapeLayer *)getTrackingCrossLayerFromLocation:(CGPoint)location {
+    
+    CGFloat curCellStep = (_kLineCellSpace + _kLineCellWidth) * self.curXScale;
+    NSInteger index = location.x / curCellStep;
+    CGFloat crossX = index * curCellStep + _kLineCellWidth * self.curXScale / 2;
+    
+    KLineModel *model = [self.needShowArray objectAtIndex:index];
+    CGFloat adge = 3 * self.curXScale;
+    
+    CGFloat top = (self.sHigherPrice - model.high) / self.unitValue - adge;
+    CGFloat bottom = (self.sHigherPrice - model.low) / self.unitValue + adge;
+    CGFloat left = (_kLineCellSpace + _kLineCellWidth) * index * self.curXScale - adge;
+    CGFloat right = (_kLineCellSpace + _kLineCellWidth) * index * self.curXScale + _kLineCellWidth * self.curXScale + adge;
+    CGFloat openY = (self.sHigherPrice - model.open) / self.unitValue;
+    
+    UIBezierPath *crossPath = [UIBezierPath bezierPath];
+    crossPath.lineCapStyle = kCGLineCapRound; //线条拐角
+    crossPath.lineJoinStyle = kCGLineCapRound; //终点处理
+    
+    // xCross
+    [crossPath moveToPoint:CGPointMake(0, openY)];
+    [crossPath addLineToPoint:CGPointMake(left, openY)];
+    [crossPath moveToPoint:CGPointMake(right, openY)];
+    [crossPath addLineToPoint:CGPointMake(self.p_width, openY)];
+    
+    // yCross
+    [crossPath moveToPoint:CGPointMake(crossX, 0)];
+    [crossPath addLineToPoint:CGPointMake(crossX, top)];
+    [crossPath moveToPoint:CGPointMake(crossX, bottom)];
+    [crossPath addLineToPoint:CGPointMake(crossX, self.p_height)];
+    
+    CAShapeLayer *crossCAShapeLayer = [CAShapeLayer layer];
+    crossCAShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    crossCAShapeLayer.strokeColor = ZLBlackColor.CGColor;
+    
+    crossCAShapeLayer.path = crossPath.CGPath;
+    
+    [crossPath removeAllPoints];
+    return crossCAShapeLayer;
+}
+
 - (void)p_clear {
     [self releaseCandleShapeLayer];
+    [self releaseTrackingCrossLayer];
 }
 
 @end
