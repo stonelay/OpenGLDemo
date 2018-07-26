@@ -57,11 +57,11 @@
 @implementation ZLCandlePainter
 
 - (void)p_initDefault {
-    _kLineCellSpace = 2 * SCALE;    //cell间隔
+    _kLineCellSpace = 4 * SCALE;    //cell间隔
     _kLineCellWidth = 8 * SCALE;    //cell宽度
     
     _kMinScale = 0.1;     //最小缩放量
-    _kMaxScale = 1.0;     //最大缩放量
+    _kMaxScale = 4.0;     //最大缩放量
     
     self.oriXScale = 1.0;
     self.oriIndex = UninitializedIndex;
@@ -158,7 +158,7 @@
     }
     
     CGFloat cellWidth = ((_kLineCellSpace + _kLineCellWidth) * self.curXScale);
-    NSLog(@"%f", point.x / cellWidth);
+    
     self.curIndex = self.oriIndex - point.x / cellWidth;
 }
 
@@ -166,13 +166,14 @@
     if (self.curIndex < 0) {
         self.curIndex = 0;
     }
+    
     if (self.curIndex > self.arrayMaxCount - self.showCount) {
         self.curIndex = self.arrayMaxCount - self.showCount;
     }
     
     NSUInteger fIndex = self.curIndex;
     NSUInteger length = self.showCount;
-    NSLog(@"from %lu, length %lu", (unsigned long)fIndex, length);
+
     if ([self.dataSource respondsToSelector:@selector(paintArrayFrom:length:painter:)]) {
         self.needShowArray = [[self.dataSource paintArrayFrom:fIndex length:length painter:self] copy];
     }
@@ -228,12 +229,12 @@
     cellpath.lineWidth = LINEWIDTH;
     
     // 最高
-    [cellpath moveToPoint:CGPointMake(x + _kLineCellWidth / 2, y)];
-    [cellpath addLineToPoint:CGPointMake(x + _kLineCellWidth / 2, (self.sHigherPrice - model.high) / self.unitValue)];
+    [cellpath moveToPoint:CGPointMake(x + _kLineCellWidth * self.curXScale / 2, y)];
+    [cellpath addLineToPoint:CGPointMake(x + _kLineCellWidth * self.curXScale / 2, (self.sHigherPrice - model.high) / self.unitValue)];
     
     // 最低
-    [cellpath moveToPoint:CGPointMake(x + _kLineCellWidth / 2, y + height)];
-    [cellpath addLineToPoint:CGPointMake(x + _kLineCellWidth / 2, (self.sHigherPrice - model.low) / self.unitValue)];
+    [cellpath moveToPoint:CGPointMake(x + _kLineCellWidth * self.curXScale / 2, y + height)];
+    [cellpath addLineToPoint:CGPointMake(x + _kLineCellWidth * self.curXScale / 2, (self.sHigherPrice - model.low) / self.unitValue)];
     
     CAShapeLayer *cellCAShapeLayer = [CAShapeLayer layer];
     cellCAShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
