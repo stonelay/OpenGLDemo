@@ -56,7 +56,7 @@
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-    self.mockHisData = [self.tempArray copy];
+    self.mockHisData = [[self.tempArray reverseObjectEnumerator] allObjects];
 }
 
 

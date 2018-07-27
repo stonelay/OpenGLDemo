@@ -16,10 +16,11 @@
 #import "KLineModel.h"
 
 
-#define AxisMarginBottom (60 * SCALE)
+//#define AxisMarginBottom (60 * SCALE)
+//#define AxisMarginLeft (30 * SCALE)
 #define UninitializedIndex   -1
 
-@interface ZLPaintView()<KLineDataSource>
+@interface ZLPaintView()<PaintViewDataSource, PaintViewDelegate>
 
 // ------ scene base ------ //
 @property (nonatomic, assign) CGFloat sHigherPrice;   // 当前屏幕最高价
@@ -27,7 +28,7 @@
 
 @property (nonatomic, assign) CGFloat unitValue;    // 单位点的值
 
-@property (nonatomic, assign) CGFloat kLineCellSpace;    //cell间隔
+//@property (nonatomic, assign) CGFloat kLineCellSpace;    //cell间隔
 @property (nonatomic, assign) CGFloat kLineCellWidth;    //cell宽度
 
 @property (nonatomic, assign) NSInteger oriIndex;   // pan 之前的第一条index
@@ -46,7 +47,7 @@
 // ------ scene cross base ------ //
 @property (nonatomic, assign) CGPoint longPressPoint;
 
-
+@property (nonatomic, assign) UIEdgeInsets edgeInsets;
 
 @property (nonatomic, strong) NSArray *curShowArray; // 当前显示队列
 
@@ -69,14 +70,15 @@
     [super initDefault];
     self.backgroundColor = ZLGray(234);
     
-    self.kLineCellSpace = 4 * SCALE;    //cell间隔
-    self.kLineCellWidth = 12 * SCALE;    //cell宽度
+    self.kLineCellWidth = 16 * SCALE;    //cell宽度
     
     self.kMinScale = 0.1;     //最小缩放量
     self.kMaxScale = 4.0;     //最大缩放量
     
     self.oriXScale = 1.0;
     self.oriIndex = UninitializedIndex;
+    
+    self.edgeInsets = UIEdgeInsetsMake(0, 0, 60 * SCALE, 0);
 }
 
 - (void)loadData {
@@ -88,14 +90,16 @@
     if (!_painterArray) {
         NSMutableArray *tempArray = [NSMutableArray new];
         if (self.linePainterOp & ZLKLinePainterOpGride) {
-            ZLBasePainter *painter = [[ZLGridePainter alloc] initWithPaintView:self withBMargin:AxisMarginBottom];
+            ZLBasePainter *painter = [[ZLGridePainter alloc] initWithPaintView:self];
             painter.dataSource = self;
+            painter.delegate = self;
             [tempArray addObject:painter];
         }
         
         if (self.linePainterOp & ZLKLinePainterOpCandle) {
-            ZLBasePainter *painter = [[ZLCandlePainter alloc] initWithPaintView:self withBMargin:AxisMarginBottom];
+            ZLBasePainter *painter = [[ZLCandlePainter alloc] initWithPaintView:self];
             painter.dataSource = self;
+            painter.delegate = self;
             [tempArray addObject:painter];
         }
         
@@ -133,7 +137,7 @@
 // 计算 要显示几个
 - (void)fixShowCount {
     self.arrayMaxCount = self.drawDataArray.count;
-    NSInteger showCount = self.width / ((self.kLineCellSpace + self.kLineCellWidth) * self.curXScale);
+    NSInteger showCount = self.width / (self.kLineCellWidth * self.curXScale);
     self.showCount = MIN(self.arrayMaxCount, showCount);
 }
 
@@ -144,7 +148,7 @@
         self.oriIndex = MAX(beginIndex, 0);//初始化偏移位置
     }
     
-    CGFloat cellWidth = ((self.kLineCellSpace + self.kLineCellWidth) * self.curXScale);
+    CGFloat cellWidth = (self.kLineCellWidth * self.curXScale);
     self.curIndex = self.oriIndex - point.x / cellWidth;
 }
 
@@ -168,51 +172,57 @@
     }
 
     // 预留屏幕上下空隙
-    self.sLowerPrice *= 0.995;
-    self.sHigherPrice *= 1.005;
+    self.sLowerPrice *= kLScale;
+    self.sHigherPrice *= kHScale;
 
     // 计算每个点代表的值是多少
-    self.unitValue = (self.sHigherPrice - self.sLowerPrice) / (self.height - AxisMarginBottom);
+    self.unitValue = (self.sHigherPrice - self.sLowerPrice) / (self.height - self.edgeInsets.bottom);
 }
 
-#pragma mark - KLineDataSource
-- (NSArray *)painter:(ZLBasePainter *)painter showArrayFrom:(NSUInteger)fIndex length:(NSUInteger)length {
-    return [self.drawDataArray subarrayWithRange:NSMakeRange(fIndex, length)];
+#pragma mark - PaintDataSource
+- (NSUInteger)maxNumberInPainter:(ZLBasePainter *)painter {
+    return self.drawDataArray.count;
+}
+
+- (NSUInteger)showNumberInPainter:(ZLBasePainter *)painter {
+    return self.showCount;
 }
 
 - (NSArray *)showArrayInPainter:(ZLBasePainter *)painter {
-    return [self.drawDataArray subarrayWithRange:NSMakeRange(self.curIndex, self.showCount)];
+    return self.curShowArray;
 }
 
-- (SceneCandleModel *)sceneCandleModelInpainter:(ZLBasePainter *)painter {
-    SceneCandleModel *model = [[SceneCandleModel alloc] init];
-    model.kLineCellSpace = self.kLineCellSpace;    //cell间隔
-    model.kLineCellWidth = self.kLineCellWidth;    //cell宽度
-    model.kMinScale = self.kMinScale;     //最小缩放量
-    model.kMaxScale = self.kMaxScale;     //最大缩放量
-    model.arrayMaxCount = self.arrayMaxCount; // 最大展示个数
-    model.unitValue = self.unitValue;    // 单位点的值
-    model.showCount = self.showCount; // 当前页面显示的个数
-    model.oriIndex = self.oriIndex;   // pan 之前的第一条index
-    model.curIndex = self.curIndex;   // pan 中当前index
-    model.oriXScale = self.oriXScale;      // pinch 之前缩放比例
-    model.curXScale = self.curXScale;      // pinch 中当前缩放比例
-    model.sHigherPrice = self.sHigherPrice;   // 当前屏幕最高价
-    model.sLowerPrice = self.sLowerPrice;   // 当前屏幕最高价
-    return model;
+- (KLineModel *)painter:(ZLBasePainter *)painter dataAtIndex:(NSUInteger)index {
+    return self.curShowArray[index];
 }
 
-- (SceneCrossModel *)sceneCrossModelInpainter:(ZLBasePainter *)painter {
-    SceneCrossModel *model = [[SceneCrossModel alloc] init];
-    model.kLineCellSpace = self.kLineCellSpace;    //cell间隔
-    model.kLineCellWidth = self.kLineCellWidth;    //cell宽度
-    model.unitValue = self.unitValue;    // 单位点的值
-    model.oriXScale = self.oriXScale;      // pinch 之前缩放比例
-    model.curXScale = self.curXScale;      // pinch 中当前缩放比例
-    model.sHigherPrice = self.sHigherPrice;   // 当前屏幕最高价
-    model.sLowerPrice = self.sLowerPrice;   // 当前屏幕最高价
-    model.longPressPoint = self.longPressPoint;
-    return model;
+- (BOOL)isShowAllInPainter:(ZLBasePainter *)painter {
+    return self.drawDataArray.count == self.showCount;
+}
+
+- (CGPoint)longPressPointInPainter:(ZLBasePainter *)painter {
+    return self.longPressPoint;
+}
+
+#pragma mark - paitview delegate
+- (CGFloat)cellWidthInPainter:(ZLBasePainter *)painter {
+    return self.kLineCellWidth * self.curXScale;
+}
+
+- (UIEdgeInsets)edgeInsetsInPainter:(ZLBasePainter *)painter {
+    return self.edgeInsets;
+}
+
+- (CGFloat)sHigherInPainter:(ZLBasePainter *)painter {
+    return self.sHigherPrice;
+}
+
+- (CGFloat)sLowerInPainter:(ZLBasePainter *)painter {
+    return self.sLowerPrice;
+}
+
+- (CGFloat)unitValueInPainter:(ZLBasePainter *)painter {
+    return self.unitValue;
 }
 
 #pragma mark - override
@@ -265,6 +275,7 @@
         }
     }
 }
+
 
 
 @end

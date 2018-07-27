@@ -7,13 +7,9 @@
 //
 
 #import "ZLBasePainter.h"
+#import "KLineModel.h"
 
 @interface ZLGridePainter : ZLBasePainter
 
-@property (nonatomic, strong) CAShapeLayer *longitudeLayer;
-@property (nonatomic, strong) CAShapeLayer *latitudeLayer;
-
-- (void)drawLatitudeLines;
-- (void)drawLongittueLines;
 
 @end

@@ -10,16 +10,14 @@
 
 @interface ZLBasePainter()
 
-@property (nonatomic, assign) CGFloat bMargin; // 底部距离
 @property (nonatomic, weak) UIView *paintView;
 
 @end
 
 @implementation ZLBasePainter
 
-- (instancetype)initWithPaintView:(UIView *)paintView withBMargin:(CGFloat)bMargin {
+- (instancetype)initWithPaintView:(UIView *)paintView {
     if (self = [super init]) {
-        self.bMargin = bMargin;
         self.paintView = paintView;
         [self p_initDefault];
     }
@@ -28,8 +26,12 @@
 
 #pragma mark - ZLKLinePainter
 - (void)draw {
-    [self p_havePaintView];
     [self p_haveDataSource];
+    [self p_haveDelegate];
+    
+    self.screenEdgeInsets = [self.delegate edgeInsetsInPainter:self];
+    
+    [self p_havePaintView];
 }
 
 // pan
@@ -56,28 +58,39 @@
     // abstract 子类实现
 }
 
+- (CGRect)s_bounds {
+    [self p_havePaintView];
+    return self.paintView.bounds;
+}
+
+- (CGFloat)p_left {
+    [self p_havePaintView];
+    return self.paintView.left + self.screenEdgeInsets.left;
+}
+
+- (CGFloat)p_top {
+    [self p_havePaintView];
+    return self.paintView.top + self.screenEdgeInsets.top;
+}
+
 - (CGFloat)p_height {
     [self p_havePaintView];
-    return self.paintView.height - self.bMargin;
+    return self.paintView.height - self.screenEdgeInsets.top - self.screenEdgeInsets.bottom;
 }
 
 - (CGFloat)p_width {
     [self p_havePaintView];
-    return self.paintView.width;
+    return self.paintView.width - self.screenEdgeInsets.left - self.screenEdgeInsets.right;
 }
 
 - (CGRect)p_frame {
     [self p_havePaintView];
-    CGRect frame = self.paintView.frame;
-    frame.size.height -= self.bMargin;
-    return frame;
+    return CGRectMake(self.p_left, self.p_top, self.p_width, self.p_height);
 }
 
 - (CGRect)p_bounds {
     [self p_havePaintView];
-    CGRect bounds = self.paintView.bounds;
-    bounds.size.height -= self.bMargin;
-    return bounds;
+    return CGRectMake(0, 0, self.p_width, self.p_height);
 }
 
 - (void)p_addSublayer:(CALayer *)sublayer {
@@ -91,6 +104,9 @@
 
 - (void)p_haveDataSource {
     NSAssert(self.dataSource, @"dataSource is nil!!!");
+}
+- (void)p_haveDelegate {
+    NSAssert(self.delegate, @"delegate is nil!!!");
 }
 
 #pragma mark - sys
