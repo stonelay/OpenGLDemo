@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import "ZLGuideDataPack.h"
+
 @interface ZLGuideManager : NSObject
+
+- (void)updateWithChartData:(NSArray *)chartData;
+
+- (ZLGuideDataPack *)getDataPackByMAKey:(NSString *)dataKey;
 
 @end

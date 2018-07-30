@@ -8,8 +8,11 @@
 
 #import "ZLQuoteDataCenter.h"
 #import "MockServer.h"
+#import "ZLGuideManager.h"
 
 @interface ZLQuoteDataCenter()
+
+//@property (nonatomic, strong) ZLGuideManager *guideManager;
 
 @end
 
@@ -33,7 +36,12 @@
 
 - (void)loadHisData {
     self.hisKLineDataArray = [[MockServer getMockHisData] mutableCopy];
+//    [self updateGuideWithData:self.hisKLineDataArray];
 }
+
+//- (void)updateGuideWithData:(NSArray *)data {
+//    [self.guideManager updateWithChartData:data];
+//}
 
 #pragma mark - property
 

@@ -25,7 +25,7 @@
     [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
     
     ZLPaintView *painter = [[ZLPaintView alloc] initWithFrame:CGRectMake(10, NAVBARHEIGHT + 10, SCREENWIDTH - 2 * 10, SCREENHEIGHT - NAVBARHEIGHT - 2 * 10)];
-    painter.linePainterOp = ZLKLinePainterOpGride | ZLKLinePainterOpCandle;
+    painter.linePainterOp = ZLKLinePainterOpGride | ZLKLinePainterOpCandle | ZLKLinePainterOpMA;
     [painter draw];
 //
 //    ZLGridePainter *painter1 = [[ZLGridePainter alloc] initWithFrame:CGRectMake(20, NAVBARHEIGHT + 20, SCREENWIDTH - 2 * 10, SCREENHEIGHT - NAVBARHEIGHT - 2 * 10)];

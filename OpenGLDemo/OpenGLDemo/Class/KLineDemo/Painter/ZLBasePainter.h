@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ZLKLinePainter.h"
 #import "KLineModel.h"
+#import "ZLGuideDataPack.h"
 
 static const CGFloat kHScale = 1.005;
 static const CGFloat kLScale = 0.995;
@@ -86,6 +87,8 @@ static CGFloat inline candleLeftAdge(CGFloat cellWidth) {
 // 
 - (CGPoint)longPressPointInPainter:(ZLBasePainter *)painter;
 //- (NSUInteger)selectCrossIndexInPainter:(ZLBasePainter *)painter;
+
+- (ZLGuideDataPack *)painter:(ZLBasePainter *)painter dataPackByMA:(NSString *)ma;
 
 @end
 
