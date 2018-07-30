@@ -11,7 +11,7 @@
 #import "ZLPaintView.h"
 
 #import "KLineModel.h"
-#import "KLineDataCenter.h"
+#import "ZLQuoteDataCenter.h"
 
 @interface KLineDemoController ()<NSXMLParserDelegate>
 
@@ -35,7 +35,7 @@
 //    [self.view addSubview:painter1];
     
     
-//    NSArray *a = [KLineDataCenter shareInstance].hisKLineData;
+//    NSArray *a = [ZLQuoteDataCenter shareInstance].hisKLineData;
 }
 
 

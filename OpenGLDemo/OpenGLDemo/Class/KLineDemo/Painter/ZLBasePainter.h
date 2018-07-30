@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "ZLKLinePainter.h"
-#import "SceneCrossModel.h"
-#import "SceneCandleModel.h"
 #import "KLineModel.h"
 
 static const CGFloat kHScale = 1.005;

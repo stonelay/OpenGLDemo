@@ -10,7 +10,7 @@
 #import "ZLGridePainter.h"
 #import "ZLCandlePainter.h"
 
-#import "KLineDataCenter.h"
+#import "ZLQuoteDataCenter.h"
 
 #import "SceneModel.h"
 #import "KLineModel.h"
@@ -82,8 +82,12 @@
 }
 
 - (void)loadData {
-    self.drawDataArray = [KLineDataCenter shareInstance].hisKLineDataArray;
+    self.drawDataArray = [ZLQuoteDataCenter shareInstance].hisKLineDataArray;
     [self prepareDrawWithPoint:CGPointZero andScale:1.0];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+    });
 }
 
 - (NSArray *)painterArray {
