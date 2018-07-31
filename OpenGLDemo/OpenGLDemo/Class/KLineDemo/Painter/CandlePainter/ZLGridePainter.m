@@ -50,6 +50,9 @@
     [self drawLatitudeLines];
 }
 
+// tap
+- (void)tapAtPoint:(CGPoint)point {}
+
 // pan
 - (void)panBeganPoint:(CGPoint)point {}
 - (void)panChangedPoint:(CGPoint)point {

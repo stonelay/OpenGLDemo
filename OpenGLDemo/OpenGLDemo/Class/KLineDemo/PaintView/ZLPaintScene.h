@@ -39,7 +39,9 @@
 
 @property (nonatomic, strong) NSMutableArray *drawDataArray; //
 
-@property (nonatomic, assign) ZLKLinePainterOp linePainterOp;
+//@property (nonatomic, assign) ZLKLinePainterOp linePainterOp;
+@property (nonatomic, assign) GuidePaintMainType paintMainType;
+@property (nonatomic, assign) GuidePaintAssistType paintAssistType;
 
 - (void)editIndex;
 - (void)editScale;

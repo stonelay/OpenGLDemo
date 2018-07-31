@@ -15,16 +15,27 @@
 
 #import "ZLQuoteDataCenter.h"
 
-#import "SceneModel.h"
 #import "KLineModel.h"
 
 #import "ZLPaintScene.h"
+
+#import "ZLGuideDataType.h"
 
 #define UninitializedIndex   -1
 
 @interface ZLPaintView()<PaintViewDataSource, PaintViewDelegate>
 
+//@property (nonatomic, assign) GuidePaintMainType paintMainType;
+//@property (nonatomic, assign) GuidePaintAssistType paintAssistType;
+
 @property (nonatomic, strong) ZLPaintScene *paintScene;
+
+@property (nonatomic, strong) ZLGridePainter *gridePainter;
+@property (nonatomic, strong) ZLCandlePainter *candlePainter;
+
+@property (nonatomic, strong) NSDictionary *mainPainters;   // <key, painter>
+@property (nonatomic, strong) NSDictionary *assistPainters; // <key, painter>
+
 
 @end
 
@@ -43,6 +54,8 @@
     self.backgroundColor = ZLGray(234);
     
     self.paintScene = [[ZLPaintScene alloc] init];
+    self.paintScene.paintMainType = GuidePaintMainTypeMA;
+    self.paintScene.paintAssistType = GuidePaintAssistTypeNone;
 }
 
 - (void)loadData {
@@ -50,59 +63,61 @@
     
     // TODO drawDataArray is nil 返回异常
     self.paintScene.drawDataArray = [ZLQuoteDataCenter shareInstance].hisKLineDataArray;
-//    [self.paintScene setViewPort:self.bounds.size];
     self.paintScene.viewPort = self.bounds.size;
 }
 
-- (NSArray *)painterArray {
-    if (!_painterArray) {
-        NSMutableArray *tempArray = [NSMutableArray new];
-        if (self.linePainterOp & ZLKLinePainterOpGride) {
-            ZLBasePainter *painter = [[ZLGridePainter alloc] initWithPaintView:self];
-            painter.dataSource = self;
-            painter.delegate = self;
-            [tempArray addObject:painter];
-        }
-        
-        if (self.linePainterOp & ZLKLinePainterOpCandle) {
-            ZLBasePainter *painter = [[ZLCandlePainter alloc] initWithPaintView:self];
-            painter.dataSource = self;
-            painter.delegate = self;
-            [tempArray addObject:painter];
-        }
-        
-        if (self.linePainterOp & ZLKLinePainterOpMA) {
-            ZLBasePainter *painter = [[ZLMAPainter alloc] initWithPaintView:self];
-            painter.dataSource = self;
-            painter.delegate = self;
-            [tempArray addObject:painter];
-        }
-        
-        if (self.linePainterOp & ZLKLinePainterOpBOLL) {
-            ZLBasePainter *painter = [[ZLBOLLPainter alloc] initWithPaintView:self];
-            painter.dataSource = self;
-            painter.delegate = self;
-            [tempArray addObject:painter];
-        }
-        
-        _painterArray = [tempArray copy];
+- (ZLGridePainter *)gridePainter {
+    if (!_gridePainter) {
+        _gridePainter = [[ZLGridePainter alloc] initWithPaintView:self];
+        _gridePainter.dataSource = self;
+        _gridePainter.delegate = self;
     }
-    return _painterArray;
+    return _gridePainter;
 }
 
-- (void)setLinePainterOp:(ZLKLinePainterOp)linePainterOp {
-    _linePainterOp = linePainterOp;
-    // TODO
-    self.paintScene.linePainterOp = linePainterOp;
+- (ZLCandlePainter *)candlePainter {
+    if (!_candlePainter) {
+        _candlePainter = [[ZLCandlePainter alloc] initWithPaintView:self];
+        _candlePainter.dataSource = self;
+        _candlePainter.delegate = self;
+    }
+    return _candlePainter;
+}
+
+- (NSDictionary *)mainPainters {
+    if (!_mainPainters) {
+        NSMutableDictionary *tDic = [[NSMutableDictionary alloc] init];
+        
+        ZLBasePainter *maPainter = [[ZLMAPainter alloc] initWithPaintView:self];
+        maPainter.dataSource = self;
+        maPainter.delegate = self;
+        [tDic setObject:maPainter forKey:[ZLGuideDataType getNameByPaintMainType:GuidePaintMainTypeMA]];
+        
+        ZLBasePainter *bollPainter = [[ZLBOLLPainter alloc] initWithPaintView:self];
+        bollPainter.dataSource = self;
+        bollPainter.delegate = self;
+        [tDic setObject:bollPainter forKey:[ZLGuideDataType getNameByPaintMainType:GuidePaintMainTypeBOLL]];
+        
+        _mainPainters = [tDic copy];
+    }
+    return _mainPainters;
+}
+
+- (NSDictionary *)assistPainters {
+    if (!_assistPainters) {
+        NSMutableDictionary *tDic = [[NSMutableDictionary alloc] init];
+        
+        // KDJ
+        
+        _assistPainters = [tDic copy];
+    }
+    return _assistPainters;
 }
 
 - (void)draw {
     [self.paintScene prepareDrawWithPoint:CGPointZero andScale:1.0];
-    if (self.painterArray && self.painterArray.count != 0) {
-        for (int i = 0; i < self.painterArray.count; i++) {
-            [self.painterArray[i] draw];
-        }
-    }
+    
+    [self doInterfaceMethod:_cmd andData:nil];
 }
 
 #pragma mark - PaintDataSource
@@ -160,6 +175,13 @@
 }
 
 #pragma mark - override
+// tap
+- (void)tapAtPoint:(CGPoint)point {
+    [self tapNextMainType];
+    [self draw];
+    [self doInterfaceMethod:_cmd andData:[NSValue valueWithCGPoint:point]];
+}
+
 // pan
 - (void)panBeganPoint:(CGPoint)point {
     [self.paintScene editIndex];
@@ -203,13 +225,53 @@
 }
 
 - (void)doInterfaceMethod:(SEL)methodName andData:(id)data {
-    if (self.painterArray && self.painterArray.count != 0) {
-        for (int i = 0; i < self.painterArray.count; i++) {
-            [self.painterArray[i] performSelector:methodName withObject:data];
-        }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    
+    [self.gridePainter performSelector:methodName withObject:data];
+    [self.candlePainter performSelector:methodName withObject:data];
+    
+    // main
+    if (self.paintScene.paintMainType & GuidePaintMainTypeMA) {
+        ZLBasePainter *mainPainter = [self.mainPainters objectForKey:[ZLGuideDataType getNameByPaintMainType:GuidePaintMainTypeMA]];
+        if (mainPainter) { [mainPainter performSelector:methodName withObject:data]; }
     }
+    
+    if (self.paintScene.paintMainType & GuidePaintMainTypeBOLL) {
+        ZLBasePainter *mainPainter = [self.mainPainters objectForKey:[ZLGuideDataType getNameByPaintMainType:GuidePaintMainTypeBOLL]];
+        if (mainPainter) { [mainPainter performSelector:methodName withObject:data]; }
+    }
+    
+    // TODO add other main
+    
+    // assist
+    if (self.paintScene.paintAssistType & GuidePaintAssistTypeKDJ) {
+        ZLBasePainter *assistPainter = [self.assistPainters objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
+        if (assistPainter) { [assistPainter performSelector:methodName withObject:data]; }
+    }
+    
+    // TODO add other assist
+    
+#pragma clang diagnostic pop
 }
 
+#pragma mark - private
+- (void)tapNextMainType {
+    if (self.paintScene.paintMainType & GuidePaintMainTypeMA) {
+        ZLBasePainter *mainPainter = [self.mainPainters objectForKey:[ZLGuideDataType getNameByPaintMainType:GuidePaintMainTypeMA]];
+        [mainPainter clear];
+    }
+    
+    if (self.paintScene.paintMainType & GuidePaintMainTypeBOLL) {
+        ZLBasePainter *mainPainter = [self.mainPainters objectForKey:[ZLGuideDataType getNameByPaintMainType:GuidePaintMainTypeBOLL]];
+        [mainPainter clear];
+    }
+    
+    self.paintScene.paintMainType = [ZLGuideDataType getNextMainType:self.paintScene.paintMainType];
+}
 
+- (void)tapNextAssistType {
+    self.paintScene.paintAssistType = [ZLGuideDataType getNextAssistType:self.paintScene.paintAssistType];
+}
 
 @end

@@ -95,11 +95,11 @@
 - (void)setDefaultMAParams {
     NSDictionary *tDic = [[NSMutableDictionary alloc] init];
     
-//    [tDic setValue:[self getMAParamWithColor:MA1DefaultColor period:5 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA1];
-//    [tDic setValue:[self getMAParamWithColor:MA2DefaultColor period:10 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA2];
+    [tDic setValue:[self getMAParamWithColor:MA1DefaultColor period:5 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA1];
+    [tDic setValue:[self getMAParamWithColor:MA2DefaultColor period:10 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA2];
     [tDic setValue:[self getMAParamWithColor:MA3DefaultColor period:20 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA3];
-//    [tDic setValue:[self getMAParamWithColor:MA4DefaultColor period:60 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA4];
-//    [tDic setValue:[self getMAParamWithColor:MA5DefaultColor period:144 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA5];
+    [tDic setValue:[self getMAParamWithColor:MA4DefaultColor period:60 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA4];
+    [tDic setValue:[self getMAParamWithColor:MA5DefaultColor period:144 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA5];
     
     self.maParamsDic = [tDic copy];
     self.maGuideData = [[NSMutableDictionary alloc] init];

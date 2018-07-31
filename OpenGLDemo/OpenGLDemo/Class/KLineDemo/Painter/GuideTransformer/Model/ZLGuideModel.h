@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GuideDataType.h"
+#import "ZLGuideDataType.h"
 
 @interface ZLGuideModel : NSObject
 

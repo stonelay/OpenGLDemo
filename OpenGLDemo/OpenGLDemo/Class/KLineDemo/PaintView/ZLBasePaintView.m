@@ -11,6 +11,7 @@
 
 @interface ZLBasePaintView()
 
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture; //
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;       //
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;   //
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGesture;//
@@ -20,6 +21,9 @@
 @implementation ZLBasePaintView
 
 - (void)initDefault {
+    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+    [self addGestureRecognizer:self.tapGesture];
+    
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
     [self addGestureRecognizer:self.panGesture];
     
@@ -32,6 +36,11 @@
 
 
 #pragma mark - gesture
+- (void)tapGesture:(UITapGestureRecognizer *)gesture {
+    CGPoint point = [gesture locationInView:gesture.view];
+    [self tapAtPoint:point];
+}
+
 - (void)panGesture:(UIPanGestureRecognizer *)gesture {
     CGPoint point = [gesture translationInView:gesture.view];
     switch (gesture.state) {

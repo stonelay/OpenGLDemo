@@ -121,13 +121,13 @@
         self.sLowerPrice = MIN(model.low, self.sLowerPrice);
     }
     
-    if (self.linePainterOp & ZLKLinePainterOpMA) {
+    if (self.paintMainType & GuidePaintMainTypeMA) {
         SMaximum *maximum = [self.guideManager getMAMaximunWithRange:NSMakeRange(self.curIndex, self.showCount)];
         self.sHigherPrice = MAX(maximum.max, self.sHigherPrice);
         self.sLowerPrice = MIN(maximum.min, self.sLowerPrice);
     }
     
-    if (self.linePainterOp & ZLKLinePainterOpBOLL) {
+    if (self.paintMainType & GuidePaintMainTypeBOLL) {
         SMaximum *maximum = [self.guideManager getBOLLMaximunWithRange:NSMakeRange(self.curIndex, self.showCount)];
         self.sHigherPrice = MAX(maximum.max, self.sHigherPrice);
         self.sLowerPrice = MIN(maximum.min, self.sLowerPrice);

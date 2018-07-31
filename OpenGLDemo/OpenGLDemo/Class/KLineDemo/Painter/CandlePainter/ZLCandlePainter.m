@@ -44,6 +44,9 @@
     [self drawCandle];
 }
 
+// tap
+- (void)tapAtPoint:(CGPoint)point {}
+
 // pan
 - (void)panBeganPoint:(CGPoint)point {}
 

@@ -11,7 +11,7 @@
 #import "ZLGuideModel.h"
 #import "ZLBOLLParam.h"
 
-#import "GuideDataType.h"
+#import "ZLGuideDataType.h"
 
 @interface ZLBOLLPainter()
 
@@ -30,6 +30,9 @@
     [super draw];
     [self drawBoll];
 }
+
+// tap
+- (void)tapAtPoint:(CGPoint)point {}
 
 // pan
 - (void)panBeganPoint:(CGPoint)point {}

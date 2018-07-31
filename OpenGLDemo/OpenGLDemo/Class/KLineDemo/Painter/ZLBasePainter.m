@@ -34,6 +34,10 @@
     [self p_havePaintView];
 }
 
+- (void)clear {
+    [self p_clear];
+}
+
 // pan
 - (void)panBeganPoint:(CGPoint)point {}
 - (void)panChangedPoint:(CGPoint)point {}
