@@ -46,11 +46,12 @@
 }
 
 - (void)loadData {
-    self.paintScene.edgeInsets = UIEdgeInsetsMake(0, 0, 60 * SCALE, 0);
+    self.paintScene.edgeInsets = UIEdgeInsetsMake(40 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE);
     
     // TODO drawDataArray is nil 返回异常
     self.paintScene.drawDataArray = [ZLQuoteDataCenter shareInstance].hisKLineDataArray;
-    [self.paintScene setViewPort:self.bounds];
+//    [self.paintScene setViewPort:self.bounds.size];
+    self.paintScene.viewPort = self.bounds.size;
 }
 
 - (NSArray *)painterArray {

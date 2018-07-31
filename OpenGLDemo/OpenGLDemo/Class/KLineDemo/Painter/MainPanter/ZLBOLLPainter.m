@@ -76,7 +76,7 @@
 - (CAShapeLayer *)bollLayer {
     if (!_bollLayer) {
         _bollLayer = [CAShapeLayer layer];
-        _bollLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+        _bollLayer.frame = self.p_frame;
         _bollLayer.fillColor = ZLClearColor.CGColor;
         _bollLayer.lineWidth = LINEWIDTH;
     }
@@ -101,17 +101,17 @@
     lowPath.lineWidth = LINEWIDTH;
     
     CAShapeLayer *upLayer = [CAShapeLayer layer];
-    upLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    upLayer.frame = self.p_bounds;
     upLayer.fillColor = ZLClearColor.CGColor;
     upLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_UP].CGColor;
    
     CAShapeLayer *midLayer = [CAShapeLayer layer];
-    midLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    midLayer.frame = self.p_bounds;
     midLayer.fillColor = ZLClearColor.CGColor;
     midLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_MID].CGColor;
     
     CAShapeLayer *lowLayer = [CAShapeLayer layer];
-    lowLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    lowLayer.frame = self.p_bounds;
     lowLayer.fillColor = ZLClearColor.CGColor;
     lowLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_LOW].CGColor;
     
@@ -143,7 +143,7 @@
     }
     
     CAShapeLayer *bollLayer = [CAShapeLayer layer];
-    bollLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    bollLayer.frame = self.p_bounds;
     
     upLayer.path = upPath.CGPath;
     [upPath removeAllPoints];
@@ -176,7 +176,7 @@
     bandPath.lineWidth = LINEWIDTH;
     
     CAShapeLayer *bandShapeLayer = [CAShapeLayer layer];
-    bandShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    bandShapeLayer.frame = self.p_bounds;
     bandShapeLayer.strokeColor = ZLClearColor.CGColor;
     bandShapeLayer.fillColor = bollParams.bandColor.CGColor;
     

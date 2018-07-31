@@ -80,17 +80,24 @@
 }
 
 - (void)drawAxis {
-    // TODO 坐标线没想好，以后修改
-    CGPoint pointXBegin = CGPointMake(0, self.p_height);
-    CGPoint pointXEnd = CGPointMake(self.p_width, self.p_height);
-    CGPoint pointYBegin = CGPointMake(self.screenEdgeInsets.left, 0);
-    CGPoint pointYEnd = CGPointMake(self.screenEdgeInsets.left, self.p_height);
+    CGPoint pointLT = CGPointMake(self.p_left, self.p_top);     // lt
+    CGPoint pointLB = CGPointMake(self.p_left, self.p_bottom);  // lb
+    CGPoint pointRT = CGPointMake(self.p_right, self.p_top);    // rt
+    CGPoint pointRB = CGPointMake(self.p_right, self.p_bottom); // rb
     
     UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:pointXBegin];
-    [path addLineToPoint:pointXEnd];
-    [path moveToPoint:pointYBegin];
-    [path addLineToPoint:pointYEnd];
+    // top
+    [path moveToPoint:pointLT];
+    [path addLineToPoint:pointRT];
+    // left
+    [path moveToPoint:pointLT];
+    [path addLineToPoint:pointLB];
+    // right
+    [path moveToPoint:pointRT];
+    [path addLineToPoint:pointRB];
+    // bottom
+    [path moveToPoint:pointRB];
+    [path addLineToPoint:pointLB];
     
     path.lineCapStyle = kCGLineCapRound; //线条拐角
     path.lineJoinStyle = kCGLineCapRound; //终点处理
@@ -186,7 +193,7 @@
 - (CAShapeLayer *)borderShapeLayer {
     if (!_borderShapeLayer) {
         _borderShapeLayer = [CAShapeLayer layer];
-        _borderShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+        _borderShapeLayer.frame = self.p_frame;
         _borderShapeLayer.fillColor = ZLClearColor.CGColor;
         _borderShapeLayer.lineWidth = LINEWIDTH;
     }
@@ -196,7 +203,7 @@
 - (CAShapeLayer *)xAxisShapeLayer {
     if (!_xAxisShapeLayer) {
         _xAxisShapeLayer = [CAShapeLayer layer];
-        _xAxisShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+        _xAxisShapeLayer.frame = self.p_frame;
         _xAxisShapeLayer.fillColor = ZLClearColor.CGColor;
         _xAxisShapeLayer.lineWidth = LINEWIDTH;
     }
@@ -206,7 +213,7 @@
 - (CAShapeLayer *)longitudeLayer {
     if (!_longitudeLayer) {
         _longitudeLayer = [CAShapeLayer layer];
-        _longitudeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+        _longitudeLayer.frame = self.p_frame;
         _longitudeLayer.fillColor = ZLClearColor.CGColor;
         _longitudeLayer.lineWidth = LINEWIDTH;
     }
@@ -216,7 +223,7 @@
 - (CAShapeLayer *)latitudeLayer {
     if (!_latitudeLayer) {
         _latitudeLayer = [CAShapeLayer layer];
-        _latitudeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+        _latitudeLayer.frame = self.p_frame;
         _latitudeLayer.fillColor = ZLClearColor.CGColor;
         _latitudeLayer.lineWidth = LINEWIDTH;
     }
@@ -233,7 +240,7 @@
     [latpath addLineToPoint:CGPointMake(positionX, self.p_height)];
     
     CAShapeLayer *latLayer = [CAShapeLayer layer];
-    latLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    latLayer.frame = self.p_bounds;
     latLayer.strokeColor = LatitudeStrokeColor.CGColor;
     latLayer.lineDashPattern = @[@3, @5];
     
@@ -274,7 +281,7 @@
     [lonpath addLineToPoint:CGPointMake(self.p_width, positionY)];
     
     CAShapeLayer *lonLayer = [CAShapeLayer layer];
-    lonLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    lonLayer.frame = self.p_bounds;
     lonLayer.strokeColor = LongitudeStrokeColor.CGColor;
     lonLayer.lineDashPattern = @[@2, @2];
     

@@ -21,8 +21,6 @@
 
 @property (nonatomic, strong) ZLGuideManager *guideManager;
 
-@property (nonatomic, assign) CGRect viewPort;
-
 @property (nonatomic, assign) CGFloat sHigherPrice;
 @property (nonatomic, assign) CGFloat sLowerPrice;
 
@@ -61,13 +59,8 @@
 }
 
 #pragma mark - scene fix
-- (void)setViewPort:(CGRect)viewPort {
-    _viewPort = viewPort;
-//    [self prepareDrawWithPoint:CGPointZero andScale:1.0];
-}
-
 - (void)prepareDrawWithPoint:(CGPoint)point andScale:(CGFloat)scale {
-    if (CGRectEqualToRect(self.viewPort, CGRectZero)) {
+    if (CGSizeEqualToSize(self.viewPort, CGSizeZero)) {
         NSAssert(NO, @"Invalid viewPort is zero.");
         return;
     }
@@ -94,7 +87,7 @@
 
 // 计算 要显示几个
 - (void)fixShowCount {
-    NSInteger showCount = self.viewPort.size.width / (self.kLineCellWidth * self.curXScale);
+    NSInteger showCount = [self z_portWidth] / (self.kLineCellWidth * self.curXScale);
     self.showCount = MIN(self.arrayMaxCount, showCount);
 }
 
@@ -145,7 +138,7 @@
     self.sHigherPrice *= kHScale;
     
     // 计算每个点代表的值是多少
-    self.unitValue = (self.sHigherPrice - self.sLowerPrice) / (self.viewPort.size.height - self.edgeInsets.bottom);
+    self.unitValue = (self.sHigherPrice - self.sLowerPrice) / [self z_portHeight];
 }
 
 #pragma mark - property
@@ -193,6 +186,14 @@
     
     tDataPack.dataArray = [oDataPack.dataArray subarrayWithRange:NSMakeRange(self.curIndex, self.showCount)];
     return tDataPack;
+}
+
+- (CGFloat)z_portWidth {
+    return self.viewPort.width - self.edgeInsets.left - self.edgeInsets.right;
+}
+
+- (CGFloat)z_portHeight {
+    return self.viewPort.height - self.edgeInsets.top - self.edgeInsets.bottom;
 }
 
 @end

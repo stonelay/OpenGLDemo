@@ -171,7 +171,7 @@
 - (CAShapeLayer *)candleShapeLayer {
     if (!_candleShapeLayer) {
         _candleShapeLayer = [CAShapeLayer layer];
-        _candleShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+        _candleShapeLayer.frame = self.p_frame;
     }
     return _candleShapeLayer;
 }
@@ -179,7 +179,7 @@
 - (CAShapeLayer *)trackingCrosslayer {
     if (!_trackingCrosslayer) {
         _trackingCrosslayer = [CAShapeLayer layer];
-        _trackingCrosslayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+        _trackingCrosslayer.frame = self.p_frame;
     }
     return _trackingCrosslayer;
 }
@@ -203,7 +203,7 @@
     [cellpath addLineToPoint:CGPointMake(leftX + candleWidth(cellW) / 2, lowY)];
     
     CAShapeLayer *cellCAShapeLayer = [CAShapeLayer layer];
-    cellCAShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    cellCAShapeLayer.frame = self.p_bounds;
     cellCAShapeLayer.fillColor = [UIColor clearColor].CGColor;
     
     //调整颜色
@@ -248,7 +248,7 @@
     [crossPath addLineToPoint:CGPointMake(crossX, self.p_height)];
     
     CAShapeLayer *crossCAShapeLayer = [CAShapeLayer layer];
-    crossCAShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    crossCAShapeLayer.frame = self.p_bounds;
     crossCAShapeLayer.strokeColor = CrossColor.CGColor;
     
     crossCAShapeLayer.path = crossPath.CGPath;

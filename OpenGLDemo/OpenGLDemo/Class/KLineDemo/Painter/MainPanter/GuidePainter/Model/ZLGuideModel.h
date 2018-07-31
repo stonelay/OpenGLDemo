@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSString * gid;
 @property (nonatomic, strong) NSDate   * dataTime;
 
+
 @property (nonatomic, assign) BOOL      needDraw;
 
 

@@ -74,7 +74,7 @@
 - (CAShapeLayer *)maLayer {
     if (!_maLayer) {
         _maLayer = [CAShapeLayer layer];
-        _maLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+        _maLayer.frame = self.p_frame;
         _maLayer.fillColor = ZLClearColor.CGColor;
         _maLayer.lineWidth = LINEWIDTH;
     }
@@ -99,7 +99,7 @@
     maPath.lineWidth = LINEWIDTH;
     
     CAShapeLayer *maShapeLayer = [CAShapeLayer layer];
-    maShapeLayer.frame = CGRectMake(0, 0, self.p_width, self.p_height);
+    maShapeLayer.frame = self.p_bounds;
     maShapeLayer.strokeColor = maParams.maColor.CGColor;
     maShapeLayer.fillColor = ZLClearColor.CGColor;
     

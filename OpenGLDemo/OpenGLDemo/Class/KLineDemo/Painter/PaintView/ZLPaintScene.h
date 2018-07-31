@@ -33,6 +33,7 @@
 @property (nonatomic, assign) CGPoint longPressPoint;
 
 @property (nonatomic, assign) UIEdgeInsets edgeInsets;
+@property (nonatomic, assign) CGSize viewPort;
 
 @property (nonatomic, strong, readonly) NSArray *curShowArray; // 当前显示队列
 
@@ -43,7 +44,6 @@
 - (void)editIndex;
 - (void)editScale;
 
-- (void)setViewPort:(CGRect)viewPort;
 - (void)prepareDrawWithPoint:(CGPoint)point andScale:(CGFloat)scale;
 
 #pragma mark - property

@@ -65,12 +65,22 @@
 
 - (CGFloat)p_left {
     [self p_havePaintView];
-    return self.paintView.left + self.screenEdgeInsets.left;
+    return self.screenEdgeInsets.left;
 }
 
 - (CGFloat)p_top {
     [self p_havePaintView];
-    return self.paintView.top + self.screenEdgeInsets.top;
+    return self.screenEdgeInsets.top;
+}
+
+- (CGFloat)p_bottom {
+    [self p_havePaintView];
+    return self.paintView.height - self.screenEdgeInsets.bottom;
+}
+
+- (CGFloat)p_right {
+    [self p_havePaintView];
+    return self.paintView.width - self.screenEdgeInsets.right;
 }
 
 - (CGFloat)p_height {

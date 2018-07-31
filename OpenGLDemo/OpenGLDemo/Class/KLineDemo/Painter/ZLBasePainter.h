@@ -11,8 +11,8 @@
 #import "KLineModel.h"
 #import "ZLGuideDataPack.h"
 
-static const CGFloat kHScale = 1.005;
-static const CGFloat kLScale = 0.995;
+static const CGFloat kHScale = 1.009;
+static const CGFloat kLScale = 0.991;
 static const CGFloat kSpaceCellScale = 0.75;// 蜡烛宽度 和 cell 的比例
 
 static CGFloat inline candleWidth(CGFloat cellWidth) {
@@ -50,9 +50,12 @@ static CGFloat inline candleLeftAdge(CGFloat cellWidth) {
 // 实际的
 - (CGRect)s_bounds;
 
-// 画布的
+// 画布的 在 paintview 中的frame
 - (CGFloat)p_left;
 - (CGFloat)p_top;
+- (CGFloat)p_bottom;
+- (CGFloat)p_right;
+
 - (CGFloat)p_height;
 - (CGFloat)p_width;
 - (CGRect)p_frame;
