@@ -87,7 +87,7 @@
     CGFloat unitValue = [self.delegate unitValueInPainter:self];
     CGFloat showCount = curShowArray.count;
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
-    BOOL isShowArray = [self.dataSource isShowAllInPainter:self];
+    BOOL isShowAll = [self.dataSource isShowAllInPainter:self];
     
     [curShowArray enumerateObjectsUsingBlock:^(KLineModel *model, NSUInteger idx, BOOL *stop) {
         CGFloat openY   = (sHigherPrice - model.open) / unitValue;
@@ -96,7 +96,7 @@
         CGFloat closeY  = (sHigherPrice - model.close) / unitValue;
         
         CGFloat leftX = cellWidth * idx; // 从左往右画 // 计算方式 防止屏幕抖动
-        if (isShowArray) {
+        if (isShowAll) {
             leftX = self.p_width - (showCount - idx) * cellWidth; //从右往左画 当前条数不足 撑满屏幕时
         }
         CAShapeLayer *cellShapeLayer = [self getCandleLayerFromOpenY:openY highY:highY lowY:lowY closeY:closeY leftX:leftX cellW:cellWidth];
@@ -121,8 +121,8 @@
     NSInteger crossIndex = longPressPoint.x / cellWidth;
     CGFloat leftX = cellWidth * crossIndex;
     
-    BOOL isShowArray = [self.dataSource isShowAllInPainter:self];
-    if (isShowArray) {
+    BOOL isShowAll = [self.dataSource isShowAllInPainter:self];
+    if (isShowAll) {
         NSInteger resIndex = (self.p_width - longPressPoint.x) / cellWidth;
         if (resIndex > showCount) {
             ZLErrorLog(@"超出绘制范围");

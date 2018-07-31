@@ -25,9 +25,6 @@
 
 @interface ZLPaintView()<PaintViewDataSource, PaintViewDelegate>
 
-//@property (nonatomic, assign) GuidePaintMainType paintMainType;
-//@property (nonatomic, assign) GuidePaintAssistType paintAssistType;
-
 @property (nonatomic, strong) ZLPaintScene *paintScene;
 
 @property (nonatomic, strong) ZLGridePainter *gridePainter;
@@ -268,6 +265,13 @@
     }
     
     self.paintScene.paintMainType = [ZLGuideDataType getNextMainType:self.paintScene.paintMainType];
+    
+    if (self.paintScene.paintMainType & GuidePaintMainTypeBOLL) {
+        self.paintScene.edgeInsets = UIEdgeInsetsMake(40 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE);
+    }
+    if (self.paintScene.paintMainType & GuidePaintMainTypeMA) {
+        self.paintScene.edgeInsets = UIEdgeInsetsMake(80 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE);
+    }
 }
 
 - (void)tapNextAssistType {

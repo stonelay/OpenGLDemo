@@ -91,7 +91,7 @@
     CGFloat unitValue = [self.delegate unitValueInPainter:self];
     CGFloat showCount = [self.dataSource showNumberInPainter:self];
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
-    BOOL isShowArray = [self.dataSource isShowAllInPainter:self];
+    BOOL isShowAll = [self.dataSource isShowAllInPainter:self];
     
     NSArray *guideArray = dataPack.dataArray;
     ZLBOLLParam *bollParams = (ZLBOLLParam *)dataPack.param;
@@ -124,7 +124,7 @@
         if (!model.needDraw) continue;
         
         CGFloat leftX = cellWidth * i; // 从左往右画 // 计算方式 防止屏幕抖动
-        if (isShowArray) {
+        if (isShowAll) {
             leftX = self.p_width - (showCount - i) * cellWidth; //从右往左画 当前条数不足 撑满屏幕时
         }
         leftX += candleLeftAdge(cellWidth);
@@ -170,7 +170,7 @@
     CGFloat unitValue = [self.delegate unitValueInPainter:self];
     CGFloat showCount = [self.dataSource showNumberInPainter:self];
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
-    BOOL isShowArray = [self.dataSource isShowAllInPainter:self];
+    BOOL isShowAll = [self.dataSource isShowAllInPainter:self];
     
     NSArray *guideArray = dataPack.dataArray;
     ZLBOLLParam *bollParams = (ZLBOLLParam *)dataPack.param;
@@ -191,7 +191,7 @@
         if (!model.needDraw) continue;
         
         CGFloat leftX = cellWidth * i; // 从左往右画 // 计算方式 防止屏幕抖动
-        if (isShowArray) {
+        if (isShowAll) {
             leftX = self.p_width - (showCount - i) * cellWidth; //从右往左画 当前条数不足 撑满屏幕时
         }
         leftX += candleLeftAdge(cellWidth);
