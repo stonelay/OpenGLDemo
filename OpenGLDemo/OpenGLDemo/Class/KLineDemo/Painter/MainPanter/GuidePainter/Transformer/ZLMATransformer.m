@@ -9,9 +9,7 @@
 #import "ZLMATransformer.h"
 
 #import "ZLMAParam.h"
-
 #import "KLineModel.h"
-
 #import "ZLGuideModel.h"
 
 NSString * const MA_Type_SMA  = @"SMA"; // 简单移动平均线
@@ -27,7 +25,7 @@ NSString * const MA_Type_WMA  = @"WMA"; // 指数平滑移动平均线
 
 - (ZLGuideDataPack *)transToGuideData:(NSArray *)chartDataArray guideParam:(ZLGuideParam *)guideParam {
     if (![guideParam isKindOfClass:[ZLMAParam class]]) {
-        NSAssert(NO, @"ma guideParam err!!!");
+        NSAssert(NO, @"Invalid ma guideParam class.");
         return nil;
     }
     ZLMAParam *maParam = (ZLMAParam *)guideParam;
@@ -62,22 +60,27 @@ NSString * const MA_Type_WMA  = @"WMA"; // 指数平滑移动平均线
     
     NSMutableArray *tArray = [[NSMutableArray alloc] init];
     double ma = 0.0;
-    for (int i = 0; i < period; i++) {
-        KLineModel *model = [chartDataArray objectAtIndex:i];
-        ma += model.close;
-    }
-    
-    ZLGuideModel *model = [[ZLGuideModel alloc] initWithId:MA_Type_SMA];
-    model.cycle = period;
-    model.data = ma / (double)period;
-    [tArray addObject:model];
     
     for(int i = 0;i < chartDataArray.count;i++) {
-        
-        if (i < period) {
+        if (i < period - 1) {
             ZLGuideModel *model = [[ZLGuideModel alloc] initWithId:MA_Type_SMA];
             model.cycle = period;
             model.data = 0;
+            model.needDraw = NO;
+            
+            KLineModel *pModel = [chartDataArray objectAtIndex:i];
+            ma += pModel.close;
+            [tArray addObject:model];
+            continue;
+        }
+        
+        if (i == period - 1) {
+            KLineModel *pModel = [chartDataArray objectAtIndex:i];
+            ma += pModel.close;
+            
+            ZLGuideModel *model = [[ZLGuideModel alloc] initWithId:MA_Type_SMA];
+            model.cycle = period;
+            model.data = ma / (double)period;
             [tArray addObject:model];
             continue;
         }

@@ -99,14 +99,14 @@
 }
 
 - (void)p_havePaintView {
-    NSAssert(self.paintView, @"paintView is nil!!!");
+    NSAssert(self.paintView, @"Invalidate paintView is nil.");
 }
 
 - (void)p_haveDataSource {
-    NSAssert(self.dataSource, @"dataSource is nil!!!");
+    NSAssert(self.dataSource, @"Invalid dataSource is nil.");
 }
 - (void)p_haveDelegate {
-    NSAssert(self.delegate, @"delegate is nil!!!");
+    NSAssert(self.delegate, @"Invalid delegate is nil.");
 }
 
 #pragma mark - sys

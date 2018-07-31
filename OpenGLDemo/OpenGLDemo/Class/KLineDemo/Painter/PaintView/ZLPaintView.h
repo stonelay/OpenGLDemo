@@ -14,6 +14,7 @@ typedef NS_OPTIONS(NSUInteger, ZLKLinePainterOp) {
     ZLKLinePainterOpGride                       = 1 << 0,
     ZLKLinePainterOpCandle                      = 1 << 1,
     ZLKLinePainterOpMA                          = 1 << 2,
+    ZLKLinePainterOpBOLL                        = 1 << 3,
 };
 
 @interface ZLPaintView : ZLBasePaintView

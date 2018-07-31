@@ -11,6 +11,7 @@
 #import "ZLGridePainter.h"
 #import "ZLCandlePainter.h"
 #import "ZLMAPainter.h"
+#import "ZLBOLLPainter.h"
 
 #import "ZLQuoteDataCenter.h"
 
@@ -76,12 +77,26 @@
             [tempArray addObject:painter];
         }
         
+        if (self.linePainterOp & ZLKLinePainterOpBOLL) {
+            ZLBasePainter *painter = [[ZLBOLLPainter alloc] initWithPaintView:self];
+            painter.dataSource = self;
+            painter.delegate = self;
+            [tempArray addObject:painter];
+        }
+        
         _painterArray = [tempArray copy];
     }
     return _painterArray;
 }
 
+- (void)setLinePainterOp:(ZLKLinePainterOp)linePainterOp {
+    _linePainterOp = linePainterOp;
+    // TODO
+    self.paintScene.linePainterOp = linePainterOp;
+}
+
 - (void)draw {
+    [self.paintScene prepareDrawWithPoint:CGPointZero andScale:1.0];
     if (self.painterArray && self.painterArray.count != 0) {
         for (int i = 0; i < self.painterArray.count; i++) {
             [self.painterArray[i] draw];
@@ -115,7 +130,11 @@
 }
 
 - (ZLGuideDataPack *)painter:(ZLBasePainter *)painter dataPackByMA:(NSString *)ma {
-    return [self.paintScene getDataPackByMAKey:ma];
+    return [self.paintScene getMADataPackByKey:ma];
+}
+
+- (ZLGuideDataPack *)bollDataPackInPainter:(ZLBasePainter *)painter {
+    return [self.paintScene getBOLLDataPack];
 }
 
 #pragma mark - paitview delegate

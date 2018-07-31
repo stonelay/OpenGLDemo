@@ -59,6 +59,7 @@
 		488E5EA7210EE428004DF479 /* ZLMAParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5EA6210EE428004DF479 /* ZLMAParam.m */; };
 		488E5EAA210EE434004DF479 /* ZLBOLLParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5EA9210EE434004DF479 /* ZLBOLLParam.m */; };
 		488E5EAE210EF8B7004DF479 /* ZLGuideModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5EAD210EF8B7004DF479 /* ZLGuideModel.m */; };
+		488E5EB221102663004DF479 /* ZLBOLLPainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5EB121102663004DF479 /* ZLBOLLPainter.m */; };
 		489A845820B6ABE2005BF4A8 /* OpenGLDemo16Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A845720B6ABE2005BF4A8 /* OpenGLDemo16Controller.m */; };
 		489A845B20B6AC08005BF4A8 /* GLRender16View.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A845A20B6AC08005BF4A8 /* GLRender16View.m */; };
 		489A846920B813F9005BF4A8 /* AVPlayerDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A846820B813F9005BF4A8 /* AVPlayerDemoController.m */; };
@@ -227,6 +228,9 @@
 		488E5EA9210EE434004DF479 /* ZLBOLLParam.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLBOLLParam.m; sourceTree = "<group>"; };
 		488E5EAC210EF8B7004DF479 /* ZLGuideModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLGuideModel.h; sourceTree = "<group>"; };
 		488E5EAD210EF8B7004DF479 /* ZLGuideModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLGuideModel.m; sourceTree = "<group>"; };
+		488E5EB021102663004DF479 /* ZLBOLLPainter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLBOLLPainter.h; sourceTree = "<group>"; };
+		488E5EB121102663004DF479 /* ZLBOLLPainter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLBOLLPainter.m; sourceTree = "<group>"; };
+		488E5EB321102B38004DF479 /* GuideDataType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GuideDataType.h; sourceTree = "<group>"; };
 		489A845620B6ABE2005BF4A8 /* OpenGLDemo16Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo16Controller.h; sourceTree = "<group>"; };
 		489A845720B6ABE2005BF4A8 /* OpenGLDemo16Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo16Controller.m; sourceTree = "<group>"; };
 		489A845920B6AC08005BF4A8 /* GLRender16View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender16View.h; sourceTree = "<group>"; };
@@ -533,6 +537,8 @@
 				48021E59210B135800C1E8F8 /* ZLGridePainter.m */,
 				48021E5E210B137000C1E8F8 /* ZLMAPainter.h */,
 				48021E5F210B137000C1E8F8 /* ZLMAPainter.m */,
+				488E5EB021102663004DF479 /* ZLBOLLPainter.h */,
+				488E5EB121102663004DF479 /* ZLBOLLPainter.m */,
 			);
 			path = MainPanter;
 			sourceTree = "<group>";
@@ -655,6 +661,7 @@
 				488E5E92210EDB78004DF479 /* ZLGuideDataPack.m */,
 				488E5E94210EDCDD004DF479 /* ZLGuideParam.h */,
 				488E5E95210EDCDD004DF479 /* ZLGuideParam.m */,
+				488E5EB321102B38004DF479 /* GuideDataType.h */,
 			);
 			path = GuidePainter;
 			sourceTree = "<group>";
@@ -1412,6 +1419,7 @@
 				484F5E7420EF62C700DD7953 /* DrawModel.m in Sources */,
 				48CB61B620104FF700B665CC /* main.m in Sources */,
 				48CB61E22010516400B665CC /* NSDictionary+Safe.m in Sources */,
+				488E5EB221102663004DF479 /* ZLBOLLPainter.m in Sources */,
 				48E9090A203E94A4002CBCAC /* FFmDemo01Controller.m in Sources */,
 				489A845820B6ABE2005BF4A8 /* OpenGLDemo16Controller.m in Sources */,
 				48021E5C210B135800C1E8F8 /* ZLGridePainter.m in Sources */,

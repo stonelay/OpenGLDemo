@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GuideDataType.h"
+
 @interface ZLGuideParam : NSObject
 
 @property (nonatomic, strong) NSString *name;

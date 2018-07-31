@@ -10,6 +10,8 @@
 
 #import "ZLGuideDataPack.h"
 
+#import "ZLPaintView.h"
+
 @interface ZLPaintScene : NSObject
 
 
@@ -36,6 +38,8 @@
 
 @property (nonatomic, strong) NSMutableArray *drawDataArray; //
 
+@property (nonatomic, assign) ZLKLinePainterOp linePainterOp;
+
 - (void)editIndex;
 - (void)editScale;
 
@@ -43,6 +47,7 @@
 - (void)prepareDrawWithPoint:(CGPoint)point andScale:(CGFloat)scale;
 
 #pragma mark - property
-- (ZLGuideDataPack *)getDataPackByMAKey:(NSString *)key;
+- (ZLGuideDataPack *)getMADataPackByKey:(NSString *)key;
+- (ZLGuideDataPack *)getBOLLDataPack;
 
 @end

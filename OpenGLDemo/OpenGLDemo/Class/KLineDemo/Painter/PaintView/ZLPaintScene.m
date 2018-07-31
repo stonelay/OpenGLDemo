@@ -13,6 +13,7 @@
 #import "ZLGuideManager.h"
 
 #import "ZLMAParam.h"
+#import "ZLBOLLParam.h"
 
 #define UninitializedIndex   -1
 
@@ -62,16 +63,16 @@
 #pragma mark - scene fix
 - (void)setViewPort:(CGRect)viewPort {
     _viewPort = viewPort;
-    [self prepareDrawWithPoint:CGPointZero andScale:1.0];
+//    [self prepareDrawWithPoint:CGPointZero andScale:1.0];
 }
 
 - (void)prepareDrawWithPoint:(CGPoint)point andScale:(CGFloat)scale {
     if (CGRectEqualToRect(self.viewPort, CGRectZero)) {
-        NSAssert(NO, @"viewPort can't be zero!!!");
+        NSAssert(NO, @"Invalid viewPort is zero.");
         return;
     }
     if (!self.drawDataArray || self.drawDataArray.count == 0) {
-        NSAssert(NO, @"drawDataArray can't be nil!!!");
+        NSAssert(NO, @"Invalid drawDataArray is nil or count is zero.");
         return;
     }
     
@@ -127,6 +128,18 @@
         self.sLowerPrice = MIN(model.low, self.sLowerPrice);
     }
     
+    if (self.linePainterOp & ZLKLinePainterOpMA) {
+        SMaximum *maximum = [self.guideManager getMAMaximunWithRange:NSMakeRange(self.curIndex, self.showCount)];
+        self.sHigherPrice = MAX(maximum.max, self.sHigherPrice);
+        self.sLowerPrice = MIN(maximum.min, self.sLowerPrice);
+    }
+    
+    if (self.linePainterOp & ZLKLinePainterOpBOLL) {
+        SMaximum *maximum = [self.guideManager getBOLLMaximunWithRange:NSMakeRange(self.curIndex, self.showCount)];
+        self.sHigherPrice = MAX(maximum.max, self.sHigherPrice);
+        self.sLowerPrice = MIN(maximum.min, self.sLowerPrice);
+    }
+    
     // 预留屏幕上下空隙
     self.sLowerPrice *= kLScale;
     self.sHigherPrice *= kHScale;
@@ -156,16 +169,28 @@
     [self.guideManager updateWithChartData:drawDataArray];
 }
 
-- (ZLGuideDataPack *)getDataPackByMAKey:(NSString *)key {
-    ZLGuideDataPack *oDataPack = [self.guideManager getDataPackByMAKey:key];
+- (ZLGuideDataPack *)getMADataPackByKey:(NSString *)key {
+    ZLGuideDataPack *oDataPack = [self.guideManager getMADataPackByKey:key];
     if (!oDataPack) {
         return nil;
     }
 
     ZLMAParam *param = (ZLMAParam *)oDataPack.param;
     ZLGuideDataPack *tDataPack = [[ZLGuideDataPack alloc] initWithParams:param];
-//    NSLog(@"%d, %d", oDataPack.dataArray.count, self.arrayMaxCount);
-//    NSInteger offset = param.period - 1;
+
+    tDataPack.dataArray = [oDataPack.dataArray subarrayWithRange:NSMakeRange(self.curIndex, self.showCount)];
+    return tDataPack;
+}
+
+- (ZLGuideDataPack *)getBOLLDataPack {
+    ZLGuideDataPack *oDataPack = [self.guideManager getBOLLDataPack];
+    if (!oDataPack) {
+        return nil;
+    }
+    
+    ZLBOLLParam *param = (ZLBOLLParam *)oDataPack.param;
+    ZLGuideDataPack *tDataPack = [[ZLGuideDataPack alloc] initWithParams:param];
+    
     tDataPack.dataArray = [oDataPack.dataArray subarrayWithRange:NSMakeRange(self.curIndex, self.showCount)];
     return tDataPack;
 }

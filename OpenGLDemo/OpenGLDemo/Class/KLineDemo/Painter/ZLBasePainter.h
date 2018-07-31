@@ -88,7 +88,9 @@ static CGFloat inline candleLeftAdge(CGFloat cellWidth) {
 - (CGPoint)longPressPointInPainter:(ZLBasePainter *)painter;
 //- (NSUInteger)selectCrossIndexInPainter:(ZLBasePainter *)painter;
 
-- (ZLGuideDataPack *)painter:(ZLBasePainter *)painter dataPackByMA:(NSString *)ma;
+// guide
+- (ZLGuideDataPack *)painter:(ZLBasePainter *)painter dataPackByMA:(NSString *)ma; // ma
+- (ZLGuideDataPack *)bollDataPackInPainter:(ZLBasePainter *)painter; // boll
 
 @end
 
