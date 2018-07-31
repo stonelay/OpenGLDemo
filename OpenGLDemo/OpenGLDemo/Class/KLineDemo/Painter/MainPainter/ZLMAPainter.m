@@ -11,6 +11,8 @@
 #import "ZLGuideModel.h"
 #import "ZLMAParam.h"
 
+#define MATitleFontSize 8
+
 @interface ZLMAPainter()
 
 @property (nonatomic, strong) CAShapeLayer *maLayer;
@@ -61,6 +63,7 @@
     [self.maLayer addSublayer:[self getGuideByMA:PKey_MADataID_MA3]];
     [self.maLayer addSublayer:[self getGuideByMA:PKey_MADataID_MA4]];
     [self.maLayer addSublayer:[self getGuideByMA:PKey_MADataID_MA5]];
+    
     
     [self p_addSublayer:self.maLayer];
 }

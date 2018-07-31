@@ -21,13 +21,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://bos.nj.bpc.baidu.com/tieba-smallvideo/11772_3c435014fb2dd9a5fd56a57cc369f6a0.mp4"]];
+    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://bos.nj.bpc.baidu.com/tieba-smallvideo/11772_3c435014fb2dd9a5fd56a57cc369f6a0.mp4"]];
     
-    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:[[NSBundle mainBundle] pathForResource:@"move" ofType:@"mp4"]];
+//    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"move" ofType:@"mp4"]]];
     //添加监听
-//    [playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
-//    [playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
-//    self.avPlayer = [AVPlayer playerWithPlayerItem:playerItem];
+    [playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+    [playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+    self.avPlayer = [AVPlayer playerWithPlayerItem:playerItem];
     
     AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
     //设置模式
@@ -42,21 +42,21 @@
     
 }
 //监听回调
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
-//{
-//    AVPlayerItem *playerItem = (AVPlayerItem *)object;
-//
-//    if ([keyPath isEqualToString:@"loadedTimeRanges"]){
-//
-//    }else if ([keyPath isEqualToString:@"status"]){
-//        if (playerItem.status == AVPlayerItemStatusReadyToPlay){
-//            NSLog(@"playerItem is ready");
-//            [self.avPlayer play];
-//        } else{
-//            NSLog(@"load break");
-//        }
-//    }
-//}
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    AVPlayerItem *playerItem = (AVPlayerItem *)object;
+
+    if ([keyPath isEqualToString:@"loadedTimeRanges"]){
+
+    }else if ([keyPath isEqualToString:@"status"]){
+        if (playerItem.status == AVPlayerItemStatusReadyToPlay){
+            NSLog(@"playerItem is ready");
+            [self.avPlayer play];
+        } else{
+            NSLog(@"load break");
+        }
+    }
+}
 
 
 - (void)didReceiveMemoryWarning {
