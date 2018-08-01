@@ -9,6 +9,7 @@
 #ifndef ScreenMacro_h
 #define ScreenMacro_h
 
-#import "ShowToast.h"
+//#import "ShowToast.h"
+#import "SVProgressHUD.h"
 
 #endif /* ScreenMacro_h */

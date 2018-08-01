@@ -6,7 +6,6 @@
 //  Copyright © 2018年 Zhanglei. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "ZLBasePaintView.h"
 
 

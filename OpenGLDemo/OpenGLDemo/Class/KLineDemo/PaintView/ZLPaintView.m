@@ -56,14 +56,19 @@
     self.paintScene = [[ZLPaintScene alloc] init];
     self.paintScene.paintMainType = GuidePaintMainTypeNone;
     self.paintScene.paintAssistType = GuidePaintAssistTypeNone;
+    self.paintScene.edgeInsets = NONEEDGEINSETS;
+    self.paintScene.viewPort = self.bounds.size;
 }
 
 - (void)loadData {
-    self.paintScene.edgeInsets = NONEEDGEINSETS;
-    
     // TODO drawDataArray is nil 返回异常
-    self.paintScene.drawDataArray = [ZLQuoteDataCenter shareInstance].hisKLineDataArray;
-    self.paintScene.viewPort = self.bounds.size;
+    [SVProgressHUD show];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [SVProgressHUD dismiss];
+        self.paintScene.drawDataArray = [ZLQuoteDataCenter shareInstance].hisKLineDataArray;
+        [self draw];
+    });
+    
 }
 
 - (ZLGridePainter *)gridePainter {

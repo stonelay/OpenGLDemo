@@ -15,15 +15,18 @@ PODS:
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
   - GPUImage (0.1.7)
+  - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - BlocksKit
   - GPUImage
+  - SVProgressHUD
 
 SPEC CHECKSUMS:
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: acf67a802a22e26884a9083d73a93e2e3ad0d542
+PODFILE CHECKSUM: 785a26b85e3993a0df5dd5f9e9e924bd99b51892
 
 COCOAPODS: 1.2.0
