@@ -16,6 +16,7 @@
 @interface ZLMAPainter()
 
 @property (nonatomic, strong) CAShapeLayer *maLayer;
+@property (nonatomic, strong) CAShapeLayer *maInforLayer;
 
 @end
 
@@ -30,6 +31,7 @@
 - (void)draw {
     [super draw];
     [self drawMa];
+    [self drawMAInfor];
 }
 
 // tap
@@ -39,6 +41,7 @@
 - (void)panBeganPoint:(CGPoint)point {}
 - (void)panChangedPoint:(CGPoint)point {
     [self drawMa];
+    [self drawMAInfor];
 }
 - (void)panEndedPoint:(CGPoint)point {}
 
@@ -46,13 +49,20 @@
 - (void)pinchBeganScale:(CGFloat)scale {}
 - (void)pinchChangedScale:(CGFloat)scale {
     [self drawMa];
+    [self drawMAInfor];
 }
 - (void)pinchEndedScale:(CGFloat)scale {}
 
 // longPress
-- (void)longPressBeganLocation:(CGPoint)location {}
-- (void)longPressChangedLocation:(CGPoint)location {}
-- (void)longPressEndedLocation:(CGPoint)location {}
+- (void)longPressBeganLocation:(CGPoint)location {
+    [self drawMAInfor];
+}
+- (void)longPressChangedLocation:(CGPoint)location {
+    [self drawMAInfor];
+}
+- (void)longPressEndedLocation:(CGPoint)location {
+    [self drawMAInfor];
+}
 
 #pragma mark - draw
 - (void)drawMa {
@@ -70,15 +80,52 @@
     CGFloat unitValue = [self.delegate unitValueInPainter:self];
     CGFloat showCount = [self.dataSource showNumberInPainter:self];
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
-    BOOL isShowAll = [self.dataSource isShowAllInPainter:self];
-    
+    CGFloat firstCandleX = [self.dataSource firstCandleXInPainter:self];
+
     for (int i = 0; i < dataPacks.count; i++) {
         ZLGuideDataPack *dataPack = dataPacks[i];
-        [self.maLayer addSublayer:[self getMALayerByDataPack:dataPack higherPrice:sHigherPrice unitValue:unitValue showCount:showCount cellWidth:cellWidth isShowAll:isShowAll]];
-        [self.maLayer addSublayer:[self getMaInforByMAParam:(ZLMAParam *)dataPack.param atIndex:i]];
+        [self.maLayer addSublayer:[self getMALayerByDataPack:dataPack higherPrice:sHigherPrice unitValue:unitValue showCount:showCount cellWidth:cellWidth firstCandleX:firstCandleX]];
     }
     
     [self p_addSublayer:self.maLayer];
+}
+
+- (void)drawMAInfor {
+    [self releaseMaInforLayer];
+    
+    NSMutableArray *dataPacks = [[NSMutableArray alloc] init];
+    // safe nill
+    [dataPacks addObject:[self.dataSource painter:self dataPackByMA:PKey_MADataID_MA1]];
+    [dataPacks addObject:[self.dataSource painter:self dataPackByMA:PKey_MADataID_MA2]];
+    [dataPacks addObject:[self.dataSource painter:self dataPackByMA:PKey_MADataID_MA3]];
+    [dataPacks addObject:[self.dataSource painter:self dataPackByMA:PKey_MADataID_MA4]];
+    [dataPacks addObject:[self.dataSource painter:self dataPackByMA:PKey_MADataID_MA5]];
+    
+    NSInteger crossIndex = [self.dataSource longPressIndexInPainter:self];
+    
+    CGFloat bLeft = 2;
+    CGFloat bTop = 1;
+    CGPoint origin = CGPointMake(bLeft, bTop - self.p_top);
+    for (int i = 0; i < dataPacks.count; i++) {
+        ZLGuideDataPack *dataPack = dataPacks[i];
+        ZLMAParam *maParam = (ZLMAParam *)dataPack.param;
+        ZLGuideModel *guideModel = dataPack.dataArray[crossIndex];
+        
+        NSString *title = [NSString stringWithFormat:@"MA%d: %.2f", (int)maParam.period, guideModel.data];
+        CGSize titleSize = [title sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(MATitleFontSize)}];
+        
+        CGRect frame = CGRectMake(origin.x, origin.y, titleSize.width, titleSize.height);
+        if (origin.x > bLeft &&  CGRectGetMaxX(frame) > self.p_width) {
+            origin.x = bLeft;
+            origin.y += titleSize.height + bTop;
+            frame = CGRectMake(origin.x, origin.y, titleSize.width, titleSize.height);
+        }
+        origin.x += titleSize.width + 8;
+        
+        [self.maInforLayer addSublayer:[self getMaInforByMAParam:(ZLMAParam *)dataPack.param withFrame:frame title:title]];
+    }
+    
+    [self p_addSublayer:self.maInforLayer];
 }
 
 #pragma mark - release
@@ -86,6 +133,13 @@
     if (_maLayer) {
         [_maLayer removeFromSuperlayer];
         _maLayer = nil;
+    }
+}
+
+- (void)releaseMaInforLayer{
+    if (_maInforLayer) {
+        [_maInforLayer removeFromSuperlayer];
+        _maInforLayer = nil;
     }
 }
 
@@ -100,12 +154,22 @@
     return _maLayer;
 }
 
+- (CAShapeLayer *)maInforLayer {
+    if (!_maInforLayer) {
+        _maInforLayer = [CAShapeLayer layer];
+        _maInforLayer.frame = self.p_frame;
+        _maInforLayer.fillColor = ZLClearColor.CGColor;
+        _maInforLayer.lineWidth = LINEWIDTH;
+    }
+    return _maInforLayer;
+}
+
 - (CAShapeLayer *)getMALayerByDataPack:(ZLGuideDataPack *)dataPack
                            higherPrice:(CGFloat)sHigherPrice
                              unitValue:(CGFloat)unitValue
                              showCount:(NSUInteger)showCount
                              cellWidth:(CGFloat)cellWidth
-                             isShowAll:(BOOL)isShowAll {
+                          firstCandleX:(CGFloat)firstCandleX {
     
     NSArray *guideArray = dataPack.dataArray;
     ZLMAParam *maParams = (ZLMAParam *)dataPack.param;
@@ -123,10 +187,7 @@
         ZLGuideModel *model = guideArray[i];
         if (!model.needDraw) continue;
         
-        CGFloat leftX = cellWidth * i; // 从左往右画 // 计算方式 防止屏幕抖动
-        if (isShowAll) {
-            leftX = self.p_width - (showCount - i) * cellWidth; //从右往左画 当前条数不足 撑满屏幕时
-        }
+        CGFloat leftX = firstCandleX + cellWidth * i;
         leftX += candleLeftAdge(cellWidth);
         leftX += candleWidth(cellWidth) / 2;
         
@@ -145,23 +206,22 @@
     return maShapeLayer;
 }
 
-- (CATextLayer *)getMaInforByMAParam:(ZLMAParam *)param atIndex:(NSInteger)index {
+- (CATextLayer *)getMaInforByMAParam:(ZLMAParam *)param withFrame:(CGRect)frame title:(NSString *)title {
     CATextLayer *layer = [CATextLayer layer];
     layer.contentsScale = [UIScreen mainScreen].scale;
     layer.fontSize = MATitleFontSize;
     layer.alignmentMode = kCAAlignmentJustified;
     layer.foregroundColor = param.maColor.CGColor;
     
-    NSString *title = [NSString stringWithFormat:@"MA %d", (int)param.period];
-    CGSize titleSize = [title sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(MATitleFontSize)}];
     layer.string = title;
     
-    layer.frame = CGRectMake(4, (titleSize.height + 2) * index, titleSize.width, titleSize.height);
+    layer.frame = frame;
     return layer;
 }
 
 - (void)p_clear {
     [self releaseMaLayer];
+    [self releaseMaInforLayer];
 }
 
 

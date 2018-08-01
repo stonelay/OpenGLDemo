@@ -52,12 +52,16 @@
 + (GuidePaintMainType)getNextMainType:(GuidePaintMainType)mainType {
     // TODO update
     switch (mainType) {
+        case GuidePaintMainTypeNone:
+            return GuidePaintMainTypeMA;
+            break;
         case GuidePaintMainTypeMA:
             return GuidePaintMainTypeBOLL;
             break;
         case GuidePaintMainTypeBOLL:
-            return GuidePaintMainTypeMA;
+            return GuidePaintMainTypeNone;
             break;
+       
         default:
             break;
     }

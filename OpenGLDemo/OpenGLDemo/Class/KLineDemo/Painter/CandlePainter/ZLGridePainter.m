@@ -121,13 +121,10 @@
     NSArray *curShowArray = [self.dataSource showArrayInPainter:self];
     
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
-    BOOL isShowAll = [self.dataSource isShowAllInPainter:self];
+    CGFloat firstCandleX = [self.dataSource firstCandleXInPainter:self];
     
     for (int i = 0; i < showCount; i+=step) {
-        CGFloat leftX = cellWidth * i; // 从左往右画 // 计算方式 防止屏幕抖动
-        if (isShowAll) {
-            leftX = self.p_width - (showCount - i) * cellWidth; //从右往左画 当前条数不足 撑满屏幕时
-        }
+        CGFloat leftX = firstCandleX + cellWidth * i;
         leftX += candleWidth(cellWidth) / 2 + candleLeftAdge(cellWidth);
         
         CAShapeLayer *subLatitudeLayer = [self getLatitudeLayerFromPositionX:leftX];

@@ -154,6 +154,33 @@
     return self.kLineCellWidth * self.curXScale;
 }
 
+- (NSInteger)longPressIndex {
+    if (CGPointEqualToPoint(self.longPressPoint, CGPointZero)) {
+        return self.showCount - 1;
+    }
+    
+    CGFloat cellWidth = self.cellWidth;
+    NSInteger showCount = self.showCount;
+    
+    NSInteger crossIndex = (self.longPressPoint.x - self.firstCandleX) / cellWidth;
+    
+    crossIndex = MAX(crossIndex, 0);
+    crossIndex = MIN(crossIndex, showCount - 1);
+    return crossIndex;
+}
+
+- (CGFloat)firstCandleX {
+    CGFloat cellWidth = self.cellWidth;
+    NSInteger showCount = self.showCount;
+    
+    CGFloat leftX = 0;
+    BOOL isShowAll = self.isShowAll;
+    if (isShowAll) {
+        leftX = [self z_portWidth] - showCount * cellWidth;
+    }
+    return leftX;
+}
+
 - (void)editIndex {self.oriIndex = self.curIndex;}
 - (void)editScale {self.oriXScale = self.curXScale;}
 

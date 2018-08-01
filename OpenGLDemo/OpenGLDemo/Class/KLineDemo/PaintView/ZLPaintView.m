@@ -23,6 +23,10 @@
 
 #define UninitializedIndex   -1
 
+#define MAEDGEINSETS UIEdgeInsetsMake(60 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE)
+#define BOLLEDGEINSETS UIEdgeInsetsMake(40 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE)
+#define NONEEDGEINSETS UIEdgeInsetsMake(10 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE)
+
 @interface ZLPaintView()<PaintViewDataSource, PaintViewDelegate>
 
 @property (nonatomic, strong) ZLPaintScene *paintScene;
@@ -32,7 +36,6 @@
 
 @property (nonatomic, strong) NSDictionary *mainPainters;   // <key, painter>
 @property (nonatomic, strong) NSDictionary *assistPainters; // <key, painter>
-
 
 @end
 
@@ -51,12 +54,12 @@
     self.backgroundColor = ZLGray(234);
     
     self.paintScene = [[ZLPaintScene alloc] init];
-    self.paintScene.paintMainType = GuidePaintMainTypeMA;
+    self.paintScene.paintMainType = GuidePaintMainTypeNone;
     self.paintScene.paintAssistType = GuidePaintAssistTypeNone;
 }
 
 - (void)loadData {
-    self.paintScene.edgeInsets = UIEdgeInsetsMake(40 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE);
+    self.paintScene.edgeInsets = NONEEDGEINSETS;
     
     // TODO drawDataArray is nil 返回异常
     self.paintScene.drawDataArray = [ZLQuoteDataCenter shareInstance].hisKLineDataArray;
@@ -140,6 +143,14 @@
 
 - (CGPoint)longPressPointInPainter:(ZLBasePainter *)painter {
     return self.paintScene.longPressPoint;
+}
+
+- (NSInteger)longPressIndexInPainter:(ZLBasePainter *)painter {
+    return self.paintScene.longPressIndex;
+}
+
+- (CGFloat)firstCandleXInPainter:(ZLBasePainter *)painter {
+    return self.paintScene.firstCandleX;
 }
 
 - (ZLGuideDataPack *)painter:(ZLBasePainter *)painter dataPackByMA:(NSString *)ma {
@@ -267,15 +278,18 @@
     self.paintScene.paintMainType = [ZLGuideDataType getNextMainType:self.paintScene.paintMainType];
     
     if (self.paintScene.paintMainType & GuidePaintMainTypeBOLL) {
-        self.paintScene.edgeInsets = UIEdgeInsetsMake(40 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE);
+        self.paintScene.edgeInsets = BOLLEDGEINSETS;
     }
     if (self.paintScene.paintMainType & GuidePaintMainTypeMA) {
-        self.paintScene.edgeInsets = UIEdgeInsetsMake(80 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE);
+        self.paintScene.edgeInsets = MAEDGEINSETS;
+    }
+    if (self.paintScene.paintMainType == GuidePaintMainTypeNone) {
+        self.paintScene.edgeInsets = NONEEDGEINSETS;
     }
 }
 
-- (void)tapNextAssistType {
-    self.paintScene.paintAssistType = [ZLGuideDataType getNextAssistType:self.paintScene.paintAssistType];
-}
+//- (void)tapNextAssistType {
+//    self.paintScene.paintAssistType = [ZLGuideDataType getNextAssistType:self.paintScene.paintAssistType];
+//}
 
 @end

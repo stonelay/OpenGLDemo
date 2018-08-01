@@ -31,6 +31,8 @@
 
 // ------ scene cross base ------ //
 @property (nonatomic, assign) CGPoint longPressPoint;
+@property (nonatomic, assign) NSInteger longPressIndex;
+@property (nonatomic, assign) CGFloat firstCandleX;
 
 @property (nonatomic, assign) UIEdgeInsets edgeInsets;
 @property (nonatomic, assign) CGSize viewPort;
