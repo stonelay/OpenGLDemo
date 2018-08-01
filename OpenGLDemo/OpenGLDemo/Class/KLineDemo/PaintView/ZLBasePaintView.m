@@ -109,7 +109,9 @@
     }
 }
 
+#pragma mark - override
 - (void)draw {}
+- (void)clear {}
 
 #pragma mark - control
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -127,5 +129,6 @@
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesEnded:touches withEvent:event];
 }
+
 
 @end
