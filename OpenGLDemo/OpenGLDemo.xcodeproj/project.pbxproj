@@ -58,10 +58,10 @@
 		488E5EFF21105C8A004DF479 /* ZLBOLLPainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5EE321105C8A004DF479 /* ZLBOLLPainter.m */; };
 		488E5F0021105C8A004DF479 /* ZLMAPainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5EE421105C8A004DF479 /* ZLMAPainter.m */; };
 		488E5F0121105C8A004DF479 /* ZLBasePaintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5EE821105C8A004DF479 /* ZLBasePaintView.m */; };
-		488E5F0221105C8A004DF479 /* ZLPaintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5EE921105C8A004DF479 /* ZLPaintView.m */; };
-		488E5F0321105C8A004DF479 /* ZLPaintScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5EEA21105C8A004DF479 /* ZLPaintScene.m */; };
+		488E5F0221105C8A004DF479 /* ZLPaintMainScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5EE921105C8A004DF479 /* ZLPaintMainScene.m */; };
+		488E5F0321105C8A004DF479 /* ZLPaintCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5EEA21105C8A004DF479 /* ZLPaintCore.m */; };
 		488E5F06211061BA004DF479 /* ZLGuideDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5F05211061BA004DF479 /* ZLGuideDataType.m */; };
-		488E5F0C2111C023004DF479 /* ZLMainPainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5F0B2111C023004DF479 /* ZLMainPainter.m */; };
+		488E5F0C2111C023004DF479 /* ZLPaintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 488E5F0B2111C023004DF479 /* ZLPaintView.m */; };
 		489A845820B6ABE2005BF4A8 /* OpenGLDemo16Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A845720B6ABE2005BF4A8 /* OpenGLDemo16Controller.m */; };
 		489A845B20B6AC08005BF4A8 /* GLRender16View.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A845A20B6AC08005BF4A8 /* GLRender16View.m */; };
 		489A846920B813F9005BF4A8 /* AVPlayerDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 489A846820B813F9005BF4A8 /* AVPlayerDemoController.m */; };
@@ -118,6 +118,13 @@
 		48CB624F2017369B00B665CC /* GLRender08View.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB624E2017369B00B665CC /* GLRender08View.m */; };
 		48CB6252201736DF00B665CC /* shaderTexture08f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB6250201736DE00B665CC /* shaderTexture08f.glsl */; };
 		48CB6253201736DF00B665CC /* shaderTexture08v.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 48CB6251201736DF00B665CC /* shaderTexture08v.glsl */; };
+		48D3C0192112F3F3004A04D2 /* ZLPaintAssistScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D3C0182112F3F3004A04D2 /* ZLPaintAssistScene.m */; };
+		48D3C01C2112FA53004A04D2 /* ZLKDJTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D3C01B2112FA53004A04D2 /* ZLKDJTransformer.m */; };
+		48D3C01F2112FA8E004A04D2 /* ZLKDJParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D3C01E2112FA8E004A04D2 /* ZLKDJParam.m */; };
+		48D3C02321130271004A04D2 /* ZLGuideMAModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D3C02221130271004A04D2 /* ZLGuideMAModel.m */; };
+		48D3C0262113027F004A04D2 /* ZLGuideBOLLModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D3C0252113027F004A04D2 /* ZLGuideBOLLModel.m */; };
+		48D3C0292113028C004A04D2 /* ZLGuideKDJModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D3C0282113028C004A04D2 /* ZLGuideKDJModel.m */; };
+		48D3C02C21130FBF004A04D2 /* ZLKDJPainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D3C02B21130FBF004A04D2 /* ZLKDJPainter.m */; };
 		48E90900203E92BD002CBCAC /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908F9203E92BC002CBCAC /* libavutil.a */; };
 		48E90901203E92BD002CBCAC /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908FA203E92BC002CBCAC /* libavfilter.a */; };
 		48E90902203E92BD002CBCAC /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908FB203E92BC002CBCAC /* libavcodec.a */; };
@@ -227,15 +234,15 @@
 		488E5EE521105C8A004DF479 /* ZLBOLLPainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLBOLLPainter.h; sourceTree = "<group>"; };
 		488E5EE621105C8A004DF479 /* ZLBasePainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLBasePainter.h; sourceTree = "<group>"; };
 		488E5EE821105C8A004DF479 /* ZLBasePaintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLBasePaintView.m; sourceTree = "<group>"; };
-		488E5EE921105C8A004DF479 /* ZLPaintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLPaintView.m; sourceTree = "<group>"; };
-		488E5EEA21105C8A004DF479 /* ZLPaintScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLPaintScene.m; sourceTree = "<group>"; };
+		488E5EE921105C8A004DF479 /* ZLPaintMainScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLPaintMainScene.m; sourceTree = "<group>"; };
+		488E5EEA21105C8A004DF479 /* ZLPaintCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLPaintCore.m; sourceTree = "<group>"; };
 		488E5EEB21105C8A004DF479 /* ZLBasePaintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLBasePaintView.h; sourceTree = "<group>"; };
-		488E5EED21105C8A004DF479 /* ZLPaintScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLPaintScene.h; sourceTree = "<group>"; };
-		488E5EEE21105C8A004DF479 /* ZLPaintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLPaintView.h; sourceTree = "<group>"; };
+		488E5EED21105C8A004DF479 /* ZLPaintCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLPaintCore.h; sourceTree = "<group>"; };
+		488E5EEE21105C8A004DF479 /* ZLPaintMainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLPaintMainScene.h; sourceTree = "<group>"; };
 		488E5F04211061BA004DF479 /* ZLGuideDataType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLGuideDataType.h; sourceTree = "<group>"; };
 		488E5F05211061BA004DF479 /* ZLGuideDataType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLGuideDataType.m; sourceTree = "<group>"; };
-		488E5F0A2111C023004DF479 /* ZLMainPainter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLMainPainter.h; sourceTree = "<group>"; };
-		488E5F0B2111C023004DF479 /* ZLMainPainter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLMainPainter.m; sourceTree = "<group>"; };
+		488E5F0A2111C023004DF479 /* ZLPaintView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLPaintView.h; sourceTree = "<group>"; };
+		488E5F0B2111C023004DF479 /* ZLPaintView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLPaintView.m; sourceTree = "<group>"; };
 		489A845620B6ABE2005BF4A8 /* OpenGLDemo16Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo16Controller.h; sourceTree = "<group>"; };
 		489A845720B6ABE2005BF4A8 /* OpenGLDemo16Controller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenGLDemo16Controller.m; sourceTree = "<group>"; };
 		489A845920B6AC08005BF4A8 /* GLRender16View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender16View.h; sourceTree = "<group>"; };
@@ -340,6 +347,20 @@
 		48CB624E2017369B00B665CC /* GLRender08View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender08View.m; sourceTree = "<group>"; };
 		48CB6250201736DE00B665CC /* shaderTexture08f.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture08f.glsl; sourceTree = "<group>"; };
 		48CB6251201736DF00B665CC /* shaderTexture08v.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shaderTexture08v.glsl; sourceTree = "<group>"; };
+		48D3C0172112F3F3004A04D2 /* ZLPaintAssistScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLPaintAssistScene.h; sourceTree = "<group>"; };
+		48D3C0182112F3F3004A04D2 /* ZLPaintAssistScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLPaintAssistScene.m; sourceTree = "<group>"; };
+		48D3C01A2112FA53004A04D2 /* ZLKDJTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLKDJTransformer.h; sourceTree = "<group>"; };
+		48D3C01B2112FA53004A04D2 /* ZLKDJTransformer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLKDJTransformer.m; sourceTree = "<group>"; };
+		48D3C01D2112FA8E004A04D2 /* ZLKDJParam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLKDJParam.h; sourceTree = "<group>"; };
+		48D3C01E2112FA8E004A04D2 /* ZLKDJParam.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLKDJParam.m; sourceTree = "<group>"; };
+		48D3C02121130271004A04D2 /* ZLGuideMAModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLGuideMAModel.h; sourceTree = "<group>"; };
+		48D3C02221130271004A04D2 /* ZLGuideMAModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLGuideMAModel.m; sourceTree = "<group>"; };
+		48D3C0242113027F004A04D2 /* ZLGuideBOLLModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLGuideBOLLModel.h; sourceTree = "<group>"; };
+		48D3C0252113027F004A04D2 /* ZLGuideBOLLModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLGuideBOLLModel.m; sourceTree = "<group>"; };
+		48D3C0272113028C004A04D2 /* ZLGuideKDJModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLGuideKDJModel.h; sourceTree = "<group>"; };
+		48D3C0282113028C004A04D2 /* ZLGuideKDJModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLGuideKDJModel.m; sourceTree = "<group>"; };
+		48D3C02A21130FBF004A04D2 /* ZLKDJPainter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLKDJPainter.h; sourceTree = "<group>"; };
+		48D3C02B21130FBF004A04D2 /* ZLKDJPainter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLKDJPainter.m; sourceTree = "<group>"; };
 		48E90885203E92BC002CBCAC /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		48E90886203E92BC002CBCAC /* buffersrc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffersrc.h; sourceTree = "<group>"; };
 		48E90887203E92BC002CBCAC /* buffersink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffersink.h; sourceTree = "<group>"; };
@@ -617,10 +638,10 @@
 		488E5EC321105C89004DF479 /* Painter */ = {
 			isa = PBXGroup;
 			children = (
+				488E5EE121105C8A004DF479 /* MainPainter */,
 				488E5EC421105C89004DF479 /* AssistPainter */,
 				488E5EC521105C89004DF479 /* CandlePainter */,
 				488E5ECC21105C89004DF479 /* GuideTransformer */,
-				488E5EE121105C8A004DF479 /* MainPainter */,
 				488E5EE621105C8A004DF479 /* ZLBasePainter.h */,
 				488E5ECB21105C89004DF479 /* ZLBasePainter.m */,
 				488E5ECA21105C89004DF479 /* ZLKLinePainter.h */,
@@ -631,6 +652,8 @@
 		488E5EC421105C89004DF479 /* AssistPainter */ = {
 			isa = PBXGroup;
 			children = (
+				48D3C02A21130FBF004A04D2 /* ZLKDJPainter.h */,
+				48D3C02B21130FBF004A04D2 /* ZLKDJPainter.m */,
 			);
 			path = AssistPainter;
 			sourceTree = "<group>";
@@ -665,6 +688,8 @@
 				488E5ED221105C89004DF479 /* ZLDataTransformer.m */,
 				488E5ED121105C89004DF479 /* ZLMATransformer.h */,
 				488E5ECE21105C89004DF479 /* ZLMATransformer.m */,
+				48D3C01A2112FA53004A04D2 /* ZLKDJTransformer.h */,
+				48D3C01B2112FA53004A04D2 /* ZLKDJTransformer.m */,
 			);
 			path = Transformer;
 			sourceTree = "<group>";
@@ -678,6 +703,8 @@
 				488E5ED721105C8A004DF479 /* ZLGuideParam.m */,
 				488E5ED821105C8A004DF479 /* ZLMAParam.h */,
 				488E5ED521105C8A004DF479 /* ZLMAParam.m */,
+				48D3C01D2112FA8E004A04D2 /* ZLKDJParam.h */,
+				48D3C01E2112FA8E004A04D2 /* ZLKDJParam.m */,
 			);
 			path = Params;
 			sourceTree = "<group>";
@@ -685,6 +712,7 @@
 		488E5EDB21105C8A004DF479 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				48D3C0202113023E004A04D2 /* GuideModel */,
 				488E5EDF21105C8A004DF479 /* ZLGuideDataPack.h */,
 				488E5EDD21105C8A004DF479 /* ZLGuideDataPack.m */,
 				488E5EE021105C8A004DF479 /* ZLGuideModel.h */,
@@ -711,12 +739,14 @@
 			children = (
 				488E5EEB21105C8A004DF479 /* ZLBasePaintView.h */,
 				488E5EE821105C8A004DF479 /* ZLBasePaintView.m */,
-				488E5EED21105C8A004DF479 /* ZLPaintScene.h */,
-				488E5EEA21105C8A004DF479 /* ZLPaintScene.m */,
-				488E5EEE21105C8A004DF479 /* ZLPaintView.h */,
-				488E5EE921105C8A004DF479 /* ZLPaintView.m */,
-				488E5F0A2111C023004DF479 /* ZLMainPainter.h */,
-				488E5F0B2111C023004DF479 /* ZLMainPainter.m */,
+				48D3C0172112F3F3004A04D2 /* ZLPaintAssistScene.h */,
+				48D3C0182112F3F3004A04D2 /* ZLPaintAssistScene.m */,
+				488E5EEE21105C8A004DF479 /* ZLPaintMainScene.h */,
+				488E5EE921105C8A004DF479 /* ZLPaintMainScene.m */,
+				488E5EED21105C8A004DF479 /* ZLPaintCore.h */,
+				488E5EEA21105C8A004DF479 /* ZLPaintCore.m */,
+				488E5F0A2111C023004DF479 /* ZLPaintView.h */,
+				488E5F0B2111C023004DF479 /* ZLPaintView.m */,
 			);
 			path = PaintView;
 			sourceTree = "<group>";
@@ -1013,6 +1043,19 @@
 				48CB62442017132B00B665CC /* GLESMath.h */,
 			);
 			path = util;
+			sourceTree = "<group>";
+		};
+		48D3C0202113023E004A04D2 /* GuideModel */ = {
+			isa = PBXGroup;
+			children = (
+				48D3C02121130271004A04D2 /* ZLGuideMAModel.h */,
+				48D3C02221130271004A04D2 /* ZLGuideMAModel.m */,
+				48D3C0242113027F004A04D2 /* ZLGuideBOLLModel.h */,
+				48D3C0252113027F004A04D2 /* ZLGuideBOLLModel.m */,
+				48D3C0272113028C004A04D2 /* ZLGuideKDJModel.h */,
+				48D3C0282113028C004A04D2 /* ZLGuideKDJModel.m */,
+			);
+			path = GuideModel;
 			sourceTree = "<group>";
 		};
 		48E90882203E92BC002CBCAC /* FFmpeg-iOS */ = {
@@ -1393,7 +1436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				48CB61EA2010516400B665CC /* UIView+QuickNew.m in Sources */,
-				488E5F0221105C8A004DF479 /* ZLPaintView.m in Sources */,
+				488E5F0221105C8A004DF479 /* ZLPaintMainScene.m in Sources */,
 				48CB61DE2010516400B665CC /* NSObject+Safe.m in Sources */,
 				4875CB8C20FDD035003EBED2 /* KLineDemoController.m in Sources */,
 				488E5EF021105C8A004DF479 /* ZLGuideManager.m in Sources */,
@@ -1405,6 +1448,7 @@
 				480E6EA4202AC82000D39CC8 /* OpenGLDemo09Controller.m in Sources */,
 				487CBC3320511C69009ECE7C /* GLRender11View.m in Sources */,
 				480E6EB1202D377900D39CC8 /* ZLGLView.m in Sources */,
+				48D3C01C2112FA53004A04D2 /* ZLKDJTransformer.m in Sources */,
 				4858C79020B3F35600C3193A /* GLRender15View.m in Sources */,
 				48CB62142015BF6500B665CC /* OpenGLDemo03Controller.m in Sources */,
 				48CB61EB2010516400B665CC /* UIButton+ZLEX.m in Sources */,
@@ -1414,12 +1458,14 @@
 				488E5EF821105C8A004DF479 /* ZLDataTransformer.m in Sources */,
 				482F4C78205A83C600889C7C /* GLRender14View.m in Sources */,
 				488E5EF321105C8A004DF479 /* ZLQuoteDataCenter.m in Sources */,
-				488E5F0C2111C023004DF479 /* ZLMainPainter.m in Sources */,
+				488E5F0C2111C023004DF479 /* ZLPaintView.m in Sources */,
 				48CB61E32010516400B665CC /* NSArray+Safe.m in Sources */,
+				48D3C02C21130FBF004A04D2 /* ZLKDJPainter.m in Sources */,
 				480E6EBB203196A900D39CC8 /* GLRender10View.m in Sources */,
 				48CB61B720104FF700B665CC /* ViewController.m in Sources */,
 				488E5EF621105C8A004DF479 /* ZLBasePainter.m in Sources */,
 				48CB620B2015BAF200B665CC /* GLRender02View.m in Sources */,
+				48D3C01F2112FA8E004A04D2 /* ZLKDJParam.m in Sources */,
 				488E5EFE21105C8A004DF479 /* ZLGuideDataPack.m in Sources */,
 				48CB61F820106A5400B665CC /* GLRender01View.m in Sources */,
 				48CB61E42010516400B665CC /* UIView+ZLEX.m in Sources */,
@@ -1433,11 +1479,13 @@
 				488E5EFD21105C8A004DF479 /* ZLGuideModel.m in Sources */,
 				48CB61F2201052D900B665CC /* OpenGLDemo01Controller.m in Sources */,
 				480E6E9E202AC7DC00D39CC8 /* GLRender09View.m in Sources */,
+				48D3C0262113027F004A04D2 /* ZLGuideBOLLModel.m in Sources */,
 				48CB622A2015D49A00B665CC /* GLRender05View.m in Sources */,
 				48CB61EE2010524800B665CC /* MainViewCell.m in Sources */,
 				488E5F0021105C8A004DF479 /* ZLMAPainter.m in Sources */,
 				48CB61E92010516400B665CC /* UIImage+ZLEX.m in Sources */,
 				48CB61E82010516400B665CC /* CALayer+ZLEX.m in Sources */,
+				48D3C0192112F3F3004A04D2 /* ZLPaintAssistScene.m in Sources */,
 				48CB622D2015D4AE00B665CC /* OpenGLDemo05Controller.m in Sources */,
 				48CB62232015C63500B665CC /* GLRender04View.m in Sources */,
 				488E5EFC21105C8A004DF479 /* ZLBOLLParam.m in Sources */,
@@ -1445,7 +1493,7 @@
 				48CB61E02010516400B665CC /* NSMutableDictionary+Safe.m in Sources */,
 				489A846920B813F9005BF4A8 /* AVPlayerDemoController.m in Sources */,
 				480E6EAE202AFE4B00D39CC8 /* ZLShaderAttribute.m in Sources */,
-				488E5F0321105C8A004DF479 /* ZLPaintScene.m in Sources */,
+				488E5F0321105C8A004DF479 /* ZLPaintCore.m in Sources */,
 				484F5E7420EF62C700DD7953 /* DrawModel.m in Sources */,
 				48CB61B620104FF700B665CC /* main.m in Sources */,
 				48CB61E22010516400B665CC /* NSDictionary+Safe.m in Sources */,
@@ -1456,6 +1504,7 @@
 				48CB62412016DD4E00B665CC /* OpenGLDemo07Controller.m in Sources */,
 				48CB62342016D7C400B665CC /* OpenGLDemo06Controller.m in Sources */,
 				48CB62102015BB6100B665CC /* OpenGLDemo02Controller.m in Sources */,
+				48D3C0292113028C004A04D2 /* ZLGuideKDJModel.m in Sources */,
 				48CB62202015C61300B665CC /* OpenGLDemo04Controller.m in Sources */,
 				482F4C712057CAF200889C7C /* OpenGLDemo13Controller.m in Sources */,
 				48CB624C2017368C00B665CC /* OpenGLDemo08Controller.m in Sources */,
@@ -1474,6 +1523,7 @@
 				488E5F0121105C8A004DF479 /* ZLBasePaintView.m in Sources */,
 				48CB624F2017369B00B665CC /* GLRender08View.m in Sources */,
 				48CB62172015BF7700B665CC /* GLRender03View.m in Sources */,
+				48D3C02321130271004A04D2 /* ZLGuideMAModel.m in Sources */,
 				48CB61E12010516400B665CC /* NSMutableSet+Safe.m in Sources */,
 				48CB62372016D7DF00B665CC /* GLRender06View.m in Sources */,
 				480E6EBE203196C800D39CC8 /* OpenGLDemo10Controller.m in Sources */,

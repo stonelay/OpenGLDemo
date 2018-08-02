@@ -81,10 +81,11 @@
 #pragma mark - draw
 - (void)drawCandle {
     [self releaseCandleShapeLayer];
-     
+
     NSArray *curShowArray = [self.dataSource showArrayInPainter:self];
-    CGFloat sHigherPrice = [self.delegate sHigherInPainter:self];
-    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
+//    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
     CGFloat firstCandleX = [self.dataSource firstCandleXInPainter:self];
     
@@ -112,8 +113,9 @@
     //    NSUInteger crossIndex = [self.dataSource selectCrossIndexInPainter:self];
     KLineModel *model = [self.dataSource painter:self dataAtIndex:crossIndex];
     
-    CGFloat sHigherPrice = [self.delegate sHigherInPainter:self];
-    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
+//    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
     
     CGFloat openY   = (sHigherPrice - model.open) / unitValue;
     CGFloat highY   = (sHigherPrice - model.high) / unitValue;

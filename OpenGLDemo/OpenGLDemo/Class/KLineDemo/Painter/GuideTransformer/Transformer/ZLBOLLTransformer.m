@@ -10,9 +10,7 @@
 
 #import "ZLBOLLParam.h"
 #import "KLineModel.h"
-#import "ZLGuideModel.h"
-
-NSString * const BOLL_TYPE_DATA   = @"BOLL_DATA";
+#import "ZLGuideBOLLModel.h"
 
 @implementation ZLBOLLTransformer
 
@@ -31,15 +29,14 @@ NSString * const BOLL_TYPE_DATA   = @"BOLL_DATA";
     int period = bollParam.period;
     CGFloat k = bollParam.k;
     
-    ZLGuideModel *gModel = [[ZLGuideModel alloc] initWithId:BOLL_TYPE_DATA];
     for (int i = 0; i < chartDataArray.count; i++) {
         if (i < period - 1) {
-            gModel = [[ZLGuideModel alloc] initWithId:BOLL_TYPE_DATA];
-            gModel.cycle = period;
-            gModel.data = 0;
+            ZLGuideBOLLModel *gModel = [[ZLGuideBOLLModel alloc] init];
+            gModel.period = period;
+            gModel.midData = 0;
             gModel.upData = 0;
             gModel.lowData = 0;
-            gModel.needDraw = NO;
+            gModel.isNeedDraw = NO;
             [tArray addObject:gModel];
             continue;
         }
@@ -58,15 +55,14 @@ NSString * const BOLL_TYPE_DATA   = @"BOLL_DATA";
             KLineModel *pModel = [chartDataArray objectAtIndex:j];
             sum += pow(pModel.close - mid, 2.0);
         }
-        
         dif = (k * sqrt(sum / (double)period));
         
-        gModel = [[ZLGuideModel alloc] initWithId:BOLL_TYPE_DATA];
-        gModel.cycle = period;
-        gModel.data = mid;
+        ZLGuideBOLLModel *gModel = [[ZLGuideBOLLModel alloc] init];
+        gModel.period = period;
+        gModel.midData = mid;
         gModel.upData = mid + dif;
         gModel.lowData = mid - dif;
-        gModel.needDraw = YES;
+        gModel.isNeedDraw = YES;
         [tArray addObject:gModel];
     }
     

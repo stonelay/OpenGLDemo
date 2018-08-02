@@ -28,6 +28,6 @@
 
 @property (nonatomic, strong) UIColor *bandColor;
 
-- (UIColor *)colorWithDataName:(ZLGuideDataName)dataName;
+//- (UIColor *)colorWithDataName:(ZLGuideDataName)dataName;
 
 @end

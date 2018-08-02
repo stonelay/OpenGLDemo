@@ -25,8 +25,10 @@
 
 - (ZLGuideDataPack *)getMADataPackByKey:(NSString *)dataKey;
 - (ZLGuideDataPack *)getBOLLDataPack;
+- (ZLGuideDataPack *)getKDJDataPack;
 
 - (SMaximum *)getMAMaximunWithRange:(NSRange)range;
 - (SMaximum *)getBOLLMaximunWithRange:(NSRange)range;
+- (SMaximum *)getKDJMaximunWithRange:(NSRange)range;
 
 @end

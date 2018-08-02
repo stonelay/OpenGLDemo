@@ -8,7 +8,7 @@
 
 #import "ZLMAPainter.h"
 
-#import "ZLGuideModel.h"
+#import "ZLGuideMAModel.h"
 #import "ZLMAParam.h"
 
 #define MATitleFontSize 12
@@ -76,8 +76,9 @@
     [dataPacks addObject:[self.dataSource painter:self dataPackByMA:PKey_MADataID_MA4]];
     [dataPacks addObject:[self.dataSource painter:self dataPackByMA:PKey_MADataID_MA5]];
     
-    CGFloat sHigherPrice = [self.delegate sHigherInPainter:self];
-    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
+//    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
     CGFloat showCount = [self.dataSource showNumberInPainter:self];
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
     CGFloat firstCandleX = [self.dataSource firstCandleXInPainter:self];
@@ -109,7 +110,7 @@
     for (int i = 0; i < dataPacks.count; i++) {
         ZLGuideDataPack *dataPack = dataPacks[i];
         ZLMAParam *maParam = (ZLMAParam *)dataPack.param;
-        ZLGuideModel *guideModel = dataPack.dataArray[crossIndex];
+        ZLGuideMAModel *guideModel = dataPack.dataArray[crossIndex];
         
         NSString *title = [NSString stringWithFormat:@"MA%d: %.2f", (int)maParam.period, guideModel.data];
         CGSize titleSize = [title sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(MATitleFontSize)}];
@@ -184,8 +185,8 @@
     
     BOOL hasHead = NO;
     for (int i = 0; i < guideArray.count; i++) {
-        ZLGuideModel *model = guideArray[i];
-        if (!model.needDraw) continue;
+        ZLGuideMAModel *model = guideArray[i];
+        if (!model.isNeedDraw) continue;
         
         CGFloat leftX = firstCandleX + cellWidth * i;
         leftX += candleLeftAdge(cellWidth);

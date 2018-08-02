@@ -10,4 +10,8 @@
 
 @implementation ZLGuideParam
 
+//- (UIColor *)colorWithDataName:(ZLGuideDataName)dataName {
+//    return ZLClearColor;
+//}
+
 @end

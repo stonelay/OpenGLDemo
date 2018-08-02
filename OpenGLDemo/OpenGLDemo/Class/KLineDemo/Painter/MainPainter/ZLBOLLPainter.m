@@ -8,7 +8,7 @@
 
 #import "ZLBOLLPainter.h"
 
-#import "ZLGuideModel.h"
+#import "ZLGuideBOLLModel.h"
 #import "ZLBOLLParam.h"
 
 #import "ZLGuideDataType.h"
@@ -93,11 +93,11 @@
     }
     
     NSInteger crossIndex = [self.dataSource longPressIndexInPainter:self];
-    ZLGuideModel *guideModel = [dataPack.dataArray objectAtIndex:crossIndex];
+    ZLGuideBOLLModel *guideModel = [dataPack.dataArray objectAtIndex:crossIndex];
     
     ZLBOLLParam *bollParam = (ZLBOLLParam *)dataPack.param;
     NSString *bollTitle = [NSString stringWithFormat:@"BOLL(%d, %d)",(int) bollParam.period, (int)bollParam.k];
-    NSString *mTitle = [NSString stringWithFormat:@"M:%.2f", guideModel.data];
+    NSString *mTitle = [NSString stringWithFormat:@"M:%.2f", guideModel.midData];
     NSString *tTitle = [NSString stringWithFormat:@"T:%.2f", guideModel.upData];
     NSString *bTitle = [NSString stringWithFormat:@"B:%.2f", guideModel.lowData];
     
@@ -207,8 +207,9 @@
 }
 
 - (CAShapeLayer *)getBollByDataPack:(ZLGuideDataPack *)dataPack {
-    CGFloat sHigherPrice = [self.delegate sHigherInPainter:self];
-    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
+//    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
     CGFloat firstCandleX = [self.dataSource firstCandleXInPainter:self];
     
@@ -225,30 +226,30 @@
     CAShapeLayer *upLayer = [CAShapeLayer layer];
     upLayer.frame = self.p_bounds;
     upLayer.fillColor = ZLClearColor.CGColor;
-    upLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_UP].CGColor;
+    upLayer.strokeColor = bollParams.upColor.CGColor;
    
     CAShapeLayer *midLayer = [CAShapeLayer layer];
     midLayer.frame = self.p_bounds;
     midLayer.fillColor = ZLClearColor.CGColor;
-    midLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_MID].CGColor;
+    midLayer.strokeColor = bollParams.midColor.CGColor;
     
     CAShapeLayer *lowLayer = [CAShapeLayer layer];
     lowLayer.frame = self.p_bounds;
     lowLayer.fillColor = ZLClearColor.CGColor;
-    lowLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_LOW].CGColor;
+    lowLayer.strokeColor = bollParams.lowColor.CGColor;
     
     BOOL isHead = YES;
     for (int i = 0; i < guideArray.count; i++) {
-        ZLGuideModel *model = guideArray[i];
-        if (!model.needDraw) continue;
+        ZLGuideBOLLModel *model = guideArray[i];
+        if (!model.isNeedDraw) continue;
         
         CGFloat leftX = firstCandleX + cellWidth * i;
         leftX += candleLeftAdge(cellWidth);
         leftX += candleWidth(cellWidth) / 2;
         
-        CGFloat upY = (sHigherPrice - [model getDataWithDataName:ZLBOLLDataName_UP]) / unitValue;
-        CGFloat midY = (sHigherPrice - [model getDataWithDataName:ZLBOLLDataName_MID]) / unitValue;
-        CGFloat lowY = (sHigherPrice - [model getDataWithDataName:ZLBOLLDataName_LOW]) / unitValue;
+        CGFloat upY = (sHigherPrice - model.upData) / unitValue;
+        CGFloat midY = (sHigherPrice - model.midData) / unitValue;
+        CGFloat lowY = (sHigherPrice - model.lowData) / unitValue;
         if (isHead) {
             [upPath moveToPoint:CGPointMake(leftX, upY)];
             [midPath moveToPoint:CGPointMake(leftX, midY)];
@@ -264,16 +265,17 @@
     CAShapeLayer *bollLayer = [CAShapeLayer layer];
     bollLayer.frame = self.p_bounds;
     
+    upLayer.strokeColor = bollParams.upColor.CGColor;
     upLayer.path = upPath.CGPath;
     [upPath removeAllPoints];
     [bollLayer addSublayer:upLayer];
     
-    midLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_MID].CGColor;
+    midLayer.strokeColor = bollParams.midColor.CGColor;
     midLayer.path = midPath.CGPath;
     [midPath removeAllPoints];
     [bollLayer addSublayer:midLayer];
     
-    lowLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_LOW].CGColor;
+    lowLayer.strokeColor = bollParams.lowColor.CGColor;
     lowLayer.path = lowPath.CGPath;
     [lowPath removeAllPoints];
     [bollLayer addSublayer:lowLayer];
@@ -282,8 +284,9 @@
 }
 
 - (CAShapeLayer *)getBollBandByDataPack:(ZLGuideDataPack *)dataPack {
-    CGFloat sHigherPrice = [self.delegate sHigherInPainter:self];
-    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
+//    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
     CGFloat firstCandleX = [self.dataSource firstCandleXInPainter:self];
     
@@ -302,15 +305,15 @@
     NSMutableArray *tLowArray = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < guideArray.count; i++) {
-        ZLGuideModel *model = guideArray[i];
-        if (!model.needDraw) continue;
+        ZLGuideBOLLModel *model = guideArray[i];
+        if (!model.isNeedDraw) continue;
         
         CGFloat leftX = firstCandleX + cellWidth * i;
         leftX += candleLeftAdge(cellWidth);
         leftX += candleWidth(cellWidth) / 2;
         
-        CGFloat upY = (sHigherPrice - [model getDataWithDataName:ZLBOLLDataName_UP]) / unitValue;
-        CGFloat lowY = (sHigherPrice - [model getDataWithDataName:ZLBOLLDataName_LOW]) / unitValue;
+        CGFloat upY = (sHigherPrice - model.upData) / unitValue;
+        CGFloat lowY = (sHigherPrice - model.lowData) / unitValue;
         
         [tUpArray addObject:[NSValue valueWithCGPoint:CGPointMake(leftX, upY)]];
         [tLowArray addObject:[NSValue valueWithCGPoint:CGPointMake(leftX, lowY)]];

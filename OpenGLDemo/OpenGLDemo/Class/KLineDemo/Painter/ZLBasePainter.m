@@ -10,6 +10,7 @@
 
 @interface ZLBasePainter()
 
+@property (nonatomic, assign) UIEdgeInsets screenEdgeInsets;
 @property (nonatomic, weak) UIView *paintView;
 
 @end
@@ -28,10 +29,9 @@
 - (void)draw {
     [self p_haveDataSource];
     [self p_haveDelegate];
+    [self p_havePaintView];
     
     self.screenEdgeInsets = [self.delegate edgeInsetsInPainter:self];
-    
-    [self p_havePaintView];
 }
 
 - (void)clear {

@@ -14,4 +14,6 @@
 
 @property (nonatomic, strong) NSString *name;
 
+//- (UIColor *)colorWithDataName:(ZLGuideDataName)dataName;
+
 @end

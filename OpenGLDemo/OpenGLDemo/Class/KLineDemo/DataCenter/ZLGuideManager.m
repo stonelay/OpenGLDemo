@@ -10,11 +10,15 @@
 
 #import "ZLMATransformer.h"
 #import "ZLBOLLTransformer.h"
+#import "ZLKDJTransformer.h"
 
 #import "ZLMAParam.h"
 #import "ZLBOLLParam.h"
+#import "ZLKDJParam.h"
 
-#import "ZLGuideModel.h"
+#import "ZLGuideMAModel.h"
+#import "ZLGuideBOLLModel.h"
+#import "ZLGuideKDJModel.h"
 
 #define BOLLDefaultPeriod 20.0
 #define BOLLDefaultK 2.0
@@ -30,6 +34,10 @@
 #define MA4DefaultColor ZLHEXCOLOR(0x3CB371)
 #define MA5DefaultColor ZLHEXCOLOR(0xF0E68C)
 
+#define KDJDefaultKColor        ZLHEXCOLOR(0x800080)
+#define KDJDefaultDColor        ZLHEXCOLOR(0x191970)
+#define KDJDefaultJColor        ZLHEXCOLOR(0x98FB98)
+
 @interface ZLGuideManager()
 
 // ma
@@ -41,6 +49,11 @@
 @property (nonatomic, strong) ZLBOLLTransformer *bollTransformer;
 @property (nonatomic, strong) ZLBOLLParam *bollParam;
 @property (nonatomic, strong) ZLGuideDataPack *bollDataPack;
+
+// kdj
+@property (nonatomic, strong) ZLKDJTransformer *kdjTransformer;
+@property (nonatomic, strong) ZLKDJParam *kdjParam;
+@property (nonatomic, strong) ZLGuideDataPack *kdjDataPack;
 
 
 @end
@@ -54,14 +67,14 @@
 }
 
 - (void)initDefault {
-    [self setDefaultMAParams];
-    [self setDefaultBOLLParams];
+    // 以后添加可设置？
 }
 
 #pragma mark - update
 - (void)updateWithChartData:(NSArray *)chartData {
     [self updateMAChartData:chartData];
     [self updateBOLLChartData:chartData];
+    [self updateKDJChartData:chartData];
 }
 
 - (void)updateMAChartData:(NSArray *)chartData {
@@ -74,6 +87,10 @@
 
 - (void)updateBOLLChartData:(NSArray *)chartData {
     self.bollDataPack = [self.bollTransformer transToGuideData:chartData guideParam:self.bollParam];
+}
+
+- (void)updateKDJChartData:(NSArray *)chartData {
+    self.kdjDataPack = [self.kdjTransformer transToGuideData:chartData guideParam:self.kdjParam];
 }
 
 #pragma mark - transformer
@@ -91,29 +108,58 @@
     return _bollTransformer;
 }
 
-#pragma mark - default
-- (void)setDefaultMAParams {
-    NSDictionary *tDic = [[NSMutableDictionary alloc] init];
-    
-    [tDic setValue:[self getMAParamWithColor:MA1DefaultColor period:5 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA1];
-    [tDic setValue:[self getMAParamWithColor:MA2DefaultColor period:10 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA2];
-    [tDic setValue:[self getMAParamWithColor:MA3DefaultColor period:20 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA3];
-    [tDic setValue:[self getMAParamWithColor:MA4DefaultColor period:60 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA4];
-    [tDic setValue:[self getMAParamWithColor:MA5DefaultColor period:144 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA5];
-    
-    self.maParamsDic = [tDic copy];
-    self.maGuideData = [[NSMutableDictionary alloc] init];
+- (ZLKDJTransformer *)kdjTransformer {
+    if (!_kdjTransformer) {
+        _kdjTransformer = [[ZLKDJTransformer alloc] init];
+    }
+    return _kdjTransformer;
 }
 
-- (void)setDefaultBOLLParams {
-    ZLBOLLParam *param = [[ZLBOLLParam alloc] init];
-    param.period = 20.0; // default
-    param.k = 2.0;
-    param.upColor = BOLLDefaultUpColor;
-    param.midColor = BOLLDefaultMidColor;
-    param.lowColor = BOLLDefaultLowColor;
-    param.bandColor = BOLLDefaultBandColor;
-    self.bollParam = param;
+#pragma mark - default
+- (NSDictionary *)maParamsDic {
+    if (!_maParamsDic) {
+        NSMutableDictionary *tDic = [[NSMutableDictionary alloc] init];
+        [tDic setValue:[self getMAParamWithColor:MA1DefaultColor period:5 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA1];
+        [tDic setValue:[self getMAParamWithColor:MA2DefaultColor period:10 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA2];
+        [tDic setValue:[self getMAParamWithColor:MA3DefaultColor period:20 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA3];
+        [tDic setValue:[self getMAParamWithColor:MA4DefaultColor period:60 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA4];
+        [tDic setValue:[self getMAParamWithColor:MA5DefaultColor period:144 maDataType:ZLMADataTypeSMA] forKey:PKey_MADataID_MA5];
+        _maParamsDic = [tDic copy];
+    }
+    return _maParamsDic;
+}
+
+- (NSMutableDictionary *)maGuideData {
+    if (!_maGuideData) {
+        _maGuideData = [[NSMutableDictionary alloc] init];
+    }
+    return _maGuideData;
+}
+
+- (ZLBOLLParam *)bollParam {
+    if (!_bollParam) {
+        _bollParam = [[ZLBOLLParam alloc] init];
+        _bollParam.period = 20.0; // default
+        _bollParam.k = 2.0;
+        _bollParam.upColor = BOLLDefaultUpColor;
+        _bollParam.midColor = BOLLDefaultMidColor;
+        _bollParam.lowColor = BOLLDefaultLowColor;
+        _bollParam.bandColor = BOLLDefaultBandColor;
+    }
+    return _bollParam;
+}
+
+- (ZLKDJParam *)kdjParam {
+    if (!_kdjParam) {
+        _kdjParam = [[ZLKDJParam alloc] init];
+        _kdjParam.kdjPeriod_N = 9;
+        _kdjParam.kdjPeriod_M1 = 3;
+        _kdjParam.kdjPeriod_M2 = 3;
+        _kdjParam.kColor = KDJDefaultKColor;
+        _kdjParam.dColor = KDJDefaultDColor;
+        _kdjParam.jColor = KDJDefaultJColor;
+    }
+    return _kdjParam;
 }
 
 #pragma mark - maker
@@ -134,14 +180,18 @@
     return self.bollDataPack;
 }
 
+- (ZLGuideDataPack *)getKDJDataPack {
+    return self.kdjDataPack;
+}
+
 - (SMaximum *)getMAMaximunWithRange:(NSRange)range {
-    CGFloat min = FLT_MAX;
+    CGFloat min = INT32_MAX;
     CGFloat max = 0;
     for (NSString *key in [self.maGuideData allKeys]) {
         ZLGuideDataPack *dataPack = [self.maGuideData objectForKey:key];
         NSArray *dataArray = [dataPack.dataArray subarrayWithRange:range];
-        for (ZLGuideModel *model in dataArray) {
-            if (model.needDraw) {
+        for (ZLGuideMAModel *model in dataArray) {
+            if (model.isNeedDraw) {
                 min = MIN(min, model.data);
                 max = MAX(max, model.data);
             }
@@ -151,18 +201,31 @@
 }
 
 - (SMaximum *)getBOLLMaximunWithRange:(NSRange)range {
-    CGFloat min = FLT_MAX;
+    CGFloat min = INT32_MAX;
     CGFloat max = 0;
     
     NSArray *dataArray = [self.bollDataPack.dataArray subarrayWithRange:range];
-    for (ZLGuideModel *model in dataArray) {
-        if (model.needDraw) {
+    for (ZLGuideBOLLModel *model in dataArray) {
+        if (model.isNeedDraw) {
             min = MIN(min, model.lowData);
             max = MAX(max, model.upData);
         }
     }
     return [SMaximum initWithMax:max min:min];
 }
+
+- (SMaximum *)getKDJMaximunWithRange:(NSRange)range {
+    CGFloat min = INT32_MAX;
+    CGFloat max = 0;
+    
+    NSArray *dataArray = [self.kdjDataPack.dataArray subarrayWithRange:range];
+    for (ZLGuideKDJModel *model in dataArray) {
+        min = model.minData;
+        max = model.maxData;
+    }
+    return [SMaximum initWithMax:max min:min];
+}
+
 @end
 
 @implementation SMaximum

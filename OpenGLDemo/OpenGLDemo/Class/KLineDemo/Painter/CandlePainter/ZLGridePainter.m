@@ -127,12 +127,16 @@
         CGFloat leftX = firstCandleX + cellWidth * i;
         leftX += candleWidth(cellWidth) / 2 + candleLeftAdge(cellWidth);
         
-        CAShapeLayer *subLatitudeLayer = [self getLatitudeLayerFromPositionX:leftX];
-        [self.latitudeLayer addSublayer:subLatitudeLayer];
+        if (self.paintOp & ZLGridePaintShowLatitude) {
+            CAShapeLayer *subLatitudeLayer = [self getLatitudeLayerFromPositionX:leftX];
+            [self.latitudeLayer addSublayer:subLatitudeLayer];
+        }
         
-        KLineModel *model = curShowArray[i];
-        CATextLayer *titleLayer = [self getLatitudeTitleFromPositionX:leftX title:model.date];
-        [self.latitudeLayer addSublayer:titleLayer];
+        if (self.paintOp & ZLGridePaintShowLatitudeTitle) {
+            KLineModel *model = curShowArray[i];
+            CATextLayer *titleLayer = [self getLatitudeTitleFromPositionX:leftX title:model.date];
+            [self.latitudeLayer addSublayer:titleLayer];
+        }
     }
     
     [self p_addSublayer:self.latitudeLayer];
@@ -142,9 +146,10 @@
     [self releaseLongitudeLayer];
     
     // 纬线 绘制方式 最高最低， 等分3 四条
-    CGFloat sHigherPrice = [self.delegate sHigherInPainter:self];
-    CGFloat sLowerPrice = [self.delegate sLowerInPainter:self];
-    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
+    CGFloat sLowerPrice = [self.delegate sLowerPriceInPainter:self];
+//    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
     
     CGFloat curHigherPrice = sHigherPrice / kHScale;
     CGFloat curLowerPrice = sLowerPrice / kLScale;
@@ -309,8 +314,12 @@
 - (void)addLongitudeWithPrice:(CGFloat)price positionY:(CGFloat)positionY {
     CAShapeLayer *lonLayer = [self getLongitudeLayerFromPositionY:positionY];
     CATextLayer *lonTitleLayer = [self getLongitudeTitleFromPositionY:positionY title:[NSString stringWithFormat:@"%.2f", price]];
-    [self.longitudeLayer addSublayer:lonLayer];
-    [self.longitudeLayer addSublayer:lonTitleLayer];
+    if (self.paintOp & ZLGridePaintShowLongitude) {
+        [self.longitudeLayer addSublayer:lonLayer];
+    }
+    if (self.paintOp & ZLGridePaintShowLongitude) {
+        [self.longitudeLayer addSublayer:lonTitleLayer];
+    }
 }
 
 - (void)p_clear {

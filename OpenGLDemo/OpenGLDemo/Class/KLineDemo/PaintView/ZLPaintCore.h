@@ -1,5 +1,5 @@
 //
-//  ZLPaintScene.h
+//  ZLPaintCore.h
 //  OpenGLDemo
 //
 //  Created by LayZhang on 2018/7/30.
@@ -10,16 +10,21 @@
 
 #import "ZLGuideDataPack.h"
 
-#import "ZLPaintView.h"
 
-@interface ZLPaintScene : NSObject
+/*
+ 计算绘图数据, 不涉及具体的位置, 只和价格有关
+*/
+@interface ZLPaintCore : NSObject
 
 
 // ------ scene base ------ //
 @property (nonatomic, assign, readonly) CGFloat sHigherPrice;   // 当前屏幕最高价
 @property (nonatomic, assign, readonly) CGFloat sLowerPrice;   // 当前屏幕最低价
 
-@property (nonatomic, assign, readonly) CGFloat unitValue;    // 单位点的值
+@property (nonatomic, assign, readonly) CGFloat aHigherValue;   // 辅助指标最高值
+@property (nonatomic, assign, readonly) CGFloat aLowerValue;   // 辅助指标最低值
+
+//@property (nonatomic, assign, readonly) CGFloat unitValue;    // 单位点的值
 
 @property (nonatomic, assign, readonly) CGFloat cellWidth;
 
@@ -34,8 +39,8 @@
 @property (nonatomic, assign) NSInteger longPressIndex;
 @property (nonatomic, assign) CGFloat firstCandleX;
 
-@property (nonatomic, assign) UIEdgeInsets edgeInsets;
-@property (nonatomic, assign) CGSize viewPort;
+//@property (nonatomic, assign) UIEdgeInsets edgeInsets;
+@property (nonatomic, assign) CGFloat portWidth;
 
 @property (nonatomic, strong, readonly) NSArray *curShowArray; // 当前显示队列
 
@@ -53,5 +58,6 @@
 #pragma mark - property
 - (ZLGuideDataPack *)getMADataPackByKey:(NSString *)key;
 - (ZLGuideDataPack *)getBOLLDataPack;
+- (ZLGuideDataPack *)getKDJDataPack;
 
 @end

@@ -30,8 +30,6 @@ static CGFloat inline candleLeftAdge(CGFloat cellWidth) {
 @property (nonatomic, weak) id<PaintViewDataSource> dataSource;
 @property (nonatomic, weak) id<PaintViewDelegate> delegate;
 
-@property (nonatomic, assign) UIEdgeInsets screenEdgeInsets;
-
 - (instancetype) init __attribute__((unavailable("init not available, call sharedInstance instead")));
 + (instancetype) new __attribute__((unavailable("new not available, call sharedInstance instead")));
 
@@ -95,6 +93,7 @@ static CGFloat inline candleLeftAdge(CGFloat cellWidth) {
 // guide
 - (ZLGuideDataPack *)painter:(ZLBasePainter *)painter dataPackByMA:(NSString *)ma; // ma
 - (ZLGuideDataPack *)bollDataPackInPainter:(ZLBasePainter *)painter; // boll
+- (ZLGuideDataPack *)kdjDataPackInPainter:(ZLBasePainter *)painter; // kdj
 
 @end
 
@@ -104,13 +103,20 @@ static CGFloat inline candleLeftAdge(CGFloat cellWidth) {
 - (UIEdgeInsets)edgeInsetsInPainter:(ZLBasePainter *)painter;
 
 // 当前屏幕 最高最低价 (有缩放 预留空间)
-- (CGFloat)sHigherInPainter:(ZLBasePainter *)painter;
-- (CGFloat)sLowerInPainter:(ZLBasePainter *)painter;
+- (CGFloat)sHigherPriceInPainter:(ZLBasePainter *)painter;
+- (CGFloat)sLowerPriceInPainter:(ZLBasePainter *)painter;
+
+- (CGFloat)aHigherValueInPainter:(ZLBasePainter *)painter;
+- (CGFloat)aLowerValueInPainter:(ZLBasePainter *)painter;
 
 // 单个蜡烛线的宽度
 - (CGFloat)cellWidthInPainter:(ZLBasePainter *)painter;
 
 // 价格 和 屏幕 像素的单位比
-- (CGFloat)unitValueInPainter:(ZLBasePainter *)painter;
+//- (CGFloat)unitValueInPainter:(ZLBasePainter *)painter;
+- (CGFloat)painter:(ZLBasePainter *)painter sunitByDValue:(CGFloat)dValue;
+
+// 辅助技术指标 单位比
+- (CGFloat)painter:(ZLBasePainter *)painter aunitByDValue:(CGFloat)dValue;
 
 @end
