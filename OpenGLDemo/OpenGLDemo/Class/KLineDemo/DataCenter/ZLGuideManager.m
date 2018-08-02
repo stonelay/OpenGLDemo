@@ -215,13 +215,16 @@
 }
 
 - (SMaximum *)getKDJMaximunWithRange:(NSRange)range {
-    CGFloat min = INT32_MAX;
-    CGFloat max = 0;
+//    CGFloat min = INT32_MAX;
+//    CGFloat max = 0;
+    
+    CGFloat min = 0.1;
+    CGFloat max = 0.9;
     
     NSArray *dataArray = [self.kdjDataPack.dataArray subarrayWithRange:range];
     for (ZLGuideKDJModel *model in dataArray) {
-        min = model.minData;
-        max = model.maxData;
+        min = MIN(min, model.minData);
+        max = MAX(max, model.maxData);
     }
     return [SMaximum initWithMax:max min:min];
 }
