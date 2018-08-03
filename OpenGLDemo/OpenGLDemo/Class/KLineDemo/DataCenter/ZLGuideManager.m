@@ -24,7 +24,7 @@
 #define BOLLDefaultK 2.0
 
 #define BOLLDefaultUpColor      ZLHEXCOLOR(0x800080)
-#define BOLLDefaultMidColor     ZLHEXCOLOR(0x191970)
+#define BOLLDefaultMidColor     ZLHEXCOLOR(0x8A2BE2)
 #define BOLLDefaultLowColor     ZLHEXCOLOR(0x98FB98)
 #define BOLLDefaultBandColor    ZLHEXCOLOR_a(0xCD5C5C, 0.1)
 
@@ -35,7 +35,7 @@
 #define MA5DefaultColor ZLHEXCOLOR(0xF0E68C)
 
 #define KDJDefaultKColor        ZLHEXCOLOR(0x800080)
-#define KDJDefaultDColor        ZLHEXCOLOR(0x191970)
+#define KDJDefaultDColor        ZLHEXCOLOR(0x9932CC)
 #define KDJDefaultJColor        ZLHEXCOLOR(0x98FB98)
 
 @interface ZLGuideManager()
@@ -218,8 +218,8 @@
 //    CGFloat min = INT32_MAX;
 //    CGFloat max = 0;
     
-    CGFloat min = 0.1;
-    CGFloat max = 0.9;
+    CGFloat min = 0.0;
+    CGFloat max = 80.0;
     
     NSArray *dataArray = [self.kdjDataPack.dataArray subarrayWithRange:range];
     for (ZLGuideKDJModel *model in dataArray) {

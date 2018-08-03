@@ -92,6 +92,7 @@ NSString * const MA_Type_WMA  = @"WMA"; // 指数平滑移动平均线
         ZLGuideMAModel *model = [[ZLGuideMAModel alloc] init];
         model.period = period;
         model.data = ma / (double)period;
+        model.isNeedDraw = YES;
         
         [tArray addObject:model];
     }

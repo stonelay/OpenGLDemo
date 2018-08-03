@@ -81,6 +81,7 @@
 #pragma mark - draw
 - (void)drawCandle {
     [self releaseCandleShapeLayer];
+    [self p_addSublayer:self.candleShapeLayer];
 
     NSArray *curShowArray = [self.dataSource showArrayInPainter:self];
     CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
@@ -98,12 +99,11 @@
         CAShapeLayer *cellShapeLayer = [self getCandleLayerFromOpenY:openY highY:highY lowY:lowY closeY:closeY leftX:leftX cellW:cellWidth];
         [self.candleShapeLayer addSublayer:cellShapeLayer];
     }];
-
-    [self p_addSublayer:self.candleShapeLayer];
 }
 
 - (void)drawTrackingCross {
     [self releaseTrackingCrossLayer];
+    [self p_addSublayer:self.trackingCrosslayer];
     
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
     NSInteger crossIndex = [self.dataSource longPressIndexInPainter:self];
@@ -128,8 +128,6 @@
     CGPoint rbPoint = CGPointMake(leftX + candleWidth(cellWidth), lowY);
     CAShapeLayer *crossLayer = [self getTrackingCrossLayerFromCrossPoint:positionPoint ltPoint:ltPoint rbPoint:rbPoint];
     [self.trackingCrosslayer addSublayer:crossLayer];
-    
-    [self p_addSublayer:self.trackingCrosslayer];
 }
 
 #pragma mark - release

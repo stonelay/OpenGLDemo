@@ -13,7 +13,7 @@
 
 #import "ZLGuideDataType.h"
 
-#define BollTitleFontSize 12
+#define BOLLTitleFontSize 12
 
 @interface ZLBOLLPainter()
 
@@ -36,8 +36,8 @@
 #pragma mark - override
 - (void)draw {
     [super draw];
-    [self drawBoll];
-    [self drawBollInfor];
+    [self drawBOLL];
+    [self drawBOLLInfor];
 }
 
 // tap
@@ -46,46 +46,46 @@
 // pan
 - (void)panBeganPoint:(CGPoint)point {}
 - (void)panChangedPoint:(CGPoint)point {
-    [self drawBoll];
-    [self drawBollInfor];
+    [self drawBOLL];
+    [self drawBOLLInfor];
 }
 - (void)panEndedPoint:(CGPoint)point {}
 
 // pinch
 - (void)pinchBeganScale:(CGFloat)scale {}
 - (void)pinchChangedScale:(CGFloat)scale {
-    [self drawBoll];
-    [self drawBollInfor];
+    [self drawBOLL];
+    [self drawBOLLInfor];
 }
 - (void)pinchEndedScale:(CGFloat)scale {}
 
 // longPress
 - (void)longPressBeganLocation:(CGPoint)location {
-    [self drawBollInfor];
+    [self drawBOLLInfor];
 }
 - (void)longPressChangedLocation:(CGPoint)location {
-    [self drawBollInfor];
+    [self drawBOLLInfor];
 }
 - (void)longPressEndedLocation:(CGPoint)location {
-    [self drawBollInfor];
+    [self drawBOLLInfor];
 }
 
 #pragma mark - draw
-- (void)drawBoll {
-    [self releaseBollLayer];
+- (void)drawBOLL {
+    [self releaseBOLLLayer];
     
     ZLGuideDataPack *dataPack = [self.dataSource bollDataPackInPainter:self];
     if (!dataPack) {
         return;
     }
-    [self.bollLayer addSublayer:[self getBollByDataPack:dataPack]];
-    [self.bollLayer addSublayer:[self getBollBandByDataPack:dataPack]];
+    [self.bollLayer addSublayer:[self getBOLLByDataPack:dataPack]];
+    [self.bollLayer addSublayer:[self getBOLLBandByDataPack:dataPack]];
     
     [self p_addSublayer:self.bollLayer];
 }
 
-- (void)drawBollInfor {
-    [self releaseBollInforLayer];
+- (void)drawBOLLInfor {
+    [self releaseBOLLInforLayer];
     
     ZLGuideDataPack *dataPack = [self.dataSource bollDataPackInPainter:self];
     if (!dataPack) {
@@ -101,22 +101,22 @@
     NSString *tTitle = [NSString stringWithFormat:@"T:%.2f", guideModel.upData];
     NSString *bTitle = [NSString stringWithFormat:@"B:%.2f", guideModel.lowData];
     
-    CGSize bollSize = [bollTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BollTitleFontSize)}];
+    CGSize bollSize = [bollTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BOLLTitleFontSize)}];
     self.bollSublayer.string = bollTitle;
     self.bollSublayer.foregroundColor = bollParam.midColor.CGColor;
     self.bollSublayer.frame = CGRectMake(2, 1 - self.p_top, bollSize.width, bollSize.height);
     
-    CGSize mSize = [mTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BollTitleFontSize)}];
+    CGSize mSize = [mTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BOLLTitleFontSize)}];
     self.mSublayer.string = mTitle;
     self.mSublayer.foregroundColor = bollParam.midColor.CGColor;
     self.mSublayer.frame = CGRectMake(self.bollSublayer.right + 10, 1 - self.p_top, mSize.width, mSize.height);
     
-    CGSize tSize = [tTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BollTitleFontSize)}];
+    CGSize tSize = [tTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BOLLTitleFontSize)}];
     self.tSublayer.string = tTitle;
     self.tSublayer.foregroundColor = bollParam.upColor.CGColor;
     self.tSublayer.frame = CGRectMake(self.mSublayer.right + 10, 1 - self.p_top, tSize.width, tSize.height);
     
-    CGSize bSize = [bTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BollTitleFontSize)}];
+    CGSize bSize = [bTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BOLLTitleFontSize)}];
     self.bSublayer.string = bTitle;
     self.bSublayer.foregroundColor = bollParam.lowColor.CGColor;
     self.bSublayer.frame = CGRectMake(self.tSublayer.right + 10, 1 - self.p_top, bSize.width, bSize.height);
@@ -130,14 +130,14 @@
 }
 
 #pragma mark - release
-- (void)releaseBollLayer {
+- (void)releaseBOLLLayer {
     if (_bollLayer) {
         [_bollLayer removeFromSuperlayer];
         _bollLayer = nil;
     }
 }
 
-- (void)releaseBollInforLayer {
+- (void)releaseBOLLInforLayer {
     if (_bollInforLayer) {
         [_bollInforLayer removeFromSuperlayer];
         _bollInforLayer = nil;
@@ -170,7 +170,7 @@
     if (!_bSublayer) {
         _bSublayer = [CATextLayer layer];
         _bSublayer.contentsScale = [UIScreen mainScreen].scale;
-        _bSublayer.fontSize = BollTitleFontSize;
+        _bSublayer.fontSize = BOLLTitleFontSize;
         _bSublayer.alignmentMode = kCAAlignmentJustified;
     }
     return _bSublayer;
@@ -180,7 +180,7 @@
     if (!_tSublayer) {
         _tSublayer = [CATextLayer layer];
         _tSublayer.contentsScale = [UIScreen mainScreen].scale;
-        _tSublayer.fontSize = BollTitleFontSize;
+        _tSublayer.fontSize = BOLLTitleFontSize;
         _tSublayer.alignmentMode = kCAAlignmentJustified;
     }
     return _tSublayer;
@@ -190,7 +190,7 @@
     if (!_mSublayer) {
         _mSublayer = [CATextLayer layer];
         _mSublayer.contentsScale = [UIScreen mainScreen].scale;
-        _mSublayer.fontSize = BollTitleFontSize;
+        _mSublayer.fontSize = BOLLTitleFontSize;
         _mSublayer.alignmentMode = kCAAlignmentJustified;
     }
     return _mSublayer;
@@ -200,13 +200,13 @@
     if (!_bollSublayer) {
         _bollSublayer = [CATextLayer layer];
         _bollSublayer.contentsScale = [UIScreen mainScreen].scale;
-        _bollSublayer.fontSize = BollTitleFontSize;
+        _bollSublayer.fontSize = BOLLTitleFontSize;
         _bollSublayer.alignmentMode = kCAAlignmentJustified;
     }
     return _bollSublayer;
 }
 
-- (CAShapeLayer *)getBollByDataPack:(ZLGuideDataPack *)dataPack {
+- (CAShapeLayer *)getBOLLByDataPack:(ZLGuideDataPack *)dataPack {
     CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
 //    CGFloat unitValue = [self.delegate unitValueInPainter:self];
     CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
@@ -283,7 +283,7 @@
     return bollLayer;
 }
 
-- (CAShapeLayer *)getBollBandByDataPack:(ZLGuideDataPack *)dataPack {
+- (CAShapeLayer *)getBOLLBandByDataPack:(ZLGuideDataPack *)dataPack {
     CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
 //    CGFloat unitValue = [self.delegate unitValueInPainter:self];
     CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
@@ -338,8 +338,8 @@
 }
 
 - (void)p_clear {
-    [self releaseBollLayer];
-    [self releaseBollInforLayer];
+    [self releaseBOLLLayer];
+    [self releaseBOLLInforLayer];
 }
 
 @end

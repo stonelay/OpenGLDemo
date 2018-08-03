@@ -8,8 +8,8 @@
 
 #import "ZLGridePainter.h"
 
-#define BorderStrokeColor       ZLHEXCOLOR(0x222222)
-#define AxisStrokeColor         ZLHEXCOLOR(0x999999)
+#define BorderStrokeColor       ZLHEXCOLOR(0xB22222)
+#define AxisStrokeColor         ZLHEXCOLOR(0xA52A2A)
 
 #define LongitudeTitleFontSize  12
 #define LatitudeTitleFontSize   10
@@ -33,11 +33,6 @@
 
 - (void)p_initDefault {
     [super p_initDefault];
-    
-    self.borderShapeLayer.strokeColor = BorderStrokeColor.CGColor;
-    self.xAxisShapeLayer.strokeColor = AxisStrokeColor.CGColor;
-    self.latitudeLayer.strokeColor = LatitudeStrokeColor.CGColor;
-    self.longitudeLayer.strokeColor = LongitudeStrokeColor.CGColor;
 }
 
 #pragma mark - override
@@ -76,13 +71,20 @@
 
 #pragma mark - draw
 - (void)drawBorder {
+    [self releaseBorderShapeLayer];
+    [self p_addSublayer:self.borderShapeLayer];
+    
+//    CGRect border = CGRectMake(self.p_left, self.p_top, self.p_width, self.p_height + self.p_bottom);
     CGRect border = self.s_bounds;
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:border];
     self.borderShapeLayer.path = path.CGPath;
-    [self p_addSublayer:self.borderShapeLayer];
+    [path removeAllPoints];
 }
 
 - (void)drawAxis {
+    [self releaseXAxisShapeLayer];
+    [self p_addSublayer:self.xAxisShapeLayer];
+    
     CGPoint pointLT = CGPointMake(self.p_left, self.p_top);     // lt
     CGPoint pointLB = CGPointMake(self.p_left, self.p_bottom);  // lb
     CGPoint pointRT = CGPointMake(self.p_right, self.p_top);    // rt
@@ -108,11 +110,11 @@
     self.xAxisShapeLayer.path = path.CGPath;
     
     [path removeAllPoints];
-    [self p_addSublayer:self.xAxisShapeLayer];
 }
 
 - (void)drawLatitudeLines {
     [self releaseLatitudeLayer];
+    [self p_addSublayer:self.latitudeLayer];
     
     // 经线绘制方式 绘制大于等于 五条
     NSUInteger showCount = [self.dataSource showNumberInPainter:self];
@@ -138,30 +140,10 @@
             [self.latitudeLayer addSublayer:titleLayer];
         }
     }
-    
-    [self p_addSublayer:self.latitudeLayer];
 }
 
 - (void)drawLongittueLines {
     [self releaseLongitudeLayer];
-    
-    // 纬线 绘制方式 最高最低， 等分3 四条
-    CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
-    CGFloat sLowerPrice = [self.delegate sLowerPriceInPainter:self];
-//    CGFloat unitValue = [self.delegate unitValueInPainter:self];
-    CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
-    
-    CGFloat curHigherPrice = sHigherPrice / kHScale;
-    CGFloat curLowerPrice = sLowerPrice / kLScale;
-    
-    CGFloat higherY = (sHigherPrice - curHigherPrice) / unitValue;
-    CGFloat lowerY = (sHigherPrice - curLowerPrice) / unitValue;
-    
-    [self addLongitudeWithPrice:curHigherPrice positionY:higherY];
-    [self addLongitudeWithPrice:(curHigherPrice + curLowerPrice) / 3 * 1 positionY:(higherY + lowerY) / 3 * 1];
-    [self addLongitudeWithPrice:(curHigherPrice + curLowerPrice) / 3 * 2 positionY:(higherY + lowerY) / 3 * 2];
-    [self addLongitudeWithPrice:curLowerPrice positionY:lowerY];
-
     [self p_addSublayer:self.longitudeLayer];
 }
 
@@ -198,8 +180,9 @@
 - (CAShapeLayer *)borderShapeLayer {
     if (!_borderShapeLayer) {
         _borderShapeLayer = [CAShapeLayer layer];
-        _borderShapeLayer.frame = self.p_frame;
+        _borderShapeLayer.frame = self.s_bounds;
         _borderShapeLayer.fillColor = ZLClearColor.CGColor;
+        _borderShapeLayer.strokeColor = BorderStrokeColor.CGColor;
         _borderShapeLayer.lineWidth = LINEWIDTH;
     }
     return _borderShapeLayer;
@@ -208,8 +191,9 @@
 - (CAShapeLayer *)xAxisShapeLayer {
     if (!_xAxisShapeLayer) {
         _xAxisShapeLayer = [CAShapeLayer layer];
-        _xAxisShapeLayer.frame = self.p_frame;
+        _xAxisShapeLayer.frame = self.s_bounds;
         _xAxisShapeLayer.fillColor = ZLClearColor.CGColor;
+        _xAxisShapeLayer.strokeColor = AxisStrokeColor.CGColor;
         _xAxisShapeLayer.lineWidth = LINEWIDTH;
     }
     return _xAxisShapeLayer;

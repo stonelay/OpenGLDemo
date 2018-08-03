@@ -18,6 +18,7 @@
 
 #define UninitializedIndex   -1
 
+
 @interface ZLPaintCore()
 
 @property (nonatomic, strong) ZLGuideManager *guideManager;
@@ -255,13 +256,5 @@
     tDataPack.dataArray = [oDataPack.dataArray subarrayWithRange:NSMakeRange(self.curIndex, self.showCount)];
     return tDataPack;
 }
-
-//- (CGFloat)portWidth {
-//    return self.viewPort.width - self.edgeInsets.left - self.edgeInsets.right;
-//}
-
-//- (CGFloat)z_portHeight {
-//    return self.viewPort.height - self.edgeInsets.top - self.edgeInsets.bottom;
-//}
 
 @end

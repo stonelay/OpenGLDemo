@@ -11,10 +11,17 @@
 #import "ZLKDJParam.h"
 #import "ZLGuideKDJModel.h"
 
+#define KDJTitleFontSize 12
+
 @interface ZLKDJPainter()
 
 @property (nonatomic, strong) CAShapeLayer *kdjLayer;
 @property (nonatomic, strong) CAShapeLayer *kdjInforLayer;
+
+@property (nonatomic, strong) CATextLayer *kdjSublayer;
+@property (nonatomic, strong) CATextLayer *kSublayer;
+@property (nonatomic, strong) CATextLayer *dSublayer;
+@property (nonatomic, strong) CATextLayer *jSublayer;
 
 @end
 
@@ -64,62 +71,57 @@
 #pragma mark - draw
 - (void)drawKDJ {
     [self releaseKDJLayer];
+    [self p_addSublayer:self.kdjLayer];
     
     ZLGuideDataPack *dataPack = [self.dataSource kdjDataPackInPainter:self];
     if (!dataPack) {
         return;
     }
-    
     [self.kdjLayer addSublayer:[self getKDJByDataPack:dataPack]];
-//    [self.kdjLayer addSublayer:[self getKDJByDataPack:dataPack]];
-//    [self.kdjLayer addSublayer:[self getKDJBandByDataPack:dataPack]];
-    
-    [self p_addSublayer:self.kdjLayer];
 }
 
 - (void)drawKDJInfor {
     [self releaseKDJInforLayer];
-    
-//    ZLGuideDataPack *dataPack = [self.dataSource kdjDataPackInPainter:self];
-//    if (!dataPack) {
-//        return;
-//    }
-//
-//    NSInteger crossIndex = [self.dataSource longPressIndexInPainter:self];
-//    ZLGuideKDJModel *guideModel = [dataPack.dataArray objectAtIndex:crossIndex];
-//
-//    ZLKDJParam *bollParam = (ZLKDJParam *)dataPack.param;
-//    NSString *bollTitle = [NSString stringWithFormat:@"KDJ(%d, %d)",(int) bollParam.period, (int)bollParam.k];
-//    NSString *mTitle = [NSString stringWithFormat:@"M:%.2f", guideModel.midData];
-//    NSString *tTitle = [NSString stringWithFormat:@"T:%.2f", guideModel.upData];
-//    NSString *bTitle = [NSString stringWithFormat:@"B:%.2f", guideModel.lowData];
-//
-//    CGSize bollSize = [bollTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BollTitleFontSize)}];
-//    self.bollSublayer.string = bollTitle;
-//    self.bollSublayer.foregroundColor = bollParam.midColor.CGColor;
-//    self.bollSublayer.frame = CGRectMake(2, 1 - self.p_top, bollSize.width, bollSize.height);
-//
-//    CGSize mSize = [mTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BollTitleFontSize)}];
-//    self.mSublayer.string = mTitle;
-//    self.mSublayer.foregroundColor = bollParam.midColor.CGColor;
-//    self.mSublayer.frame = CGRectMake(self.bollSublayer.right + 10, 1 - self.p_top, mSize.width, mSize.height);
-//
-//    CGSize tSize = [tTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BollTitleFontSize)}];
-//    self.tSublayer.string = tTitle;
-//    self.tSublayer.foregroundColor = bollParam.upColor.CGColor;
-//    self.tSublayer.frame = CGRectMake(self.mSublayer.right + 10, 1 - self.p_top, tSize.width, tSize.height);
-//
-//    CGSize bSize = [bTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BollTitleFontSize)}];
-//    self.bSublayer.string = bTitle;
-//    self.bSublayer.foregroundColor = bollParam.lowColor.CGColor;
-//    self.bSublayer.frame = CGRectMake(self.tSublayer.right + 10, 1 - self.p_top, bSize.width, bSize.height);
-//
-//    [self.bollLayer addSublayer:self.bollSublayer];
-//    [self.bollLayer addSublayer:self.tSublayer];
-//    [self.bollLayer addSublayer:self.mSublayer];
-//    [self.bollLayer addSublayer:self.bSublayer];
-    
     [self p_addSublayer:self.kdjInforLayer];
+    
+    ZLGuideDataPack *dataPack = [self.dataSource kdjDataPackInPainter:self];
+    if (!dataPack) {
+        return;
+    }
+
+    NSInteger crossIndex = [self.dataSource longPressIndexInPainter:self];
+    ZLGuideKDJModel *guideModel = [dataPack.dataArray objectAtIndex:crossIndex];
+
+    ZLKDJParam *kdjParam = (ZLKDJParam *)dataPack.param;
+    NSString *kdjTitle = [NSString stringWithFormat:@"KDJ(%d, %d, %d)",(int)kdjParam.kdjPeriod_N, (int)kdjParam.kdjPeriod_M1, (int)kdjParam.kdjPeriod_M2];
+    NSString *kTitle = [NSString stringWithFormat:@"K:%.2f", guideModel.kData];
+    NSString *dTitle = [NSString stringWithFormat:@"D:%.2f", guideModel.dData];
+    NSString *jTitle = [NSString stringWithFormat:@"J:%.2f", guideModel.jData];
+
+    CGSize kdjSize = [kdjTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(KDJTitleFontSize)}];
+    self.kdjSublayer.string = kdjTitle;
+    self.kdjSublayer.foregroundColor = kdjParam.dColor.CGColor;
+    self.kdjSublayer.frame = CGRectMake(2, 1 - self.p_top, kdjSize.width, kdjSize.height);
+
+    CGSize kSize = [kTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(KDJTitleFontSize)}];
+    self.kSublayer.string = kTitle;
+    self.kSublayer.foregroundColor = kdjParam.kColor.CGColor;
+    self.kSublayer.frame = CGRectMake(self.kdjSublayer.right + 10, 1 - self.p_top, kSize.width, kSize.height);
+
+    CGSize dSize = [dTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(KDJTitleFontSize)}];
+    self.dSublayer.string = dTitle;
+    self.dSublayer.foregroundColor = kdjParam.dColor.CGColor;
+    self.dSublayer.frame = CGRectMake(self.kSublayer.right + 10, 1 - self.p_top, dSize.width, dSize.height);
+
+    CGSize jSize = [jTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(KDJTitleFontSize)}];
+    self.jSublayer.string = jTitle;
+    self.jSublayer.foregroundColor = kdjParam.jColor.CGColor;
+    self.jSublayer.frame = CGRectMake(self.dSublayer.right + 10, 1 - self.p_top, jSize.width, jSize.height);
+
+    [self.kdjLayer addSublayer:self.kdjSublayer];
+    [self.kdjLayer addSublayer:self.kSublayer];
+    [self.kdjLayer addSublayer:self.dSublayer];
+    [self.kdjLayer addSublayer:self.jSublayer];
 }
 
 #pragma mark - release
@@ -158,45 +160,45 @@
     return _kdjInforLayer;
 }
 
-//- (CATextLayer *)bSublayer {
-//    if (!_bSublayer) {
-//        _bSublayer = [CATextLayer layer];
-//        _bSublayer.contentsScale = [UIScreen mainScreen].scale;
-//        _bSublayer.fontSize = BollTitleFontSize;
-//        _bSublayer.alignmentMode = kCAAlignmentJustified;
-//    }
-//    return _bSublayer;
-//}
-//
-//- (CATextLayer *)tSublayer {
-//    if (!_tSublayer) {
-//        _tSublayer = [CATextLayer layer];
-//        _tSublayer.contentsScale = [UIScreen mainScreen].scale;
-//        _tSublayer.fontSize = BollTitleFontSize;
-//        _tSublayer.alignmentMode = kCAAlignmentJustified;
-//    }
-//    return _tSublayer;
-//}
-//
-//- (CATextLayer *)mSublayer {
-//    if (!_mSublayer) {
-//        _mSublayer = [CATextLayer layer];
-//        _mSublayer.contentsScale = [UIScreen mainScreen].scale;
-//        _mSublayer.fontSize = BollTitleFontSize;
-//        _mSublayer.alignmentMode = kCAAlignmentJustified;
-//    }
-//    return _mSublayer;
-//}
-//
-//- (CATextLayer *)bollSublayer {
-//    if (!_bollSublayer) {
-//        _bollSublayer = [CATextLayer layer];
-//        _bollSublayer.contentsScale = [UIScreen mainScreen].scale;
-//        _bollSublayer.fontSize = BollTitleFontSize;
-//        _bollSublayer.alignmentMode = kCAAlignmentJustified;
-//    }
-//    return _bollSublayer;
-//}
+- (CATextLayer *)kSublayer {
+    if (!_kSublayer) {
+        _kSublayer = [CATextLayer layer];
+        _kSublayer.contentsScale = [UIScreen mainScreen].scale;
+        _kSublayer.fontSize = KDJTitleFontSize;
+        _kSublayer.alignmentMode = kCAAlignmentJustified;
+    }
+    return _kSublayer;
+}
+
+- (CATextLayer *)dSublayer {
+    if (!_dSublayer) {
+        _dSublayer = [CATextLayer layer];
+        _dSublayer.contentsScale = [UIScreen mainScreen].scale;
+        _dSublayer.fontSize = KDJTitleFontSize;
+        _dSublayer.alignmentMode = kCAAlignmentJustified;
+    }
+    return _dSublayer;
+}
+
+- (CATextLayer *)jSublayer {
+    if (!_jSublayer) {
+        _jSublayer = [CATextLayer layer];
+        _jSublayer.contentsScale = [UIScreen mainScreen].scale;
+        _jSublayer.fontSize = KDJTitleFontSize;
+        _jSublayer.alignmentMode = kCAAlignmentJustified;
+    }
+    return _jSublayer;
+}
+
+- (CATextLayer *)kdjSublayer {
+    if (!_kdjSublayer) {
+        _kdjSublayer = [CATextLayer layer];
+        _kdjSublayer.contentsScale = [UIScreen mainScreen].scale;
+        _kdjSublayer.fontSize = KDJTitleFontSize;
+        _kdjSublayer.alignmentMode = kCAAlignmentJustified;
+    }
+    return _kdjSublayer;
+}
 
 - (CAShapeLayer *)getKDJByDataPack:(ZLGuideDataPack *)dataPack {
     CGFloat aHigherValue = [self.delegate aHigherValueInPainter:self];
@@ -210,10 +212,16 @@
 
     UIBezierPath *kPath = [UIBezierPath bezierPath];
     kPath.lineWidth = LINEWIDTH;
+    kPath.lineCapStyle = kCGLineCapRound;
+    kPath.lineJoinStyle = kCGLineCapRound;
     UIBezierPath *dPath = [UIBezierPath bezierPath];
     dPath.lineWidth = LINEWIDTH;
+    dPath.lineCapStyle = kCGLineCapRound;
+    dPath.lineJoinStyle = kCGLineCapRound;
     UIBezierPath *jPath = [UIBezierPath bezierPath];
     jPath.lineWidth = LINEWIDTH;
+    jPath.lineCapStyle = kCGLineCapRound;
+    jPath.lineJoinStyle = kCGLineCapRound;
 
     CAShapeLayer *kLayer = [CAShapeLayer layer];
     kLayer.frame = self.p_bounds;
@@ -273,60 +281,6 @@
 
     return kdjLayer;
 }
-//
-//- (CAShapeLayer *)getBollBandByDataPack:(ZLGuideDataPack *)dataPack {
-//    CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
-//    //    CGFloat unitValue = [self.delegate unitValueInPainter:self];
-//    CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
-//    CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
-//    CGFloat firstCandleX = [self.dataSource firstCandleXInPainter:self];
-//
-//    NSArray *guideArray = dataPack.dataArray;
-//    ZLBOLLParam *bollParams = (ZLBOLLParam *)dataPack.param;
-//
-//    UIBezierPath *bandPath = [UIBezierPath bezierPath];
-//    bandPath.lineWidth = LINEWIDTH;
-//
-//    CAShapeLayer *bandShapeLayer = [CAShapeLayer layer];
-//    bandShapeLayer.frame = self.p_bounds;
-//    bandShapeLayer.strokeColor = ZLClearColor.CGColor;
-//    bandShapeLayer.fillColor = bollParams.bandColor.CGColor;
-//
-//    NSMutableArray *tUpArray = [[NSMutableArray alloc] init];
-//    NSMutableArray *tLowArray = [[NSMutableArray alloc] init];
-//
-//    for (int i = 0; i < guideArray.count; i++) {
-//        ZLGuideBOLLModel *model = guideArray[i];
-//        if (!model.isNeedDraw) continue;
-//
-//        CGFloat leftX = firstCandleX + cellWidth * i;
-//        leftX += candleLeftAdge(cellWidth);
-//        leftX += candleWidth(cellWidth) / 2;
-//
-//        CGFloat upY = (sHigherPrice - model.upData) / unitValue;
-//        CGFloat lowY = (sHigherPrice - model.lowData) / unitValue;
-//
-//        [tUpArray addObject:[NSValue valueWithCGPoint:CGPointMake(leftX, upY)]];
-//        [tLowArray addObject:[NSValue valueWithCGPoint:CGPointMake(leftX, lowY)]];
-//    }
-//
-//    for (int i = 0; i < tUpArray.count; i++) {
-//        if (i == 0) {
-//            [bandPath moveToPoint:[tUpArray[i] CGPointValue]];
-//        } else {
-//            [bandPath addLineToPoint:[tUpArray[i] CGPointValue]];
-//        }
-//    }
-//
-//    for (int i = (int)tLowArray.count - 1; i >=0; i--) {
-//        [bandPath addLineToPoint:[tLowArray[i] CGPointValue]];
-//    }
-//
-//    bandShapeLayer.path = bandPath.CGPath;
-//    [bandPath removeAllPoints];
-//
-//    return bandShapeLayer;
-//}
 
 - (void)p_clear {
     [self releaseKDJLayer];

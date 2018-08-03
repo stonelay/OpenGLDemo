@@ -8,11 +8,8 @@
 
 #import "ZLPaintAssistScene.h"
 
-#import "ZLGridePainter.h"
-
+#import "ZLKDJGridePainter.h"
 #import "ZLKDJPainter.h"
-
-
 #import "ZLQuoteDataCenter.h"
 
 #import "KLineModel.h"
@@ -22,28 +19,14 @@
 
 #define UninitializedIndex   -1
 
-#define MAEDGEINSETS UIEdgeInsetsMake(60 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE)
-#define BOLLEDGEINSETS UIEdgeInsetsMake(40 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE)
-#define NONEEDGEINSETS UIEdgeInsetsMake(10 * SCALE, 10 * SCALE, 60 * SCALE, 10 * SCALE)
+@interface ZLPaintAssistScene()<PaintViewDelegate, PaintViewDataSource>
 
-@interface ZLPaintAssistScene()<PaintViewDataSource, PaintViewDelegate, ZLKLinePainter>
-
-@property (nonatomic, strong) ZLGridePainter *gridePainter;
-
+@property (nonatomic, strong) NSDictionary *gridePainter;   // <key, gride painter>
 @property (nonatomic, strong) NSDictionary *assistPainters; // <key, painter>
 
 @end
 
 @implementation ZLPaintAssistScene
-- (ZLGridePainter *)gridePainter {
-    if (!_gridePainter) {
-        _gridePainter = [[ZLGridePainter alloc] initWithPaintView:self];
-        _gridePainter.paintOp = ZLGridePaintShowAll;
-        _gridePainter.dataSource = self;
-        _gridePainter.delegate = self;
-    }
-    return _gridePainter;
-}
 
 - (NSDictionary *)assistPainters {
     if (!_assistPainters) {
@@ -60,6 +43,22 @@
     return _assistPainters;
 }
 
+- (NSDictionary *)gridePainter {
+    if (!_gridePainter) {
+        NSMutableDictionary *tDic = [[NSMutableDictionary alloc] init];
+        
+        // KDJ
+        ZLGridePainter *kdjGridePainter = [[ZLKDJGridePainter alloc] initWithPaintView:self];
+        kdjGridePainter.paintOp = ZLGridePaintShowAll;
+        kdjGridePainter.dataSource = self;
+        kdjGridePainter.delegate = self;
+        [tDic setObject:kdjGridePainter forKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
+        
+        _gridePainter = [tDic copy];
+    }
+    return _gridePainter;
+}
+
 - (void)draw {
     [self.paintCore prepareDrawWithPoint:CGPointZero andScale:1.0];
     [self doInterfaceMethod:_cmd andData:nil];
@@ -67,7 +66,7 @@
 
 - (void)clear {}
 
-#pragma mark - PaintDataSource
+#pragma mark - assist paint dataSource
 - (NSUInteger)maxNumberInPainter:(ZLBasePainter *)painter {
     return self.paintCore.arrayMaxCount;
 }
@@ -104,7 +103,7 @@
     return [self.paintCore getKDJDataPack];
 }
 
-#pragma mark - paitview delegate
+#pragma mark - assist paitview delegate
 - (CGFloat)cellWidthInPainter:(ZLBasePainter *)painter {
     return self.paintCore.cellWidth;
 }
@@ -113,28 +112,12 @@
     return self.degeInsets;
 }
 
-- (CGFloat)sHigherPriceInPainter:(ZLBasePainter *)painter {
-    return self.paintCore.sHigherPrice;
-}
-
-- (CGFloat)sLowerPriceInPainter:(ZLBasePainter *)painter {
-    return self.paintCore.sLowerPrice;
-}
-
 - (CGFloat)aHigherValueInPainter:(ZLBasePainter *)painter {
     return self.paintCore.aHigherValue;
 }
 
 - (CGFloat)aLowerValueInPainter:(ZLBasePainter *)painter {
     return self.paintCore.aLowerValue;
-}
-
-//- (CGFloat)unitValueInPainter:(ZLBasePainter *)painter {
-//    return self.paintCore.unitValue;
-//}
-
-- (CGFloat)painter:(ZLBasePainter *)painter sunitByDValue:(CGFloat)dValue {
-    return (self.paintCore.sHigherPrice - self.paintCore.sLowerPrice) / dValue;
 }
 
 - (CGFloat)painter:(ZLBasePainter *)painter aunitByDValue:(CGFloat)dValue {
@@ -194,27 +177,13 @@
 - (void)doInterfaceMethod:(SEL)methodName andData:(id)data {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    
-    [self.gridePainter performSelector:methodName withObject:data];
-//    [self.candlePainter performSelector:methodName withObject:data];
-    
-    // main
-//    if (self.paintCore.paintMainType & GuidePaintMainTypeMA) {
-//        ZLBasePainter *mainPainter = [self.mainPainters objectForKey:[ZLGuideDataType getNameByPaintMainType:GuidePaintMainTypeMA]];
-//        if (mainPainter) { [mainPainter performSelector:methodName withObject:data]; }
-//    }
-//
-//    if (self.paintCore.paintMainType & GuidePaintMainTypeBOLL) {
-//        ZLBasePainter *mainPainter = [self.mainPainters objectForKey:[ZLGuideDataType getNameByPaintMainType:GuidePaintMainTypeBOLL]];
-//        if (mainPainter) { [mainPainter performSelector:methodName withObject:data]; }
-//    }
-    
-    // TODO add other main
-    
     // assist
     if (self.paintCore.paintAssistType & GuidePaintAssistTypeKDJ) {
         ZLBasePainter *assistPainter = [self.assistPainters objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
         if (assistPainter) { [assistPainter performSelector:methodName withObject:data]; }
+        
+        ZLBasePainter *gridePainter = [self.gridePainter objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
+        if (gridePainter) { [gridePainter performSelector:methodName withObject:data]; }
     }
     
     // TODO add other assist
@@ -223,32 +192,30 @@
 }
 
 #pragma mark - private
-//- (void)tapNextMainType {
-//    if (self.paintCore.paintMainType & GuidePaintMainTypeMA) {
-//        ZLBasePainter *mainPainter = [self.mainPainters objectForKey:[ZLGuideDataType getNameByPaintMainType:GuidePaintMainTypeMA]];
-//        [mainPainter clear];
-//    }
-//
-//    if (self.paintCore.paintMainType & GuidePaintMainTypeBOLL) {
-//        ZLBasePainter *mainPainter = [self.mainPainters objectForKey:[ZLGuideDataType getNameByPaintMainType:GuidePaintMainTypeBOLL]];
-//        [mainPainter clear];
-//    }
-//
-//    self.paintCore.paintMainType = [ZLGuideDataType getNextMainType:self.paintCore.paintMainType];
-//
-//    //    if (self.paintCore.paintMainType & GuidePaintMainTypeBOLL) {
-//    //        self.paintCore.edgeInsets = BOLLEDGEINSETS;
-//    //    }
-//    //    if (self.paintCore.paintMainType & GuidePaintMainTypeMA) {
-//    //        self.paintCore.edgeInsets = MAEDGEINSETS;
-//    //    }
-//    //    if (self.paintCore.paintMainType == GuidePaintMainTypeNone) {
-//    //        self.paintCore.edgeInsets = NONEEDGEINSETS;
-//    //    }
-//}
 
 - (void)tapNextAssistType {
+    if (self.paintCore.paintAssistType & GuidePaintAssistTypeKDJ) {
+        ZLBasePainter *assistPainter = [self.assistPainters objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
+        [assistPainter clear];
+    }
     
+    self.paintCore.paintAssistType = [ZLGuideDataType getNextAssistType:self.paintCore.paintAssistType];
+    
+    if (self.paintCore.paintAssistType & GuidePaintAssistTypeKDJ) {
+        UIEdgeInsets dege = self.degeInsets;
+        dege.top = getAssistInforHeight(GuidePaintAssistTypeKDJ);
+        self.degeInsets = dege;
+    }
+}
+
+- (void)setPaintCore:(ZLPaintCore *)paintCore {
+    _paintCore = paintCore;
+    self.degeInsets = UIEdgeInsetsMake(getAssistInforHeight(paintCore.paintAssistType), 0, 30 * SCALE, 0);
+}
+
+- (void)setDegeInsets:(UIEdgeInsets)degeInsets {
+    _degeInsets = degeInsets;
+    self.paintCore.portWidth = self.width - self.degeInsets.left - self.degeInsets.right;
 }
 
 @end

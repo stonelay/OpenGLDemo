@@ -10,6 +10,38 @@
 
 #import "ZLGuideDataPack.h"
 
+static const CGFloat InforHeightNONE    = 10;
+static const CGFloat InforHeightKDJ     = 40;
+static const CGFloat InforHeightBOLL    = 40;
+static const CGFloat InforHeightMA      = 60;
+
+static CGFloat inline getMainInforHeight(GuidePaintMainType mainType){
+    switch (mainType) {
+        case GuidePaintMainTypeMA:
+            return InforHeightMA * SCALE;
+            break;
+        case GuidePaintMainTypeBOLL:
+            return InforHeightBOLL * SCALE;
+            break;
+        case GuidePaintMainTypeNone:
+            return InforHeightNONE * SCALE;
+            break;
+        default:
+            break;
+    }
+    return InforHeightNONE * SCALE;
+}
+
+static CGFloat inline getAssistInforHeight(GuidePaintAssistType assistType){
+    switch (assistType) {
+        case GuidePaintAssistTypeKDJ:
+            return InforHeightKDJ * SCALE;
+            break;
+        default:
+            break;
+    }
+    return InforHeightNONE * SCALE;
+}
 
 /*
  计算绘图数据, 不涉及具体的位置, 只和价格有关

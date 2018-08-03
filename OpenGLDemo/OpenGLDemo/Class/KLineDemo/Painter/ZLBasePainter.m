@@ -67,6 +67,12 @@
     return self.paintView.bounds;
 }
 
+- (CGRect)s_frame {
+    [self p_havePaintView];
+    return self.paintView.frame;
+}
+
+
 - (CGFloat)p_left {
     [self p_havePaintView];
     return self.screenEdgeInsets.left;

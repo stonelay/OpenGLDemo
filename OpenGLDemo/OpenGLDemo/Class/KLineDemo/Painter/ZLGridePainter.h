@@ -23,4 +23,11 @@ typedef NS_OPTIONS(NSInteger, ZLGridePaintShowOp) {
 
 @property (nonatomic, assign) ZLGridePaintShowOp paintOp;
 
+- (void)addLongitudeWithPrice:(CGFloat)price positionY:(CGFloat)positionY;
+
+- (void)drawLatitudeLines;
+- (void)drawLongittueLines;
+- (void)drawBorder;
+
+
 @end

@@ -35,21 +35,19 @@
 
 - (void)initDefault {
     [super initDefault];
+    self.backgroundColor = ZLGray(33);
     
     self.paintCore = [[ZLPaintCore alloc] init];
     self.paintCore.paintMainType = GuidePaintMainTypeNone;
-//    self.paintCore.paintAssistType = GuidePaintAssistTypeNone;
     self.paintCore.paintAssistType = GuidePaintAssistTypeKDJ;
-    // todo
-    self.paintCore.portWidth = SCREENWIDTH - 20;
     
     self.mainPaintScene = [[ZLPaintMainScene alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height / 3 * 2)];
     self.mainPaintScene.paintCore = self.paintCore;
-    self.mainPaintScene.degeInsets = UIEdgeInsetsMake(10, 10, 0, 10);
+//    self.mainPaintScene.degeInsets = UIEdgeInsetsMake(10, 0, 0, 0);
     
     self.assistPaintScene = [[ZLPaintAssistScene alloc] initWithFrame:CGRectMake(0, self.height / 3 * 2, self.width, self.height / 3)];
     self.assistPaintScene.paintCore = self.paintCore;
-    self.assistPaintScene.degeInsets = UIEdgeInsetsMake(10, 10, 60, 10);
+//    self.assistPaintScene.degeInsets = UIEdgeInsetsMake(InofrHeightKDJ * SCALE, 0, 30, 0);
     
     [self addSubview:self.mainPaintScene];
     [self addSubview:self.assistPaintScene];
@@ -58,7 +56,7 @@
 - (void)loadData {
     [SVProgressHUD show];
     self.userInteractionEnabled = NO;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [SVProgressHUD dismiss];
         self.userInteractionEnabled = YES;
         self.paintCore.drawDataArray = [ZLQuoteDataCenter shareInstance].hisKLineDataArray;
@@ -129,7 +127,6 @@
 #pragma mark - system
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.paintCore.portWidth = self.width - 20;
 }
 
 @end

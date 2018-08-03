@@ -15,6 +15,8 @@
 
 @interface KLineDemoController ()<NSXMLParserDelegate>
 
+@property (nonatomic, strong) ZLPaintView *paintView;
+
 @end
 
 @implementation KLineDemoController
@@ -23,12 +25,12 @@
     [super viewDidLoad];
     [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
     
-    ZLPaintView *painter = [[ZLPaintView alloc] initWithFrame:CGRectMake(10, NAVBARHEIGHT + 10, SCREENWIDTH - 2 * 10, SCREENHEIGHT - NAVBARHEIGHT - 2 * 10)];
+    self.paintView = [[ZLPaintView alloc] initWithFrame:CGRectMake(10, NAVBARHEIGHT + 10, SCREENWIDTH - 2 * 10, SCREENHEIGHT - NAVBARHEIGHT - 2 * 10)];
 //    [painter draw];
     
-    [self.view addSubview:painter];
+    [self.view addSubview:self.paintView];
+    [self.view bringSubviewToFront:self.paintView];
 }
-
 
 - (NSString *)controllerTitle {
     return @"K线图";

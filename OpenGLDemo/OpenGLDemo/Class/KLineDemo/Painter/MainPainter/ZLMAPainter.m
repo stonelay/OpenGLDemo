@@ -30,7 +30,7 @@
 #pragma mark - override
 - (void)draw {
     [super draw];
-    [self drawMa];
+    [self drawMA];
     [self drawMAInfor];
 }
 
@@ -40,7 +40,7 @@
 // pan
 - (void)panBeganPoint:(CGPoint)point {}
 - (void)panChangedPoint:(CGPoint)point {
-    [self drawMa];
+    [self drawMA];
     [self drawMAInfor];
 }
 - (void)panEndedPoint:(CGPoint)point {}
@@ -48,7 +48,7 @@
 // pinch
 - (void)pinchBeganScale:(CGFloat)scale {}
 - (void)pinchChangedScale:(CGFloat)scale {
-    [self drawMa];
+    [self drawMA];
     [self drawMAInfor];
 }
 - (void)pinchEndedScale:(CGFloat)scale {}
@@ -65,8 +65,9 @@
 }
 
 #pragma mark - draw
-- (void)drawMa {
+- (void)drawMA {
     [self releaseMaLayer];
+    [self p_addSublayer:self.maLayer];
     
     NSMutableArray *dataPacks = [[NSMutableArray alloc] init];
     // safe nill
@@ -87,12 +88,11 @@
         ZLGuideDataPack *dataPack = dataPacks[i];
         [self.maLayer addSublayer:[self getMALayerByDataPack:dataPack higherPrice:sHigherPrice unitValue:unitValue showCount:showCount cellWidth:cellWidth firstCandleX:firstCandleX]];
     }
-    
-    [self p_addSublayer:self.maLayer];
 }
 
 - (void)drawMAInfor {
     [self releaseMaInforLayer];
+    [self p_addSublayer:self.maInforLayer];
     
     NSMutableArray *dataPacks = [[NSMutableArray alloc] init];
     // safe nill
@@ -125,8 +125,6 @@
         
         [self.maInforLayer addSublayer:[self getMaInforByMAParam:(ZLMAParam *)dataPack.param withFrame:frame title:title]];
     }
-    
-    [self p_addSublayer:self.maInforLayer];
 }
 
 #pragma mark - release
