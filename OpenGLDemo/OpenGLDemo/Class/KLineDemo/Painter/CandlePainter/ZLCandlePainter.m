@@ -14,7 +14,7 @@
 #define UpColor         ZLHEXCOLOR(0xDC143C)
 #define DownColor       ZLHEXCOLOR(0x47D3D1)
 #define NormalColor     ZLHEXCOLOR(0xFAFAD2)
-#define CrossColor      ZLHEXCOLOR(0x333333)
+#define CrossColor      ZLHEXCOLOR(0xbebebe)
 
 @interface ZLCandlePainter() {
     UIColor *_uColor; // 涨

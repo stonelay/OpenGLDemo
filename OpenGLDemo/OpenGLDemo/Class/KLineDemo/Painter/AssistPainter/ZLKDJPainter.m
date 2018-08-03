@@ -17,6 +17,7 @@
 
 @property (nonatomic, strong) CAShapeLayer *kdjLayer;
 @property (nonatomic, strong) CAShapeLayer *kdjInforLayer;
+@property (nonatomic, strong) CAShapeLayer *trackingCrosslayer;
 
 @property (nonatomic, strong) CATextLayer *kdjSublayer;
 @property (nonatomic, strong) CATextLayer *kSublayer;

@@ -127,6 +127,7 @@
 		48D3C02F2113F5A0004A04D2 /* ZLGridePainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D3C02E2113F5A0004A04D2 /* ZLGridePainter.m */; };
 		48D3C0322113F5EB004A04D2 /* LZCandleGridePainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D3C0312113F5EB004A04D2 /* LZCandleGridePainter.m */; };
 		48D3C03521143E97004A04D2 /* ZLKDJGridePainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D3C03421143E97004A04D2 /* ZLKDJGridePainter.m */; };
+		48D3C03821146559004A04D2 /* ZLRSIPainter.m in Sources */ = {isa = PBXBuildFile; fileRef = 48D3C03721146559004A04D2 /* ZLRSIPainter.m */; };
 		48E90900203E92BD002CBCAC /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908F9203E92BC002CBCAC /* libavutil.a */; };
 		48E90901203E92BD002CBCAC /* libavfilter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908FA203E92BC002CBCAC /* libavfilter.a */; };
 		48E90902203E92BD002CBCAC /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48E908FB203E92BC002CBCAC /* libavcodec.a */; };
@@ -367,6 +368,8 @@
 		48D3C0312113F5EB004A04D2 /* LZCandleGridePainter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LZCandleGridePainter.m; sourceTree = "<group>"; };
 		48D3C03321143E97004A04D2 /* ZLKDJGridePainter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLKDJGridePainter.h; sourceTree = "<group>"; };
 		48D3C03421143E97004A04D2 /* ZLKDJGridePainter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLKDJGridePainter.m; sourceTree = "<group>"; };
+		48D3C03621146559004A04D2 /* ZLRSIPainter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLRSIPainter.h; sourceTree = "<group>"; };
+		48D3C03721146559004A04D2 /* ZLRSIPainter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLRSIPainter.m; sourceTree = "<group>"; };
 		48E90885203E92BC002CBCAC /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		48E90886203E92BC002CBCAC /* buffersrc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffersrc.h; sourceTree = "<group>"; };
 		48E90887203E92BC002CBCAC /* buffersink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffersink.h; sourceTree = "<group>"; };
@@ -664,6 +667,8 @@
 				48D3C02B21130FBF004A04D2 /* ZLKDJPainter.m */,
 				48D3C03321143E97004A04D2 /* ZLKDJGridePainter.h */,
 				48D3C03421143E97004A04D2 /* ZLKDJGridePainter.m */,
+				48D3C03621146559004A04D2 /* ZLRSIPainter.h */,
+				48D3C03721146559004A04D2 /* ZLRSIPainter.m */,
 			);
 			path = AssistPainter;
 			sourceTree = "<group>";
@@ -1477,6 +1482,7 @@
 				48CB620B2015BAF200B665CC /* GLRender02View.m in Sources */,
 				48D3C01F2112FA8E004A04D2 /* ZLKDJParam.m in Sources */,
 				488E5EFE21105C8A004DF479 /* ZLGuideDataPack.m in Sources */,
+				48D3C03821146559004A04D2 /* ZLRSIPainter.m in Sources */,
 				48CB61F820106A5400B665CC /* GLRender01View.m in Sources */,
 				48CB61E42010516400B665CC /* UIView+ZLEX.m in Sources */,
 				488E5EF121105C8A004DF479 /* MockServer.m in Sources */,
