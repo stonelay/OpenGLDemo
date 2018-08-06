@@ -10,14 +10,12 @@
 
 @interface ZLKDJParam : ZLGuideParam
 
-@property (nonatomic, assign) CGFloat kdjPeriod_N;  // kdj n  9
-@property (nonatomic, assign) CGFloat kdjPeriod_M1; // kdj m1 3
-@property (nonatomic, assign) CGFloat kdjPeriod_M2; // kdj m2 3
+@property (nonatomic, assign) CGFloat kdjPeriod_N;  // kdj default n  9
+@property (nonatomic, assign) CGFloat kdjPeriod_M1; // kdj default m1 3
+@property (nonatomic, assign) CGFloat kdjPeriod_M2; // kdj default m2 3
 
 @property (nonatomic, strong) UIColor *kColor;
 @property (nonatomic, strong) UIColor *dColor;
 @property (nonatomic, strong) UIColor *jColor;
-
-//- (UIColor *)colorWithDataName:(ZLGuideDataName)dataName;
 
 @end

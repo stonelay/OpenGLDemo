@@ -9,11 +9,13 @@
 #import "ZLPaintAssistScene.h"
 
 #import "ZLKDJGridePainter.h"
+#import "ZLRSIGridePainter.h"
+
 #import "ZLKDJPainter.h"
+#import "ZLRSIPainter.h"
+
 #import "ZLQuoteDataCenter.h"
-
 #import "KLineModel.h"
-
 #import "ZLGuideDataType.h"
 #import "ZLPaintCore.h"
 
@@ -21,7 +23,7 @@
 
 @interface ZLPaintAssistScene()<PaintViewDelegate, PaintViewDataSource>
 
-@property (nonatomic, strong) NSDictionary *gridePainter;   // <key, gride painter>
+@property (nonatomic, strong) NSDictionary *gridePainters;   // <key, gride painter>
 @property (nonatomic, strong) NSDictionary *assistPainters; // <key, painter>
 
 @end
@@ -38,13 +40,19 @@
         kdjPainter.delegate = self;
         [tDic setObject:kdjPainter forKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
         
+        // KDJ
+        ZLBasePainter *rsiPainter = [[ZLRSIPainter alloc] initWithPaintView:self];
+        rsiPainter.dataSource = self;
+        rsiPainter.delegate = self;
+        [tDic setObject:rsiPainter forKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeRSI]];
+        
         _assistPainters = [tDic copy];
     }
     return _assistPainters;
 }
 
-- (NSDictionary *)gridePainter {
-    if (!_gridePainter) {
+- (NSDictionary *)gridePainters {
+    if (!_gridePainters) {
         NSMutableDictionary *tDic = [[NSMutableDictionary alloc] init];
         
         // KDJ
@@ -54,9 +62,16 @@
         kdjGridePainter.delegate = self;
         [tDic setObject:kdjGridePainter forKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
         
-        _gridePainter = [tDic copy];
+        // RSI
+        ZLGridePainter *rsiGridePainter = [[ZLRSIGridePainter alloc] initWithPaintView:self];
+        rsiGridePainter.paintOp = ZLGridePaintShowAll;
+        rsiGridePainter.dataSource = self;
+        rsiGridePainter.delegate = self;
+        [tDic setObject:rsiGridePainter forKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeRSI]];
+        
+        _gridePainters = [tDic copy];
     }
-    return _gridePainter;
+    return _gridePainters;
 }
 
 - (void)draw {
@@ -101,6 +116,10 @@
 
 - (ZLGuideDataPack *)kdjDataPackInPainter:(ZLBasePainter *)painter {
     return [self.paintCore getKDJDataPack];
+}
+
+- (ZLGuideDataPack *)rsiDataPackInPainter:(ZLBasePainter *)painter {
+    return [self.paintCore getRSIDataPack];
 }
 
 #pragma mark - assist paitview delegate
@@ -182,7 +201,15 @@
         ZLBasePainter *assistPainter = [self.assistPainters objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
         if (assistPainter) { [assistPainter performSelector:methodName withObject:data]; }
         
-        ZLBasePainter *gridePainter = [self.gridePainter objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
+        ZLBasePainter *gridePainter = [self.gridePainters objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
+        if (gridePainter) { [gridePainter performSelector:methodName withObject:data]; }
+    }
+    
+    if (self.paintCore.paintAssistType & GuidePaintAssistTypeRSI) {
+        ZLBasePainter *assistPainter = [self.assistPainters objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeRSI]];
+        if (assistPainter) { [assistPainter performSelector:methodName withObject:data]; }
+        
+        ZLBasePainter *gridePainter = [self.gridePainters objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeRSI]];
         if (gridePainter) { [gridePainter performSelector:methodName withObject:data]; }
     }
     
@@ -192,11 +219,21 @@
 }
 
 #pragma mark - private
-
 - (void)tapNextAssistType {
     if (self.paintCore.paintAssistType & GuidePaintAssistTypeKDJ) {
         ZLBasePainter *assistPainter = [self.assistPainters objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
         [assistPainter clear];
+        
+        ZLBasePainter *gridePainter = [self.gridePainters objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeKDJ]];
+        [gridePainter clear];
+    }
+    
+    if (self.paintCore.paintAssistType & GuidePaintAssistTypeRSI) {
+        ZLBasePainter *assistPainter = [self.assistPainters objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeRSI]];
+        [assistPainter clear];
+        
+        ZLBasePainter *gridePainter = [self.gridePainters objectForKey:[ZLGuideDataType getNameByPaintAssistType:GuidePaintAssistTypeRSI]];
+        [gridePainter clear];
     }
     
     self.paintCore.paintAssistType = [ZLGuideDataType getNextAssistType:self.paintCore.paintAssistType];
@@ -204,6 +241,12 @@
     if (self.paintCore.paintAssistType & GuidePaintAssistTypeKDJ) {
         UIEdgeInsets dege = self.degeInsets;
         dege.top = getAssistInforHeight(GuidePaintAssistTypeKDJ);
+        self.degeInsets = dege;
+    }
+    
+    if (self.paintCore.paintAssistType & GuidePaintAssistTypeRSI) {
+        UIEdgeInsets dege = self.degeInsets;
+        dege.top = getAssistInforHeight(GuidePaintAssistTypeRSI);
         self.degeInsets = dege;
     }
 }

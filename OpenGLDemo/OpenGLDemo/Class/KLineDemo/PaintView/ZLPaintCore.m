@@ -15,6 +15,7 @@
 #import "ZLMAParam.h"
 #import "ZLBOLLParam.h"
 #import "ZLKDJParam.h"
+#import "ZLRSIParam.h"
 
 #define UninitializedIndex   -1
 
@@ -165,6 +166,12 @@
         self.aLowerValue = MIN(maximum.min, self.aLowerValue);
     }
     
+    if (self.paintAssistType & GuidePaintAssistTypeRSI) {
+        SMaximum *maximum = [self.guideManager getRSIMaximunWithRange:NSMakeRange(self.curIndex, self.showCount)];
+        self.aHigherValue = MAX(maximum.max, self.aHigherValue);
+        self.aLowerValue = MIN(maximum.min, self.aLowerValue);
+    }
+    
     // 预留屏幕上下空隙
     self.aLowerValue *= kLScale;
     self.aHigherValue *= kHScale;
@@ -251,6 +258,19 @@
     }
     
     ZLKDJParam *param = (ZLKDJParam *)oDataPack.param;
+    ZLGuideDataPack *tDataPack = [[ZLGuideDataPack alloc] initWithParams:param];
+    
+    tDataPack.dataArray = [oDataPack.dataArray subarrayWithRange:NSMakeRange(self.curIndex, self.showCount)];
+    return tDataPack;
+}
+
+- (ZLGuideDataPack *)getRSIDataPack {
+    ZLGuideDataPack *oDataPack = [self.guideManager getRSIDataPack];
+    if (!oDataPack) {
+        return nil;
+    }
+    
+    ZLRSIParam *param = (ZLRSIParam *)oDataPack.param;
     ZLGuideDataPack *tDataPack = [[ZLGuideDataPack alloc] initWithParams:param];
     
     tDataPack.dataArray = [oDataPack.dataArray subarrayWithRange:NSMakeRange(self.curIndex, self.showCount)];

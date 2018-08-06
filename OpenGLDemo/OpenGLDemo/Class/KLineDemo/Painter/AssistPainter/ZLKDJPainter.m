@@ -119,10 +119,10 @@
     self.jSublayer.foregroundColor = kdjParam.jColor.CGColor;
     self.jSublayer.frame = CGRectMake(self.dSublayer.right + 10, 1 - self.p_top, jSize.width, jSize.height);
 
-    [self.kdjLayer addSublayer:self.kdjSublayer];
-    [self.kdjLayer addSublayer:self.kSublayer];
-    [self.kdjLayer addSublayer:self.dSublayer];
-    [self.kdjLayer addSublayer:self.jSublayer];
+    [self.kdjInforLayer addSublayer:self.kdjSublayer];
+    [self.kdjInforLayer addSublayer:self.kSublayer];
+    [self.kdjInforLayer addSublayer:self.dSublayer];
+    [self.kdjInforLayer addSublayer:self.jSublayer];
 }
 
 #pragma mark - release
@@ -265,17 +265,14 @@
     CAShapeLayer *kdjLayer = [CAShapeLayer layer];
     kdjLayer.frame = self.p_bounds;
 
-    kLayer.strokeColor = kdjParams.kColor.CGColor;
     kLayer.path = kPath.CGPath;
     [kPath removeAllPoints];
     [kdjLayer addSublayer:kLayer];
 
-    dLayer.strokeColor = kdjParams.dColor.CGColor;
     dLayer.path = dPath.CGPath;
     [dPath removeAllPoints];
     [kdjLayer addSublayer:dLayer];
 
-    jLayer.strokeColor = kdjParams.jColor.CGColor;
     jLayer.path = jPath.CGPath;
     [jPath removeAllPoints];
     [kdjLayer addSublayer:jLayer];

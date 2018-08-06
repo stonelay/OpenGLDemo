@@ -65,6 +65,7 @@ typedef NS_OPTIONS(NSInteger, GuidePaintMainType) {
 typedef NS_OPTIONS(NSInteger, GuidePaintAssistType) {
     GuidePaintAssistTypeNone    = 0,
     GuidePaintAssistTypeKDJ     = 1 << 0,
+    GuidePaintAssistTypeRSI     = 1 << 1,
     //
 };
 

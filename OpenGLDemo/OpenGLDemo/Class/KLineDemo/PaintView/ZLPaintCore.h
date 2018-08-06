@@ -12,6 +12,7 @@
 
 static const CGFloat InforHeightNONE    = 10;
 static const CGFloat InforHeightKDJ     = 40;
+static const CGFloat InforHeightRSI     = 40;
 static const CGFloat InforHeightBOLL    = 40;
 static const CGFloat InforHeightMA      = 60;
 
@@ -37,6 +38,9 @@ static CGFloat inline getAssistInforHeight(GuidePaintAssistType assistType){
         case GuidePaintAssistTypeKDJ:
             return InforHeightKDJ * SCALE;
             break;
+        case GuidePaintAssistTypeRSI:
+            return InforHeightRSI * SCALE;
+            break;
         default:
             break;
     }
@@ -47,7 +51,6 @@ static CGFloat inline getAssistInforHeight(GuidePaintAssistType assistType){
  计算绘图数据, 不涉及具体的位置, 只和价格有关
 */
 @interface ZLPaintCore : NSObject
-
 
 // ------ scene base ------ //
 @property (nonatomic, assign, readonly) CGFloat sHigherPrice;   // 当前屏幕最高价
@@ -91,5 +94,6 @@ static CGFloat inline getAssistInforHeight(GuidePaintAssistType assistType){
 - (ZLGuideDataPack *)getMADataPackByKey:(NSString *)key;
 - (ZLGuideDataPack *)getBOLLDataPack;
 - (ZLGuideDataPack *)getKDJDataPack;
+- (ZLGuideDataPack *)getRSIDataPack;
 
 @end

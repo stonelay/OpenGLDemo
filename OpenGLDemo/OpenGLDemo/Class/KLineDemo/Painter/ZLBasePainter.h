@@ -97,6 +97,7 @@ static CGFloat inline candleLeftAdge(CGFloat cellWidth) {
 
 // assist guide
 - (ZLGuideDataPack *)kdjDataPackInPainter:(ZLBasePainter *)painter; // kdj
+- (ZLGuideDataPack *)rsiDataPackInPainter:(ZLBasePainter *)painter; // rsi
 
 @end
 
