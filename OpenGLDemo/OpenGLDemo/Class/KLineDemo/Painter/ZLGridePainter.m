@@ -10,6 +10,7 @@
 
 #define BorderStrokeColor       ZLHEXCOLOR(0xB22222)
 #define AxisStrokeColor         ZLHEXCOLOR(0xA52A2A)
+#define CrossColor              ZLHEXCOLOR(0xbebebe)
 
 #define LongitudeTitleFontSize  12
 #define LatitudeTitleFontSize   10
@@ -20,6 +21,8 @@
 #define LatitudeTitleColor      ZLGray(99)
 
 @interface ZLGridePainter()
+
+@property (nonatomic, strong) CAShapeLayer *trackingCrosslayer;// 十字线
 
 @property (nonatomic, strong) CAShapeLayer *borderShapeLayer;
 @property (nonatomic, strong) CAShapeLayer *xAxisShapeLayer;
@@ -65,9 +68,17 @@
 - (void)pinchEndedScale:(CGFloat)scale {}
 
 // longPress
-- (void)longPressBeganLocation:(CGPoint)location {}
-- (void)longPressChangedLocation:(CGPoint)location {}
-- (void)longPressEndedLocation:(CGPoint)location {}
+- (void)longPressBeganLocation:(CGPoint)location {
+    [self drawTrackingCross];
+}
+
+- (void)longPressChangedLocation:(CGPoint)location {
+    [self drawTrackingCross];
+}
+
+- (void)longPressEndedLocation:(CGPoint)location {
+    [self releaseTrackingCrossLayer];
+}
 
 #pragma mark - draw
 - (void)drawBorder {
@@ -147,6 +158,11 @@
     [self p_addSublayer:self.longitudeLayer];
 }
 
+- (void)drawTrackingCross {
+    [self releaseTrackingCrossLayer];
+    [self p_addSublayer:self.trackingCrosslayer];
+}
+
 #pragma mark - release
 - (void)releaseBorderShapeLayer{
     if (_borderShapeLayer) {
@@ -173,6 +189,13 @@
     if (_latitudeLayer) {
         [_latitudeLayer removeFromSuperlayer];
         _latitudeLayer = nil;
+    }
+}
+
+- (void)releaseTrackingCrossLayer {
+    if (_trackingCrosslayer) {
+        [_trackingCrosslayer removeFromSuperlayer];
+        _trackingCrosslayer = nil;
     }
 }
 
@@ -217,6 +240,14 @@
         _latitudeLayer.lineWidth = LINEWIDTH;
     }
     return _latitudeLayer;
+}
+
+- (CAShapeLayer *)trackingCrosslayer {
+    if (!_trackingCrosslayer) {
+        _trackingCrosslayer = [CAShapeLayer layer];
+        _trackingCrosslayer.frame = self.p_frame;
+    }
+    return _trackingCrosslayer;
 }
 
 #pragma mark - sublayers
@@ -306,11 +337,59 @@
     }
 }
 
+- (void)addTrackingCrossLayerWithCrossPoint:(CGPoint)crossPoint edgeInsets:(UIEdgeInsets)edgeInsets {
+    if (CGPointEqualToPoint(crossPoint, CGPointZero)) {
+        return;
+    }
+    UIBezierPath *crossPath = [UIBezierPath bezierPath];
+    crossPath.lineCapStyle = kCGLineCapRound;
+    crossPath.lineJoinStyle = kCGLineCapRound;
+    
+    if (UIEdgeInsetsEqualToEdgeInsets(edgeInsets, UIEdgeInsetsZero)) {
+        [crossPath moveToPoint:CGPointMake(crossPoint.x, 0)];
+        [crossPath addLineToPoint:CGPointMake(crossPoint.x, self.p_height)];
+    } else {
+        NSLog(@"%f,%f", edgeInsets.top, edgeInsets.bottom);
+        CGFloat edge = (edgeInsets.left + edgeInsets.right) / 2;
+        
+        CGFloat top = crossPoint.y - edgeInsets.top - edge;
+        CGFloat bottom = crossPoint.y + edgeInsets.bottom + edge;
+        CGFloat left = crossPoint.x - edgeInsets.left - edge;
+        CGFloat right = crossPoint.x + edgeInsets.right + edge;
+        CGFloat crossY = crossPoint.y;
+        CGFloat crossX = crossPoint.x;
+        
+        // xCross
+        [crossPath moveToPoint:CGPointMake(0, crossY)];
+        [crossPath addLineToPoint:CGPointMake(left, crossY)];
+        [crossPath moveToPoint:CGPointMake(right, crossY)];
+        [crossPath addLineToPoint:CGPointMake(self.p_width, crossY)];
+        
+        // yCross
+        [crossPath moveToPoint:CGPointMake(crossX, 0)];
+        [crossPath addLineToPoint:CGPointMake(crossX, top)];
+        [crossPath moveToPoint:CGPointMake(crossX, bottom)];
+        [crossPath addLineToPoint:CGPointMake(crossX, self.p_height)];
+    }
+    
+    
+    CAShapeLayer *crossCAShapeLayer = [CAShapeLayer layer];
+    crossCAShapeLayer.frame = self.p_bounds;
+    crossCAShapeLayer.strokeColor = CrossColor.CGColor;
+    
+    crossCAShapeLayer.path = crossPath.CGPath;
+    
+    [crossPath removeAllPoints];
+    
+    [self.trackingCrosslayer addSublayer:crossCAShapeLayer];
+}
+
 - (void)p_clear {
     [self releaseBorderShapeLayer];
     [self releaseXAxisShapeLayer];
     [self releaseLatitudeLayer];
     [self releaseLongitudeLayer];
+    [self releaseTrackingCrossLayer];
 }
 
 

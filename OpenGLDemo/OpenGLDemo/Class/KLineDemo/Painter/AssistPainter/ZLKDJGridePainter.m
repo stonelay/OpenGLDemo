@@ -48,4 +48,16 @@
 //    [self addLongitudeWithPrice:curLowerValue positionY:lowerY];
 }
 
+- (void)drawTrackingCross {
+    [super drawTrackingCross];
+    CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
+    NSInteger crossIndex = [self.dataSource longPressIndexInPainter:self];
+    CGFloat firstCandleX = [self.dataSource firstCandleXInPainter:self];
+    CGFloat leftX = firstCandleX + cellWidth * crossIndex;
+    
+    leftX += candleLeftAdge(cellWidth);
+    CGPoint pPoint = CGPointMake(leftX + candleWidth(cellWidth) / 2, 0);
+    [self addTrackingCrossLayerWithCrossPoint:pPoint edgeInsets:UIEdgeInsetsZero];
+}
+
 @end

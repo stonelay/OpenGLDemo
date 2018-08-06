@@ -42,4 +42,29 @@
     [self addLongitudeWithPrice:curLowerPrice positionY:lowerY];
 }
 
+- (void)drawTrackingCross {
+    [super drawTrackingCross];
+    CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
+    NSInteger crossIndex = [self.dataSource longPressIndexInPainter:self];
+    CGFloat firstCandleX = [self.dataSource firstCandleXInPainter:self];
+    CGFloat leftX = firstCandleX + cellWidth * crossIndex;
+    
+    KLineModel *model = [self.dataSource painter:self dataAtIndex:crossIndex];
+    CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
+    CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
+    
+    CGFloat openY   = (sHigherPrice - model.open) / unitValue;
+    CGFloat highY   = (sHigherPrice - model.high) / unitValue;
+    CGFloat lowY    = (sHigherPrice - model.low) / unitValue;
+    //        CGFloat closeY  = (sHigherPrice - model.close) / unitValue;
+    
+    leftX += candleLeftAdge(cellWidth);
+    CGPoint pPoint = CGPointMake(leftX + candleWidth(cellWidth) / 2, openY);
+    UIEdgeInsets pEdgeInsets = UIEdgeInsetsMake(openY - highY, candleWidth(cellWidth) / 2, lowY - openY, candleWidth(cellWidth) / 2);
+    [self addTrackingCrossLayerWithCrossPoint:pPoint edgeInsets:pEdgeInsets];
+}
+
+#pragma mark - private
+
+
 @end

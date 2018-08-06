@@ -24,10 +24,11 @@ typedef NS_OPTIONS(NSInteger, ZLGridePaintShowOp) {
 @property (nonatomic, assign) ZLGridePaintShowOp paintOp;
 
 - (void)addLongitudeWithPrice:(CGFloat)price positionY:(CGFloat)positionY;
+- (void)addTrackingCrossLayerWithCrossPoint:(CGPoint)crossPoint edgeInsets:(UIEdgeInsets)edgeInsets;
 
 - (void)drawLatitudeLines;
 - (void)drawLongittueLines;
 - (void)drawBorder;
-
+- (void)drawTrackingCross;
 
 @end
