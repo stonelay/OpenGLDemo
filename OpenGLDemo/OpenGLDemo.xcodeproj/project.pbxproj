@@ -869,6 +869,7 @@
 		48CB61B92010516400B665CC /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				48CB61BC2010516400B665CC /* Safe */,
 				48CB61DA2010516400B665CC /* AppMacro.h */,
 				48CB61DB2010516400B665CC /* CALayer+ZLEX.h */,
 				48CB61D12010516400B665CC /* CALayer+ZLEX.m */,
@@ -876,8 +877,6 @@
 				48CB61CC2010516400B665CC /* NSObject+ZLEX.m */,
 				48CB61DC2010516400B665CC /* NSString+ZLEX.h */,
 				48CB61D02010516400B665CC /* NSString+ZLEX.m */,
-				48CB61D52010516400B665CC /* Object */,
-				48CB61BC2010516400B665CC /* Safe */,
 				48CB61DD2010516400B665CC /* ScreenAuotoSizeScale.h */,
 				48CB61CF2010516400B665CC /* ScreenAuotoSizeScale.m */,
 				48CB61CE2010516400B665CC /* ScreenMacro.h */,
@@ -914,13 +913,6 @@
 				48CB61C92010516400B665CC /* NSArray+Safe.m */,
 			);
 			path = Safe;
-			sourceTree = "<group>";
-		};
-		48CB61D52010516400B665CC /* Object */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Object;
 			sourceTree = "<group>";
 		};
 		48CB61EF201052BB00B665CC /* OpenGLDemo */ = {

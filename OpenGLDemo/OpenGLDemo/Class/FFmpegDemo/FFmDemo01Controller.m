@@ -24,7 +24,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view = [[GLRender15View alloc] init];
-    [self createNavBarWithTitle:@"ffmdemo01" withLeft:[UIImage imageNamed:@"icon_back"]];
 //    [self decode];
     
     
