@@ -21,7 +21,6 @@
     [super viewDidLoad];
     
     self.view = [[GLRender16View alloc] init];
-    [self createNavBarWithTitle:@"Demo15" withLeft:[UIImage imageNamed:@"icon_back"]];
     GLRender16View *view = (GLRender16View *)self.view;
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"176x144_yuv420p" ofType:@"yuv"];

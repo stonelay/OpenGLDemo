@@ -20,7 +20,6 @@
     [super viewDidLoad];
     
     self.view = [[GLRender15View alloc] init];
-    [self createNavBarWithTitle:@"Demo15" withLeft:[UIImage imageNamed:@"icon_back"]];
     GLRender15View *view = (GLRender15View *)self.view;
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"176x144_yuv420p" ofType:@"yuv"];

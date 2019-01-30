@@ -10,7 +10,7 @@
 
 #import "ZLMAParam.h"
 #import "KLineModel.h"
-#import "ZLGuideModel.h"
+#import "ZLGuideMAModel.h"
 
 NSString * const MA_Type_SMA  = @"SMA"; // 简单移动平均线
 NSString * const MA_Type_EMA  = @"EMA"; // 加权移动平均线
@@ -63,10 +63,10 @@ NSString * const MA_Type_WMA  = @"WMA"; // 指数平滑移动平均线
     
     for(int i = 0;i < chartDataArray.count;i++) {
         if (i < period - 1) {
-            ZLGuideModel *model = [[ZLGuideModel alloc] initWithId:MA_Type_SMA];
-            model.cycle = period;
+            ZLGuideMAModel *model = [[ZLGuideMAModel alloc] init];
+            model.period = period;
             model.data = 0;
-            model.needDraw = NO;
+            model.isNeedDraw = NO;
             
             KLineModel *pModel = [chartDataArray objectAtIndex:i];
             ma += pModel.close;
@@ -78,8 +78,8 @@ NSString * const MA_Type_WMA  = @"WMA"; // 指数平滑移动平均线
             KLineModel *pModel = [chartDataArray objectAtIndex:i];
             ma += pModel.close;
             
-            ZLGuideModel *model = [[ZLGuideModel alloc] initWithId:MA_Type_SMA];
-            model.cycle = period;
+            ZLGuideMAModel *model = [[ZLGuideMAModel alloc] init];
+            model.period = period;
             model.data = ma / (double)period;
             [tArray addObject:model];
             continue;
@@ -89,9 +89,10 @@ NSString * const MA_Type_WMA  = @"WMA"; // 指数平滑移动平均线
         KLineModel *oModel = [chartDataArray objectAtIndex:i - period];
         ma = ma - oModel.close + nModel.close;
         
-        ZLGuideModel *model = [[ZLGuideModel alloc] initWithId:MA_Type_SMA];
-        model.cycle = period;
+        ZLGuideMAModel *model = [[ZLGuideMAModel alloc] init];
+        model.period = period;
         model.data = ma / (double)period;
+        model.isNeedDraw = YES;
         
         [tArray addObject:model];
     }

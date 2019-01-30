@@ -11,6 +11,7 @@
 
 #ifdef __OBJC__
 #import "ZLPreMacro.h"
+#import "ScreenMacro.h"
 #endif
 
 #endif /* PrefixHeader_pch */

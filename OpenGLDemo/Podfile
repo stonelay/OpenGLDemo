@@ -12,6 +12,8 @@ target 'OpenGLDemo' do
 
     pod 'GPUImage'
     pod 'BlocksKit'
+    pod 'SVProgressHUD'
 #    pod 'LFLiveKit'
+
 
 end

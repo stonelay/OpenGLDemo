@@ -8,14 +8,22 @@
 
 #import "ZLBOLLPainter.h"
 
-#import "ZLGuideModel.h"
+#import "ZLGuideBOLLModel.h"
 #import "ZLBOLLParam.h"
 
 #import "ZLGuideDataType.h"
 
+#define BOLLTitleFontSize 12
+
 @interface ZLBOLLPainter()
 
 @property (nonatomic, strong) CAShapeLayer *bollLayer;
+@property (nonatomic, strong) CAShapeLayer *bollInforLayer;
+
+@property (nonatomic, strong) CATextLayer *bollSublayer;
+@property (nonatomic, strong) CATextLayer *mSublayer;
+@property (nonatomic, strong) CATextLayer *tSublayer;
+@property (nonatomic, strong) CATextLayer *bSublayer;
 
 @end
 
@@ -28,7 +36,8 @@
 #pragma mark - override
 - (void)draw {
     [super draw];
-    [self drawBoll];
+    [self drawBOLL];
+    [self drawBOLLInfor];
 }
 
 // tap
@@ -37,41 +46,101 @@
 // pan
 - (void)panBeganPoint:(CGPoint)point {}
 - (void)panChangedPoint:(CGPoint)point {
-    [self drawBoll];
+    [self drawBOLL];
+    [self drawBOLLInfor];
 }
 - (void)panEndedPoint:(CGPoint)point {}
 
 // pinch
 - (void)pinchBeganScale:(CGFloat)scale {}
 - (void)pinchChangedScale:(CGFloat)scale {
-    [self drawBoll];
+    [self drawBOLL];
+    [self drawBOLLInfor];
 }
 - (void)pinchEndedScale:(CGFloat)scale {}
 
 // longPress
-- (void)longPressBeganLocation:(CGPoint)location {}
-- (void)longPressChangedLocation:(CGPoint)location {}
-- (void)longPressEndedLocation:(CGPoint)location {}
+- (void)longPressBeganLocation:(CGPoint)location {
+    [self drawBOLLInfor];
+}
+- (void)longPressChangedLocation:(CGPoint)location {
+    [self drawBOLLInfor];
+}
+- (void)longPressEndedLocation:(CGPoint)location {
+    [self drawBOLLInfor];
+}
 
 #pragma mark - draw
-- (void)drawBoll {
-    [self releaseBollLayer];
+- (void)drawBOLL {
+    [self releaseBOLLLayer];
     
     ZLGuideDataPack *dataPack = [self.dataSource bollDataPackInPainter:self];
     if (!dataPack) {
         return;
     }
-    [self.bollLayer addSublayer:[self getBollByDataPack:dataPack]];
-    [self.bollLayer addSublayer:[self getBollBandByDataPack:dataPack]];
+    [self.bollLayer addSublayer:[self getBOLLByDataPack:dataPack]];
+    [self.bollLayer addSublayer:[self getBOLLBandByDataPack:dataPack]];
     
     [self p_addSublayer:self.bollLayer];
 }
 
+- (void)drawBOLLInfor {
+    [self releaseBOLLInforLayer];
+    
+    ZLGuideDataPack *dataPack = [self.dataSource bollDataPackInPainter:self];
+    if (!dataPack) {
+        return;
+    }
+    
+    NSInteger crossIndex = [self.dataSource longPressIndexInPainter:self];
+    ZLGuideBOLLModel *guideModel = [dataPack.dataArray objectAtIndex:crossIndex];
+    
+    ZLBOLLParam *bollParam = (ZLBOLLParam *)dataPack.param;
+    NSString *bollTitle = [NSString stringWithFormat:@"BOLL(%d, %d)",(int) bollParam.period, (int)bollParam.k];
+    NSString *mTitle = [NSString stringWithFormat:@"M:%.2f", guideModel.midData];
+    NSString *tTitle = [NSString stringWithFormat:@"T:%.2f", guideModel.upData];
+    NSString *bTitle = [NSString stringWithFormat:@"B:%.2f", guideModel.lowData];
+    
+    CGSize bollSize = [bollTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BOLLTitleFontSize)}];
+    self.bollSublayer.string = bollTitle;
+    self.bollSublayer.foregroundColor = bollParam.midColor.CGColor;
+    self.bollSublayer.frame = CGRectMake(2, 1 - self.p_top, bollSize.width, bollSize.height);
+    
+    CGSize mSize = [mTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BOLLTitleFontSize)}];
+    self.mSublayer.string = mTitle;
+    self.mSublayer.foregroundColor = bollParam.midColor.CGColor;
+    self.mSublayer.frame = CGRectMake(self.bollSublayer.right + 10, 1 - self.p_top, mSize.width, mSize.height);
+    
+    CGSize tSize = [tTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BOLLTitleFontSize)}];
+    self.tSublayer.string = tTitle;
+    self.tSublayer.foregroundColor = bollParam.upColor.CGColor;
+    self.tSublayer.frame = CGRectMake(self.mSublayer.right + 10, 1 - self.p_top, tSize.width, tSize.height);
+    
+    CGSize bSize = [bTitle sizeWithAttributes:@{NSFontAttributeName:ZLNormalFont(BOLLTitleFontSize)}];
+    self.bSublayer.string = bTitle;
+    self.bSublayer.foregroundColor = bollParam.lowColor.CGColor;
+    self.bSublayer.frame = CGRectMake(self.tSublayer.right + 10, 1 - self.p_top, bSize.width, bSize.height);
+    
+    [self.bollLayer addSublayer:self.bollSublayer];
+    [self.bollLayer addSublayer:self.tSublayer];
+    [self.bollLayer addSublayer:self.mSublayer];
+    [self.bollLayer addSublayer:self.bSublayer];
+    
+    [self p_addSublayer:self.bollInforLayer];
+}
+
 #pragma mark - release
-- (void)releaseBollLayer{
+- (void)releaseBOLLLayer {
     if (_bollLayer) {
         [_bollLayer removeFromSuperlayer];
         _bollLayer = nil;
+    }
+}
+
+- (void)releaseBOLLInforLayer {
+    if (_bollInforLayer) {
+        [_bollInforLayer removeFromSuperlayer];
+        _bollInforLayer = nil;
     }
 }
 
@@ -86,12 +155,63 @@
     return _bollLayer;
 }
 
-- (CAShapeLayer *)getBollByDataPack:(ZLGuideDataPack *)dataPack {
-    CGFloat sHigherPrice = [self.delegate sHigherInPainter:self];
-    CGFloat unitValue = [self.delegate unitValueInPainter:self];
-    CGFloat showCount = [self.dataSource showNumberInPainter:self];
+- (CAShapeLayer *)bollInforLayer {
+    if (!_bollInforLayer) {
+        _bollInforLayer = [CAShapeLayer layer];
+        _bollInforLayer.frame = self.p_frame;
+        _bollInforLayer.fillColor = ZLClearColor.CGColor;
+        _bollInforLayer.lineWidth = LINEWIDTH;
+    }
+    return _bollInforLayer;
+}
+
+
+- (CATextLayer *)bSublayer {
+    if (!_bSublayer) {
+        _bSublayer = [CATextLayer layer];
+        _bSublayer.contentsScale = [UIScreen mainScreen].scale;
+        _bSublayer.fontSize = BOLLTitleFontSize;
+        _bSublayer.alignmentMode = kCAAlignmentJustified;
+    }
+    return _bSublayer;
+}
+
+- (CATextLayer *)tSublayer {
+    if (!_tSublayer) {
+        _tSublayer = [CATextLayer layer];
+        _tSublayer.contentsScale = [UIScreen mainScreen].scale;
+        _tSublayer.fontSize = BOLLTitleFontSize;
+        _tSublayer.alignmentMode = kCAAlignmentJustified;
+    }
+    return _tSublayer;
+}
+
+- (CATextLayer *)mSublayer {
+    if (!_mSublayer) {
+        _mSublayer = [CATextLayer layer];
+        _mSublayer.contentsScale = [UIScreen mainScreen].scale;
+        _mSublayer.fontSize = BOLLTitleFontSize;
+        _mSublayer.alignmentMode = kCAAlignmentJustified;
+    }
+    return _mSublayer;
+}
+
+- (CATextLayer *)bollSublayer {
+    if (!_bollSublayer) {
+        _bollSublayer = [CATextLayer layer];
+        _bollSublayer.contentsScale = [UIScreen mainScreen].scale;
+        _bollSublayer.fontSize = BOLLTitleFontSize;
+        _bollSublayer.alignmentMode = kCAAlignmentJustified;
+    }
+    return _bollSublayer;
+}
+
+- (CAShapeLayer *)getBOLLByDataPack:(ZLGuideDataPack *)dataPack {
+    CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
+//    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
-    BOOL isShowAll = [self.dataSource isShowAllInPainter:self];
+    CGFloat firstCandleX = [self.dataSource firstCandleXInPainter:self];
     
     NSArray *guideArray = dataPack.dataArray;
     ZLBOLLParam *bollParams = (ZLBOLLParam *)dataPack.param;
@@ -106,33 +226,30 @@
     CAShapeLayer *upLayer = [CAShapeLayer layer];
     upLayer.frame = self.p_bounds;
     upLayer.fillColor = ZLClearColor.CGColor;
-    upLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_UP].CGColor;
+    upLayer.strokeColor = bollParams.upColor.CGColor;
    
     CAShapeLayer *midLayer = [CAShapeLayer layer];
     midLayer.frame = self.p_bounds;
     midLayer.fillColor = ZLClearColor.CGColor;
-    midLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_MID].CGColor;
+    midLayer.strokeColor = bollParams.midColor.CGColor;
     
     CAShapeLayer *lowLayer = [CAShapeLayer layer];
     lowLayer.frame = self.p_bounds;
     lowLayer.fillColor = ZLClearColor.CGColor;
-    lowLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_LOW].CGColor;
+    lowLayer.strokeColor = bollParams.lowColor.CGColor;
     
     BOOL isHead = YES;
     for (int i = 0; i < guideArray.count; i++) {
-        ZLGuideModel *model = guideArray[i];
-        if (!model.needDraw) continue;
+        ZLGuideBOLLModel *model = guideArray[i];
+        if (!model.isNeedDraw) continue;
         
-        CGFloat leftX = cellWidth * i; // 从左往右画 // 计算方式 防止屏幕抖动
-        if (isShowAll) {
-            leftX = self.p_width - (showCount - i) * cellWidth; //从右往左画 当前条数不足 撑满屏幕时
-        }
+        CGFloat leftX = firstCandleX + cellWidth * i;
         leftX += candleLeftAdge(cellWidth);
         leftX += candleWidth(cellWidth) / 2;
         
-        CGFloat upY = (sHigherPrice - [model getDataWithDataName:ZLBOLLDataName_UP]) / unitValue;
-        CGFloat midY = (sHigherPrice - [model getDataWithDataName:ZLBOLLDataName_MID]) / unitValue;
-        CGFloat lowY = (sHigherPrice - [model getDataWithDataName:ZLBOLLDataName_LOW]) / unitValue;
+        CGFloat upY = (sHigherPrice - model.upData) / unitValue;
+        CGFloat midY = (sHigherPrice - model.midData) / unitValue;
+        CGFloat lowY = (sHigherPrice - model.lowData) / unitValue;
         if (isHead) {
             [upPath moveToPoint:CGPointMake(leftX, upY)];
             [midPath moveToPoint:CGPointMake(leftX, midY)];
@@ -148,16 +265,17 @@
     CAShapeLayer *bollLayer = [CAShapeLayer layer];
     bollLayer.frame = self.p_bounds;
     
+    upLayer.strokeColor = bollParams.upColor.CGColor;
     upLayer.path = upPath.CGPath;
     [upPath removeAllPoints];
     [bollLayer addSublayer:upLayer];
     
-    midLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_MID].CGColor;
+    midLayer.strokeColor = bollParams.midColor.CGColor;
     midLayer.path = midPath.CGPath;
     [midPath removeAllPoints];
     [bollLayer addSublayer:midLayer];
     
-    lowLayer.strokeColor = [bollParams colorWithDataName:ZLBOLLDataName_LOW].CGColor;
+    lowLayer.strokeColor = bollParams.lowColor.CGColor;
     lowLayer.path = lowPath.CGPath;
     [lowPath removeAllPoints];
     [bollLayer addSublayer:lowLayer];
@@ -165,12 +283,12 @@
     return bollLayer;
 }
 
-- (CAShapeLayer *)getBollBandByDataPack:(ZLGuideDataPack *)dataPack {
-    CGFloat sHigherPrice = [self.delegate sHigherInPainter:self];
-    CGFloat unitValue = [self.delegate unitValueInPainter:self];
-    CGFloat showCount = [self.dataSource showNumberInPainter:self];
+- (CAShapeLayer *)getBOLLBandByDataPack:(ZLGuideDataPack *)dataPack {
+    CGFloat sHigherPrice = [self.delegate sHigherPriceInPainter:self];
+//    CGFloat unitValue = [self.delegate unitValueInPainter:self];
+    CGFloat unitValue = [self.delegate painter:self sunitByDValue:self.p_height];
     CGFloat cellWidth = [self.delegate cellWidthInPainter:self];
-    BOOL isShowAll = [self.dataSource isShowAllInPainter:self];
+    CGFloat firstCandleX = [self.dataSource firstCandleXInPainter:self];
     
     NSArray *guideArray = dataPack.dataArray;
     ZLBOLLParam *bollParams = (ZLBOLLParam *)dataPack.param;
@@ -187,18 +305,15 @@
     NSMutableArray *tLowArray = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < guideArray.count; i++) {
-        ZLGuideModel *model = guideArray[i];
-        if (!model.needDraw) continue;
+        ZLGuideBOLLModel *model = guideArray[i];
+        if (!model.isNeedDraw) continue;
         
-        CGFloat leftX = cellWidth * i; // 从左往右画 // 计算方式 防止屏幕抖动
-        if (isShowAll) {
-            leftX = self.p_width - (showCount - i) * cellWidth; //从右往左画 当前条数不足 撑满屏幕时
-        }
+        CGFloat leftX = firstCandleX + cellWidth * i;
         leftX += candleLeftAdge(cellWidth);
         leftX += candleWidth(cellWidth) / 2;
         
-        CGFloat upY = (sHigherPrice - [model getDataWithDataName:ZLBOLLDataName_UP]) / unitValue;
-        CGFloat lowY = (sHigherPrice - [model getDataWithDataName:ZLBOLLDataName_LOW]) / unitValue;
+        CGFloat upY = (sHigherPrice - model.upData) / unitValue;
+        CGFloat lowY = (sHigherPrice - model.lowData) / unitValue;
         
         [tUpArray addObject:[NSValue valueWithCGPoint:CGPointMake(leftX, upY)]];
         [tLowArray addObject:[NSValue valueWithCGPoint:CGPointMake(leftX, lowY)]];
@@ -223,7 +338,8 @@
 }
 
 - (void)p_clear {
-    [self releaseBollLayer];
+    [self releaseBOLLLayer];
+    [self releaseBOLLInforLayer];
 }
 
 @end

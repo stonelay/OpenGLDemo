@@ -10,6 +10,7 @@
 
 @interface ZLBasePainter()
 
+@property (nonatomic, assign) UIEdgeInsets screenEdgeInsets;
 @property (nonatomic, weak) UIView *paintView;
 
 @end
@@ -28,10 +29,9 @@
 - (void)draw {
     [self p_haveDataSource];
     [self p_haveDelegate];
+    [self p_havePaintView];
     
     self.screenEdgeInsets = [self.delegate edgeInsetsInPainter:self];
-    
-    [self p_havePaintView];
 }
 
 - (void)clear {
@@ -66,6 +66,12 @@
     [self p_havePaintView];
     return self.paintView.bounds;
 }
+
+- (CGRect)s_frame {
+    [self p_havePaintView];
+    return self.paintView.frame;
+}
+
 
 - (CGFloat)p_left {
     [self p_havePaintView];

@@ -1,12 +1,12 @@
 //
-//  ZLPaintScene.m
+//  ZLPaintCore.m
 //  OpenGLDemo
 //
 //  Created by LayZhang on 2018/7/30.
 //  Copyright © 2018年 Zhanglei. All rights reserved.
 //
 
-#import "ZLPaintScene.h"
+#import "ZLPaintCore.h"
 #import "KLineModel.h"
 #import "ZLBasePainter.h"
 
@@ -14,17 +14,23 @@
 
 #import "ZLMAParam.h"
 #import "ZLBOLLParam.h"
+#import "ZLKDJParam.h"
+#import "ZLRSIParam.h"
 
 #define UninitializedIndex   -1
 
-@interface ZLPaintScene()
+
+@interface ZLPaintCore()
 
 @property (nonatomic, strong) ZLGuideManager *guideManager;
 
 @property (nonatomic, assign) CGFloat sHigherPrice;
 @property (nonatomic, assign) CGFloat sLowerPrice;
 
-@property (nonatomic, assign) CGFloat unitValue;
+@property (nonatomic, assign) CGFloat aHigherValue;
+@property (nonatomic, assign) CGFloat aLowerValue;
+
+//@property (nonatomic, assign) CGFloat unitValue;
 @property (nonatomic, assign) CGFloat kLineCellWidth;    //cell宽度
 
 @property (nonatomic, assign) CGFloat kMinScale;     //最小缩放量
@@ -41,7 +47,7 @@
 
 @end
 
-@implementation ZLPaintScene
+@implementation ZLPaintCore
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -60,10 +66,12 @@
 
 #pragma mark - scene fix
 - (void)prepareDrawWithPoint:(CGPoint)point andScale:(CGFloat)scale {
-    if (CGSizeEqualToSize(self.viewPort, CGSizeZero)) {
-        NSAssert(NO, @"Invalid viewPort is zero.");
-        return;
-    }
+//    if (CGSizeEqualToSize(self.viewPort, CGSizeZero)) {
+//        NSAssert(NO, @"Invalid viewPort is zero.");
+//        return;
+//    }
+    
+    
     if (!self.drawDataArray || self.drawDataArray.count == 0) {
         NSAssert(NO, @"Invalid drawDataArray is nil or count is zero.");
         return;
@@ -73,7 +81,8 @@
     [self fixShowCount];
     [self fixBeginIndexWithPoint:point];
     [self fixShowData];
-    [self fixMaximum];
+    [self fixSMaximum]; // 主技术指标
+    [self fixAMaximum]; // 辅助技术指标
 }
 
 // 计算 缩放比例
@@ -87,7 +96,7 @@
 
 // 计算 要显示几个
 - (void)fixShowCount {
-    NSInteger showCount = [self z_portWidth] / (self.kLineCellWidth * self.curXScale);
+    NSInteger showCount = self.portWidth / (self.kLineCellWidth * self.curXScale);
     self.showCount = MIN(self.arrayMaxCount, showCount);
 }
 
@@ -111,9 +120,9 @@
     self.curShowArray = [self.drawDataArray subarrayWithRange:NSMakeRange(self.curIndex, self.showCount)];
 }
 
-// 计算最高最低 和 单位值
-- (void)fixMaximum {
-    self.sLowerPrice = FLT_MAX;
+// 计算 主技术指标 最高最低 和 单位值
+- (void)fixSMaximum {
+    self.sLowerPrice = INT32_MAX;
     self.sHigherPrice = 0;
     
     for (KLineModel *model in self.curShowArray) {
@@ -133,12 +142,39 @@
         self.sLowerPrice = MIN(maximum.min, self.sLowerPrice);
     }
     
-    // 预留屏幕上下空隙
     self.sLowerPrice *= kLScale;
     self.sHigherPrice *= kHScale;
-    
     // 计算每个点代表的值是多少
-    self.unitValue = (self.sHigherPrice - self.sLowerPrice) / [self z_portHeight];
+//    self.unitValue = (self.sHigherPrice - self.sLowerPrice) / [self z_portHeight];
+}
+
+// 计算辅助技术指标的最高和最低
+- (void)fixAMaximum {
+    // 预留屏幕上下空隙
+    
+    self.aLowerValue = INT32_MAX;
+    self.aHigherValue = 0;
+    
+//    for (KLineModel *model in self.curShowArray) {
+//        self.aHigherValue = MAX(model.high, self.aHigherValue);
+//        self.aLowerValue = MIN(model.low, self.aLowerValue);
+//    }
+    
+    if (self.paintAssistType & GuidePaintAssistTypeKDJ) {
+        SMaximum *maximum = [self.guideManager getKDJMaximunWithRange:NSMakeRange(self.curIndex, self.showCount)];
+        self.aHigherValue = MAX(maximum.max, self.aHigherValue);
+        self.aLowerValue = MIN(maximum.min, self.aLowerValue);
+    }
+    
+    if (self.paintAssistType & GuidePaintAssistTypeRSI) {
+        SMaximum *maximum = [self.guideManager getRSIMaximunWithRange:NSMakeRange(self.curIndex, self.showCount)];
+        self.aHigherValue = MAX(maximum.max, self.aHigherValue);
+        self.aLowerValue = MIN(maximum.min, self.aLowerValue);
+    }
+    
+    // 预留屏幕上下空隙
+    self.aLowerValue *= kLScale;
+    self.aHigherValue *= kHScale;
 }
 
 #pragma mark - property
@@ -152,6 +188,33 @@
 
 - (CGFloat)cellWidth {
     return self.kLineCellWidth * self.curXScale;
+}
+
+- (NSInteger)longPressIndex {
+    if (CGPointEqualToPoint(self.longPressPoint, CGPointZero)) {
+        return self.showCount - 1;
+    }
+    
+    CGFloat cellWidth = self.cellWidth;
+    NSInteger showCount = self.showCount;
+    
+    NSInteger crossIndex = (self.longPressPoint.x - self.firstCandleX) / cellWidth;
+    
+    crossIndex = MAX(crossIndex, 0);
+    crossIndex = MIN(crossIndex, showCount - 1);
+    return crossIndex;
+}
+
+- (CGFloat)firstCandleX {
+    CGFloat cellWidth = self.cellWidth;
+    NSInteger showCount = self.showCount;
+    
+    CGFloat leftX = 0;
+    BOOL isShowAll = self.isShowAll;
+    if (isShowAll) {
+        leftX = self.portWidth - showCount * cellWidth;
+    }
+    return leftX;
 }
 
 - (void)editIndex {self.oriIndex = self.curIndex;}
@@ -188,12 +251,30 @@
     return tDataPack;
 }
 
-- (CGFloat)z_portWidth {
-    return self.viewPort.width - self.edgeInsets.left - self.edgeInsets.right;
+- (ZLGuideDataPack *)getKDJDataPack {
+    ZLGuideDataPack *oDataPack = [self.guideManager getKDJDataPack];
+    if (!oDataPack) {
+        return nil;
+    }
+    
+    ZLKDJParam *param = (ZLKDJParam *)oDataPack.param;
+    ZLGuideDataPack *tDataPack = [[ZLGuideDataPack alloc] initWithParams:param];
+    
+    tDataPack.dataArray = [oDataPack.dataArray subarrayWithRange:NSMakeRange(self.curIndex, self.showCount)];
+    return tDataPack;
 }
 
-- (CGFloat)z_portHeight {
-    return self.viewPort.height - self.edgeInsets.top - self.edgeInsets.bottom;
+- (ZLGuideDataPack *)getRSIDataPack {
+    ZLGuideDataPack *oDataPack = [self.guideManager getRSIDataPack];
+    if (!oDataPack) {
+        return nil;
+    }
+    
+    ZLRSIParam *param = (ZLRSIParam *)oDataPack.param;
+    ZLGuideDataPack *tDataPack = [[ZLGuideDataPack alloc] initWithParams:param];
+    
+    tDataPack.dataArray = [oDataPack.dataArray subarrayWithRange:NSMakeRange(self.curIndex, self.showCount)];
+    return tDataPack;
 }
 
 @end

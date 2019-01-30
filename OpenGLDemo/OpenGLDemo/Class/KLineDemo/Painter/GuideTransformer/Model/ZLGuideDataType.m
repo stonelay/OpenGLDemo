@@ -29,6 +29,9 @@
         case GuidePaintAssistTypeKDJ:
             return kGUIDE_ID_KDJ;
             break;
+        case GuidePaintAssistTypeRSI:
+            return kGUIDE_ID_RSI;
+            break;
             
         default:
             break;
@@ -40,9 +43,11 @@
     // TODO update
     switch (assistType) {
         case GuidePaintAssistTypeKDJ:
+            return GuidePaintAssistTypeRSI;
+            break;
+        case GuidePaintAssistTypeRSI:
             return GuidePaintAssistTypeKDJ;
             break;
-            
         default:
             break;
     }
@@ -52,12 +57,16 @@
 + (GuidePaintMainType)getNextMainType:(GuidePaintMainType)mainType {
     // TODO update
     switch (mainType) {
+        case GuidePaintMainTypeNone:
+            return GuidePaintMainTypeMA;
+            break;
         case GuidePaintMainTypeMA:
             return GuidePaintMainTypeBOLL;
             break;
         case GuidePaintMainTypeBOLL:
-            return GuidePaintMainTypeMA;
+            return GuidePaintMainTypeNone;
             break;
+       
         default:
             break;
     }

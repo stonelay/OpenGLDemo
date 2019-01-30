@@ -8,38 +8,41 @@
 
 #import <Foundation/Foundation.h>
 
+//static NSString *const kGUIDE_MODEL_ID_BOLL  = @"BOLL_DATA";
+//static NSString *const kGUIDE_MODEL_ID_KDJ   = @"KDJ_DATA";
+//
 static NSString *const kGUIDE_ID_NONE   = @"NONE";
 static NSString *const kGUIDE_ID_MA     = @"MA";
 static NSString *const kGUIDE_ID_BOLL   = @"BOLL";
 static NSString *const kGUIDE_ID_RSI    = @"RSI";
 static NSString *const kGUIDE_ID_KDJ    = @"KDJ";
 static NSString *const kGUIDE_ID_MACD   = @"MACD";
-
-typedef NS_ENUM(int, ZLGuideDataName) {
-    ZLMADataName      = 0,
-    ZLMADataName_SMA     ,
-    ZLMADataName_EMA     ,
-    ZLMADataName_WMA     ,
-    
-    ZLBOLLDataName       ,
-    ZLBOLLDataName_UP    ,
-    ZLBOLLDataName_MID   ,
-    ZLBOLLDataName_LOW   ,
-    
-    //    ZLKDJDataName        ,
-    //    ZLKDJDataName_KLine  ,
-    //    ZLKDJDataName_DLine  ,
-    //    ZLKDJDataName_JLine  ,
-    //
-    //    ZLMACDDataName       ,
-    //    ZLMACDDataName_DIF   ,
-    //    ZLMACDDataName_DEA   ,
-    //    ZLMACDDataName_MACD  ,
-    //
-    //    ZLRSIDataName        ,
-    //    ZLRSIDataName_Long   ,
-    //    ZLRSIDataName_Short  ,
-};
+//
+//typedef NS_ENUM(int, ZLGuideDataName) {
+//    ZLMADataName      = 0,
+//    ZLMADataName_SMA     ,
+//    ZLMADataName_EMA     ,
+//    ZLMADataName_WMA     ,
+//    
+//    ZLBOLLDataName       ,
+//    ZLBOLLDataName_UP    ,
+//    ZLBOLLDataName_MID   ,
+//    ZLBOLLDataName_LOW   ,
+//    
+//    ZLKDJDataName        ,
+//    ZLKDJDataName_KLine  ,
+//    ZLKDJDataName_DLine  ,
+//    ZLKDJDataName_JLine  ,
+//    //
+//    //    ZLMACDDataName       ,
+//    //    ZLMACDDataName_DIF   ,
+//    //    ZLMACDDataName_DEA   ,
+//    //    ZLMACDDataName_MACD  ,
+//    //
+//    //    ZLRSIDataName        ,
+//    //    ZLRSIDataName_Long   ,
+//    //    ZLRSIDataName_Short  ,
+//};
 
 
 typedef NS_ENUM(NSInteger, GuidePaintType) {
@@ -62,6 +65,7 @@ typedef NS_OPTIONS(NSInteger, GuidePaintMainType) {
 typedef NS_OPTIONS(NSInteger, GuidePaintAssistType) {
     GuidePaintAssistTypeNone    = 0,
     GuidePaintAssistTypeKDJ     = 1 << 0,
+    GuidePaintAssistTypeRSI     = 1 << 1,
     //
 };
 

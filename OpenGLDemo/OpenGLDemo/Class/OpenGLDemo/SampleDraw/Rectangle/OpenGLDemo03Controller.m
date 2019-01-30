@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view = [[GLRender03View alloc] init];
-    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+    
 }
 
 - (NSString *)controllerTitle {

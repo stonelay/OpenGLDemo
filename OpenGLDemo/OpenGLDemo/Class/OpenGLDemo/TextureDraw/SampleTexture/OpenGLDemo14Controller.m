@@ -19,7 +19,7 @@
     [super viewDidLoad];
 //    self.view = [[GLRender14View alloc] init];
     [self.view addSubview:[[GLRender14View alloc] initWithFrame:CGRectMake(0, 64, SCREENWIDTH, SCREENHEIGHT - 64)]];
-    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+    
 }
 
 - (NSString *)controllerTitle {

@@ -10,21 +10,4 @@
 
 @implementation ZLBOLLParam
 
-- (UIColor *)colorWithDataName:(ZLGuideDataName)dataName {
-    switch (dataName) {
-        case ZLBOLLDataName_UP:
-            return self.upColor;
-            break;
-        case ZLBOLLDataName_MID:
-            return self.midColor;
-            break;
-        case ZLBOLLDataName_LOW:
-            return self.lowColor;
-            break;
-        default:
-            break;
-    }
-    return ZLClearColor;
-}
-
 @end
