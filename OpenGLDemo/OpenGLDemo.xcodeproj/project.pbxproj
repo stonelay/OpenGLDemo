@@ -33,6 +33,9 @@
 		4858C79720B3F48B00C3193A /* shaderTexture15f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 4858C79520B3F48B00C3193A /* shaderTexture15f.glsl */; };
 		4858C79F20B5575A00C3193A /* 176x144_yuv420p.yuv in Resources */ = {isa = PBXBuildFile; fileRef = 4858C79E20B5575A00C3193A /* 176x144_yuv420p.yuv */; };
 		4875CB8C20FDD035003EBED2 /* KLineDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4875CB8B20FDD035003EBED2 /* KLineDemoController.m */; };
+		4877B624220053B3007EB075 /* NSURLProtocolDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4877B623220053B3007EB075 /* NSURLProtocolDemoController.m */; };
+		4877B627220053EF007EB075 /* MyURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 4877B626220053EF007EB075 /* MyURLProtocol.m */; };
+		4877B62A220058B8007EB075 /* CachedURLResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4877B629220058B8007EB075 /* CachedURLResponse.m */; };
 		487CBC3320511C69009ECE7C /* GLRender11View.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC3220511C69009ECE7C /* GLRender11View.m */; };
 		487CBC3A20511ED6009ECE7C /* OpenGLDemo11Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 487CBC3920511ED6009ECE7C /* OpenGLDemo11Controller.m */; };
 		487CBC3D205120D0009ECE7C /* shaderTexture11f.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 487CBC3B205120D0009ECE7C /* shaderTexture11f.glsl */; };
@@ -179,6 +182,12 @@
 		4858C79E20B5575A00C3193A /* 176x144_yuv420p.yuv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 176x144_yuv420p.yuv; sourceTree = "<group>"; };
 		4875CB8A20FDD035003EBED2 /* KLineDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KLineDemoController.h; sourceTree = "<group>"; };
 		4875CB8B20FDD035003EBED2 /* KLineDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KLineDemoController.m; sourceTree = "<group>"; };
+		4877B622220053B3007EB075 /* NSURLProtocolDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSURLProtocolDemoController.h; sourceTree = "<group>"; };
+		4877B623220053B3007EB075 /* NSURLProtocolDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSURLProtocolDemoController.m; sourceTree = "<group>"; };
+		4877B625220053EF007EB075 /* MyURLProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyURLProtocol.h; sourceTree = "<group>"; };
+		4877B626220053EF007EB075 /* MyURLProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyURLProtocol.m; sourceTree = "<group>"; };
+		4877B628220058B8007EB075 /* CachedURLResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CachedURLResponse.h; sourceTree = "<group>"; };
+		4877B629220058B8007EB075 /* CachedURLResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CachedURLResponse.m; sourceTree = "<group>"; };
 		487CBC3120511C69009ECE7C /* GLRender11View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRender11View.h; sourceTree = "<group>"; };
 		487CBC3220511C69009ECE7C /* GLRender11View.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GLRender11View.m; sourceTree = "<group>"; };
 		487CBC3820511ED6009ECE7C /* OpenGLDemo11Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLDemo11Controller.h; sourceTree = "<group>"; };
@@ -564,6 +573,19 @@
 			path = KLineDemo;
 			sourceTree = "<group>";
 		};
+		4877B62122005372007EB075 /* Bus */ = {
+			isa = PBXGroup;
+			children = (
+				4877B622220053B3007EB075 /* NSURLProtocolDemoController.h */,
+				4877B623220053B3007EB075 /* NSURLProtocolDemoController.m */,
+				4877B625220053EF007EB075 /* MyURLProtocol.h */,
+				4877B626220053EF007EB075 /* MyURLProtocol.m */,
+				4877B628220058B8007EB075 /* CachedURLResponse.h */,
+				4877B629220058B8007EB075 /* CachedURLResponse.m */,
+			);
+			path = Bus;
+			sourceTree = "<group>";
+		};
 		487CBC3020511791009ECE7C /* Draw */ = {
 			isa = PBXGroup;
 			children = (
@@ -773,6 +795,7 @@
 		48CB61B020104FF700B665CC /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				4877B62122005372007EB075 /* Bus */,
 				4875CB8920FDD01A003EBED2 /* KLineDemo */,
 				489A846620B813DA005BF4A8 /* AVPlayerDemo */,
 				48E9093A204103A1002CBCAC /* LFLiveKitDemo */,
@@ -1393,6 +1416,7 @@
 				4875CB8C20FDD035003EBED2 /* KLineDemoController.m in Sources */,
 				488E5EF021105C8A004DF479 /* ZLGuideManager.m in Sources */,
 				482F4C7B205A83DD00889C7C /* OpenGLDemo14Controller.m in Sources */,
+				4877B62A220058B8007EB075 /* CachedURLResponse.m in Sources */,
 				48CB62452017132B00B665CC /* GLESMath.c in Sources */,
 				48CB61E62010516400B665CC /* ScreenAuotoSizeScale.m in Sources */,
 				48CB61E72010516400B665CC /* NSString+ZLEX.m in Sources */,
@@ -1416,6 +1440,7 @@
 				48CB620B2015BAF200B665CC /* GLRender02View.m in Sources */,
 				488E5EFE21105C8A004DF479 /* ZLGuideDataPack.m in Sources */,
 				48CB61F820106A5400B665CC /* GLRender01View.m in Sources */,
+				4877B627220053EF007EB075 /* MyURLProtocol.m in Sources */,
 				48CB61E42010516400B665CC /* UIView+ZLEX.m in Sources */,
 				488E5EF121105C8A004DF479 /* MockServer.m in Sources */,
 				48CB61E52010516400B665CC /* NSObject+ZLEX.m in Sources */,
@@ -1438,6 +1463,7 @@
 				488E5EF421105C8A004DF479 /* ZLGridePainter.m in Sources */,
 				48CB61E02010516400B665CC /* NSMutableDictionary+Safe.m in Sources */,
 				489A846920B813F9005BF4A8 /* AVPlayerDemoController.m in Sources */,
+				4877B624220053B3007EB075 /* NSURLProtocolDemoController.m in Sources */,
 				480E6EAE202AFE4B00D39CC8 /* ZLShaderAttribute.m in Sources */,
 				488E5F0321105C8A004DF479 /* ZLPaintScene.m in Sources */,
 				484F5E7420EF62C700DD7953 /* DrawModel.m in Sources */,
