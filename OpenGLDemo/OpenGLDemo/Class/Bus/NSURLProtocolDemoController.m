@@ -21,7 +21,7 @@
     
     [NSURLProtocol registerClass:MyURLProtocol.class];
 //    NSURLSession *session = [];
-    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
+//    [self createNavBarWithTitle:self.controllerTitle withLeft:[UIImage imageNamed:@"icon_back"]];
     [self sendQuery];
 }
 
